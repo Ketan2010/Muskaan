@@ -2,7 +2,7 @@
 A lending hand.
 
 ## Contribution Guide
-(Step 1 and 2 will needed only once)
+(Step 1 and 2 will need only once)
 1. initialise git repository in your project directory if not already 
 
 ```
@@ -13,7 +13,7 @@ A lending hand.
 ```
  git remote add origin 'git@github.com:Ketan2010/Muskaan.git'
 ```
-(Following steps will required everytime for commiting) \n
+(Following steps will required everytime for commiting) <br>
 3. Pull everything from remote repository to local one to maintain integrity.(code in remote repository will automatically merger with code of local repository)
 ```
  git pull origin main
