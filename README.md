@@ -1,6 +1,16 @@
 # Muskaan
 A lending hand.
 
+## Todo's
+| **Task** | **Assigned to** | **Due** | **Status** |
+| :--- | :--- | :--- | :---: |
+| Authentication - Landing page | yyy | xxx | <li>[ ] Done</li> |
+| Authentication - signup page | yyy | xxx | <li>[ ] Done</li> |
+| Authentication - login page | yyy | xxx | <li>[ ] Done</li> |
+| Authentication - firebase+alternate logins(google, facebook etc.) | yyy | xxx | <li>[ ] Done</li> |
+| Authentication - integration+testing | yyy | xxx | <li>[ ] Done</li> |
+
+
 ## Contribution Guide
 (Step 1 and 2 will need only once)
 1. initialise git repository in your project directory if not already 
@@ -35,13 +45,6 @@ A lending hand.
  git push origin main
 ```
 
-## Todo's
-| **Task** | **Assigned to** | **Due** | **Status** |
-| :--- | :--- | :--- | :---: |
-| Authentication - Landing page | yyy | xxx | <li>[ ] Done</li> |
-| Authentication - signup page | yyy | xxx | <li>[ ] Done</li> |
-| Authentication - login page | yyy | xxx | <li>[ ] Done</li> |
-| Authentication - firebase+alternate logins(google, facebook etc.) | yyy | xxx | <li>[ ] Done</li> |
-| Authentication - integration+testing | yyy | xxx | <li>[ ] Done</li> |
+
 
 
