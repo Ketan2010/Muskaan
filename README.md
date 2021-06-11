@@ -13,7 +13,7 @@ A lending hand.
 ```
  git remote add origin 'git@github.com:Ketan2010/Muskaan.git'
 ```
-(Following steps will required everytime for commiting)
+(Following steps will required everytime for commiting) \n
 3. Pull everything from remote repository to local one to maintain integrity.(code in remote repository will automatically merger with code of local repository)
 ```
  git pull origin main
