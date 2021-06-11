@@ -38,7 +38,7 @@ A lending hand.
 ## Todo's
 | **Task** | **Assigned to** | **Due** | **Status** |
 | :--- | :--- | :--- | :---: |
-| Authentication - Landing page | yyy | xxx | - [ ] Done |
+| Authentication - Landing page | yyy | xxx | <li>[x] item1</li> |
 | Authentication - signup page | yyy | xxx | - [ ] Done |
 | Authentication - login page | yyy | xxx | - [ ] Done |
 | Authentication - firebase+alternate logins(google, facebook etc.) | yyy | xxx | - [ ] Done |
