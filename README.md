@@ -35,4 +35,12 @@ A lending hand.
  git push origin main
 ```
 
+## Todo's
+| **Task** | **Assigned to** | **Due** | **Status** |
+| Authentication - Landing page | yyy | xxx | [ ] Done |
+| Authentication - signup page | yyy | xxx | [ ] Done |
+| Authentication - login page | yyy | xxx | [ ] Done |
+| Authentication - firebase+alternate logins(google, facebook etc.) | yyy | xxx | [ ] Done |
+| Authentication - integration+testing | yyy | xxx | [ ] Done |
+
 
