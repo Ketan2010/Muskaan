@@ -28,6 +28,7 @@ A lending hand.
 ```
  git pull origin main
 ```
+{u start project using expo start and if u got error stating that expo sdk not found then run: npm install expo}
 4. Rename your master brance with main (this will required only once)
 ```
  git branch -m master main
