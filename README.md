@@ -4,7 +4,7 @@ A lending hand.
 ## Todo's
 | **Task** | **Assigned to** | **Due** | **Status** |
 | :--- | :--- | :--- | :---: |
-| Authentication - Landing page | Darshan | 17-6 | <li>[ ] Done</li> |
+| Authentication - Landing page | Darshan | 17-6 | <li>[x] Done</li> |
 | Authentication - signup page | Darshan | 17-6 | <li>[ ] Done</li> |
 | Authentication - login page | Darshan | 17-6 | <li>[ ] Done</li> |
 | Authentication - firebase+alternate logins(google, facebook etc.) | Ketan | 17-6 | <li>[ ] Done</li> |
