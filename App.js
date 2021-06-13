@@ -1,21 +1,30 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, {Component} from 'react';
+import Routes from './routes/Routes'
+import Landing from './screens/Landing'
 
-export default function App() {
+
+export default class App extends Component {
+  constructor(props){
+   super(props)
+   this.state = {
+    component : <Landing />
+   }
+  }
+  
+  componentDidMount(){
+       // Start counting when the page is loaded
+       this.timeoutHandle = setTimeout(()=>{
+            this.setState({ component: <Routes /> })
+       }, 1000);
+  }
+  
+  componentWillUnmount(){
+       clearTimeout(this.timeoutHandle); 
+  }
+  
+  render() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    this.state.component
   );
+  }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
