@@ -15,7 +15,7 @@ export default class App extends Component {
        // Start counting when the page is loaded
        this.timeoutHandle = setTimeout(()=>{
             this.setState({ component: <Routes /> })
-       }, 1000);
+       }, 3000);
   }
   
   componentWillUnmount(){
