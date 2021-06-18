@@ -8,7 +8,7 @@ A lending hand.
 | Authentication - signup page | Darshan | 17-6 | <li>[x] Done</li> |
 | Authentication - login page | Darshan | 17-6 | <li>[x] Done</li> |
 | Authentication - firebase+alternate logins(google, facebook etc.) | Ketan | 17-6 | <li>[ ] Done</li> |
-| Authentication - ForgotPassword | Ketan | 17-6 | <li>[ ] Done</li> |
+| Authentication - ForgotPassword | Ketan | 17-6 | <li>[x] Done</li> |
 | Authentication - integration+testing | Darshan, Ketan | 17-6 | <li>[ ] Done</li> |
 | Side Drawer Navigation | Darshan | 17-6 | <li>[x] Done</li> |
 | Setting Page UI | Darshan | 17-6 | <li>[x] Done</li> |
