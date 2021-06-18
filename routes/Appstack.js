@@ -1,5 +1,6 @@
 import {createStackNavigator} from "@react-navigation/stack"
 import Home from '../screens/Home'
+import Fortunewheel from '../screens/Fortunewheel'
 import React from 'react'
 
 
@@ -11,10 +12,8 @@ const AppStack = () => {
       headerShown: true,
     //   headerStyle: { backgroundColor: '#F44647', height: 150, borderBottomLeftRadius:20, borderBottomRightRadius:20 },
     }}>
-        <Stack.Screen
-            name='Home'
-            component={Home} 
-        />
+        <Stack.Screen name='Home' component={Home} />
+        <Stack.Screen name='Fortunewheel' component={Fortunewheel} />
     </Stack.Navigator>
   )
 

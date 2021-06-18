@@ -113,7 +113,7 @@ isUserEqual = (googleUser, firebaseUser) =>{
       })
     }
     else {
-      console.log('tata tataa')
+      console.log('eorror')
     }
 
    
@@ -128,21 +128,21 @@ export default  function LoginWith () {
                         <View style={{backgroundColor: '#C4C4C4', height: 2, flex: 1, alignSelf: 'center'}} />
                 </View>
             
-                <View style={{marginTop:hp('2%'),left:wp('23%')}}>
+                <View style={{marginTop:hp('2%'),left:wp('27%')}}>
                     <TouchableOpacity onPress={signInWithGoogleAsync} style={styles.border}>
                           <Image style={styles.logo} resizeMode={'stretch'} 
                           source={require('../assets/images/google.png')}
                           />
                     </TouchableOpacity>
                     
-                    <TouchableOpacity onPress={loginWithFacebook} style={{marginLeft:wp('23%'),...styles.border}}>
+                    <TouchableOpacity onPress={loginWithFacebook} style={{marginLeft:wp('18%'),...styles.border}}>
                       <Image style={{...styles.logo,left:wp('-0.6%'),top:hp('-0.2%')}} resizeMode={'stretch'}
                       source={require('../assets/images/facebook.png')}
                     />
                     </TouchableOpacity>
 
 
-                    <TouchableOpacity style={{marginLeft:wp('46%'),...styles.border}}>
+                    <TouchableOpacity style={{marginLeft:wp('36%'),...styles.border}}>
                     <Image style={styles.logo} resizeMode={'stretch'}
                     source={require('../assets/images/outlook.png')}
                     />

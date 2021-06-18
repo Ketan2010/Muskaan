@@ -4,13 +4,13 @@ import firebase from '@firebase/app';
 require('firebase/auth');
 require('firebase/database');
 
-export default function Home() {
+export default function Home({navigation}) {
     const user = firebase.auth().currentUser;
 
     firebase.database()
     .ref(`/users`)
     .orderByChild("uid")
-    .equalTo(user.uid) 
+    .equalTo(user.uid)
     .once('value')
     .then(snapshot => {
         if (snapshot.exists()) {
@@ -30,6 +30,8 @@ export default function Home() {
         <View>
             <Text> Hello {user.email}</Text>
             <Button title='Logout'onPress={onSignoutPress} ></Button>
+ 
+
         </View>
     )
 }

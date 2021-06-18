@@ -41,7 +41,7 @@ export default  function SignUp () {
         <View>
                 <TextInput
                     style={styles.input}
-                    placeholder="Email Id or Phone number"
+                    placeholder="Email Id"
                     value={username}
                     onChangeText={e=>{setUsername(e)}}
                 />
@@ -87,10 +87,7 @@ export default  function SignUp () {
                     </View>
                 <LoginWith></LoginWith>
                 </View>
-                <View style={{marginTop:hp('8%')}}>
-                <Text style={{...styles.text}}>Already have an account?</Text>
-                <Text style={{marginTop:hp('0%'),...styles.text,fontSize:26}}>Login</Text>
-                </View>
+                
         </View>
     )
 }

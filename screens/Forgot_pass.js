@@ -48,7 +48,7 @@ export default function Forgot_pass({navigation}){
                             <View>
                                 <TextInput
                                     style={styles.input}
-                                    placeholder="Enter Registred Email Id or Phone number"
+                                    placeholder="Enter Registerd Email Id or Phone number"
                                     value={username}
                                     onChangeText = {e=>{setUsername(e)}}
                                 />
@@ -59,7 +59,7 @@ export default function Forgot_pass({navigation}){
                                 </View>
                                 {confirmation?
                                     <View>
-                                        <Text style={{...styles.success}}>Password resent link is sent on your email</Text>
+                                        <Text style={{...styles.success}}>Password reset link is sent on your email</Text>
                                         <TouchableOpacity onPress={()=>navigation.navigate('Login_Signup')}>
                                             <Text style={{...styles.text}}>Login Here</Text>
                                         </TouchableOpacity>

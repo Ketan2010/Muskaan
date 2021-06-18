@@ -31,7 +31,7 @@ export default  function SignIn ({navigation}) {
         <View>
                 <TextInput
                 style={styles.input}
-                placeholder="Email Id or Phone number"
+                placeholder="Email Id"
                 value = {username}
                 onChangeText={e=>{setUsername(e)}}
                 />
@@ -64,10 +64,7 @@ export default  function SignIn ({navigation}) {
                         <LoginWith ></LoginWith>
                     </View>
                 </View>
-                <View style={{marginTop:hp('8%')}}>
-                <Text style={{...styles.text}}>Don't have an account ?</Text>
-                <Text style={{marginTop:hp('0%'),...styles.text,fontSize:26}}>Create now</Text>
-                </View>
+                
         </View>
     )
 }
