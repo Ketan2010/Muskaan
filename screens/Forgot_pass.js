@@ -1,25 +1,37 @@
 import React,  {useState} from 'react';
-import SwitchSelector from 'react-native-switch-selector';
-import { Text, View,StyleSheet, Image, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, SafeAreaView} from 'react-native';
+import { Text, View,StyleSheet, Image, TextInput, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, SafeAreaView, TouchableOpacity} from 'react-native';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import AppLoading from 'expo-app-loading';
 import { useFonts } from 'expo-font';
 import SignIn from '../components/signin';
-import SignUp from '../components/signup';
+
+import firebase from '@firebase/app';
+require('firebase/auth');
 
 
-export default function Login_Signup({navigation}){
-    const toogler=[
-        {label:'Login',value:'login'},
-        {label:'Sign up',value:'sign up'}
-    ];
-    const [authstate, setAuthstate] = useState('login')
+export default function Forgot_pass({navigation}){
+    const [username, setUsername] = useState('')
+    const [confirmation, setConfirmation] = useState(false)
+
+
+    passwordReset = () => {
+        if(username.includes('@')){ 
+            // reset password using mail
+            if(firebase.auth().sendPasswordResetEmail(username)){
+                setConfirmation(true)
+            }
+
+        }else{
+            // reset password for mobile phone
+
+        }
+       
+    }
 
     let [fontsLoaded] = useFonts({
         'Voces-Regular': require('../assets/fonts/Voces-Regular.ttf'),
-      });
+    });
 
-    
     if (!fontsLoaded) {
       return <AppLoading />;
     } else{
@@ -29,31 +41,35 @@ export default function Login_Signup({navigation}){
                     <SafeAreaView>
                         <View style={styles.container}>
                             <View style={styles.rectangle1}>
-                            <Image  style={styles.header}
-                            source={require('../assets/images/muskaan.png')}
-                            />
+                                <Image  style={styles.header}
+                                source={require('../assets/images/muskaan.png')}
+                                />
                             </View>
                             <View>
-                            <SwitchSelector
-                            style={styles.toogle}
-                            selectedColor={'#FFFEFE'}
-                            textColor={'#F44646'} 
-                            buttonColor={'#F44646'}
-                            options={toogler}
-                            initial={0}
-                            onPress={value => setAuthstate(value)}
-                            />
-                            <View>{authstate=='login' ? <SignIn navigation= {navigation}/> : <SignUp/>}</View>
-                            
-                            </View>
-                            {/* <View style={styles.footer} >
-                                    <View style={styles.polygon2} opacity={0.8}>
+                                <TextInput
+                                    style={styles.input}
+                                    placeholder="Enter Registred Email Id or Phone number"
+                                    value={username}
+                                    onChangeText = {e=>{setUsername(e)}}
+                                />
+                                <View style={styles.button}>
+                                    <TouchableOpacity onPress={passwordReset} >
+                                        <Text style={styles.buttonText}>Submit</Text>
+                                    </TouchableOpacity>
+                                </View>
+                                {confirmation?
+                                    <View>
+                                        <Text style={{...styles.success}}>Password resent link is sent on your email</Text>
+                                        <TouchableOpacity onPress={()=>navigation.navigate('Login_Signup')}>
+                                            <Text style={{...styles.text}}>Login Here</Text>
+                                        </TouchableOpacity>
                                     </View>
-                                    <View style={styles.polygon1} opacity={0.8}>
-                                    </View>          
-                            </View> */}
-                            
+                                
+                                :null
+                            }
+                            </View>
                         </View>
+                       
                         <Image style={{top:hp('84%'),height:hp('20%'),position:'absolute',justifyContent:'center',alignContent:'center',flexDirection:'row',width:wp('100%')}} resizeMode={'stretch'}  
                         source={require('../assets/images/login_footer.png')}
                         />
@@ -81,32 +97,34 @@ const styles=StyleSheet.create({
         alignSelf:'center',
         top:hp('7%'),
     },
-    toogle:{
-        marginTop:hp('4%'),
-        alignSelf:'center',
-        width:wp('70%'),
-        borderWidth:wp('0.4%'),
-        borderRadius:wp('6%'),
-        padding:wp('0.2%'),
-        borderColor:'#F44646',
-        fontFamily: 'Voces-Regular',
-        fontStyle: 'normal',
-        fontSize:hp('6%'),
-    },
+    inputContainer: {
+        marginRight:wp(15),
+        width: wp(40),
+      },
     input:{
-        width: '70%',
-        height: 50,
-        left: '15%',
-        top: 288,
-        borderBottomWidth:1,
+        flexDirection: 'row',
+        width:wp('70%'),
+        left:wp('15%'),
+        top:hp('8%'),
+        borderBottomWidth:wp('0.4%'),
         borderBottomColor:'#C4C4C4',
         fontFamily:'Voces-Regular',
         fontStyle: 'normal',
         fontWeight: 'normal',
-        fontSize: 19,
-        lineHeight: 26,
+        fontSize:hp('2%'),
+        lineHeight:hp('0.7%'),
     },
     text:{
+        fontFamily: 'Voces-Regular',
+        fontStyle: 'normal',
+        fontWeight: 'normal',
+        alignSelf:'center',
+        paddingTop:'4%',
+        fontSize: 20,
+        lineHeight: 16,
+        color: '#F44646',
+    }, 
+    success: {
         fontFamily: 'Voces-Regular',
         fontStyle: 'normal',
         fontWeight: 'normal',
@@ -115,7 +133,7 @@ const styles=StyleSheet.create({
         fontSize: 14,
         lineHeight: 16,
         color: '#F44646',
-    }, 
+    },
     
     polygon1:{
         position: 'absolute',
@@ -154,26 +172,24 @@ const styles=StyleSheet.create({
 
     },
     button: {
-        borderRadius: 15,
-        paddingTop: 10,
-        paddingBottom:10,
-        
+        borderRadius: wp('9%'),
+        paddingTop: wp('2%'),
+        paddingBottom:wp('2%'),
         backgroundColor: '#F44646',
-        position:'absolute',
         alignSelf:'center',
-        width:180,
-        height:42,
-        top:429,
-      },
-      buttonText: {
+        width:wp('30%'),
+        top:hp('12%'),
+        marginBottom: hp('13%'),
+    },
+    buttonText: {
         color: '#FFFEFE',
-       
         fontFamily: 'Voces-Regular',
         fontStyle: 'normal',
         fontWeight: 'normal',
-        fontSize: 19,
+        fontSize: hp('2%'),
         textAlign: 'center',
-      },
+        position:'relative'
+    },
     footer:{
         flexDirection:'row',
     },

@@ -6,7 +6,7 @@ import firebase from '@firebase/app';
 require('firebase/auth');
 
 
-export default  function SignIn () {
+export default  function SignIn ({navigation}) {
     const [invisible_pass, SetVisible_pass] = useState(true)
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
@@ -17,12 +17,16 @@ export default  function SignIn () {
     const onLoginPress = () =>{
         firebase.auth().signInWithEmailAndPassword(username, password)
         .then(()=>{
+          
+           
             
         }, (error)=>{
             Alert.alert(error.message)
         }
         )
     }
+
+   
     return(
         <View>
                 <TextInput
@@ -47,13 +51,18 @@ export default  function SignIn () {
                     </TouchableOpacity>
                 </View>
            
-                <View >   
+                <View>   
                     <View style={styles.button}>
                         <TouchableOpacity onPress={onLoginPress}>
                             <Text style={styles.buttonText}>Login</Text>
                         </TouchableOpacity>
                     </View>
-                <LoginWith></LoginWith>
+                        <TouchableOpacity onPress={()=>navigation.navigate('Forgot_pass')}>
+                            <Text style={{...styles.text}}>Forgot Password?</Text>
+                        </TouchableOpacity>
+                    <View style={{marginTop:hp(-9)}}>
+                        <LoginWith ></LoginWith>
+                    </View>
                 </View>
                 <View style={{marginTop:hp('8%')}}>
                 <Text style={{...styles.text}}>Don't have an account ?</Text>
@@ -98,6 +107,7 @@ const styles=StyleSheet.create({
         alignSelf:'center',
         width:wp('30%'),
         top:hp('12%'),
+        marginBottom: hp('13%'),
     },
     icon: {
         height: 30,

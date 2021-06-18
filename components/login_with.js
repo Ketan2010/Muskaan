@@ -2,9 +2,16 @@ import React from 'react';
 import { Text, View,StyleSheet, Image, TextInput, TouchableOpacity, TouchableHighlight, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import * as Google from 'expo-google-app-auth';
+// import * as Google from 'expo-google-sign-in';
 import firebase from '@firebase/app';
 require('firebase/auth');
+import * as Facebook from 'expo-facebook';
+import ApiKeys from '../constants/ApiKeys';
 
+if (!firebase.apps.length) {
+  firebase.initializeApp(ApiKeys.firebaseConfig)
+
+}
 
 isUserEqual = (googleUser, firebaseUser) =>{
     if (firebaseUser) {
@@ -37,26 +44,6 @@ isUserEqual = (googleUser, firebaseUser) =>{
         // Sign in with credential from the Google user.
         firebase.auth().signInWithCredential(credential).then(function(result){
           console.log('user signed in')
-          if(result.additionalUserInfo.isNewUser){
-            firebase
-            .database()
-            .ref('/users/'+ result.user.uid)
-            .set({
-              gmail: result.user.email,
-              first_name: result.additionalUserInfo.profile.given_name,
-              last_name: result.additionalUserInfo.profile.family_name,
-              created_at: Date.now()
-            })
-  
-          }else{
-            firebase
-            .database()
-            .ref('/users/'+ result.user.uid).update({
-              last_logged_in: Date.now()
-            })
-            
-  
-          }
           
         })
         
@@ -96,6 +83,42 @@ isUserEqual = (googleUser, firebaseUser) =>{
     }
   }
 
+
+  // facebook login
+  async function loginWithFacebook() {
+    const permissions = ['public_profile', 'email']; 
+    await Facebook.initializeAsync(
+      {
+        autoLogAppEvents: true,
+        appId: '1151103821981333',
+      }
+    )
+    const {
+      type,
+      token,
+    } = await Facebook.logInWithReadPermissionsAsync(
+   
+      {permissions}
+      
+    )
+    if(type=='success'){
+      if (!firebase.apps.length) {
+        firebase.initializeApp(ApiKeys.firebaseConfig)
+      
+      }
+      const credential = firebase.auth.FacebookAuthProvider.credential(token)
+
+      firebase.auth().signInWithCredential(credential).catch((error) => {
+        console.log(error)
+      })
+    }
+    else {
+      console.log('tata tataa')
+    }
+
+   
+  }
+
 export default  function LoginWith () {
         return(
             <View>
@@ -103,30 +126,29 @@ export default  function LoginWith () {
                         <View style={{backgroundColor: '#C4C4C4', height: 2, flex: 1, alignSelf: 'center'}} />
                         <Text style={{ alignSelf:'center', paddingHorizontal:5, fontSize: 24,color:'#C4C4C4' }}>OR</Text>
                         <View style={{backgroundColor: '#C4C4C4', height: 2, flex: 1, alignSelf: 'center'}} />
-                    </View>
+                </View>
             
-            <View style={{marginTop:hp('2%'),left:wp('23%')}}>
-                {/* <TouchableOpacity onPress={signInWithGoogleAsync}> */}
+                <View style={{marginTop:hp('2%'),left:wp('23%')}}>
                     <TouchableOpacity onPress={signInWithGoogleAsync} style={styles.border}>
-                        <Image style={styles.logo} resizeMode={'stretch'} 
-                        source={require('../assets/images/google.png')}
-                        />
-                    {/* </TouchableOpacity> */}
-
-                </TouchableOpacity>
+                          <Image style={styles.logo} resizeMode={'stretch'} 
+                          source={require('../assets/images/google.png')}
+                          />
+                    </TouchableOpacity>
                     
-                    <TouchableHighlight style={{marginLeft:wp('23%'),...styles.border}}>
-                    <Image style={{...styles.logo,left:wp('-0.6%'),top:hp('-0.2%')}} resizeMode={'stretch'}
-                    source={require('../assets/images/facebook.png')}
+                    <TouchableOpacity onPress={loginWithFacebook} style={{marginLeft:wp('23%'),...styles.border}}>
+                      <Image style={{...styles.logo,left:wp('-0.6%'),top:hp('-0.2%')}} resizeMode={'stretch'}
+                      source={require('../assets/images/facebook.png')}
                     />
-                    </TouchableHighlight>
-                    <TouchableHighlight style={{marginLeft:wp('46%'),...styles.border}}>
+                    </TouchableOpacity>
+
+
+                    <TouchableOpacity style={{marginLeft:wp('46%'),...styles.border}}>
                     <Image style={styles.logo} resizeMode={'stretch'}
                     source={require('../assets/images/outlook.png')}
                     />
-                    </TouchableHighlight>
+                    </TouchableOpacity>
                 </View>
-                </View>
+            </View>
         )
 }
 

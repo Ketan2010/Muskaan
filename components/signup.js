@@ -3,7 +3,9 @@ import { Text, View,StyleSheet, Image, TextInput, TouchableOpacity, Alert, Touch
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import LoginWith from './login_with';
 import firebase from '@firebase/app';
+import ApiKeys from '../constants/ApiKeys'
 require('firebase/auth');
+require('firebase/database');
 
 
 export default  function SignUp () {
@@ -27,6 +29,8 @@ export default  function SignUp () {
         }
         firebase.auth().createUserWithEmailAndPassword(username, password)
         .then(()=>{
+                
+              
             
         }, (error)=>{
             Alert.alert(error.message)
