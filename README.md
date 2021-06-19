@@ -12,6 +12,9 @@ A lending hand.
 | Authentication - integration+testing | Darshan, Ketan | 17-6 | <li>[x] Done</li> |
 | Side Drawer Navigation | Darshan | 17-6 | <li>[x] Done</li> |
 | Setting Page UI | Darshan | 17-6 | <li>[x] Done</li> |
+| User Profile + Update Profile | Ketan | 21-6 | <li>[ ] Done</li> |
+| Donation 1 | Darshan | 21-6 | <li>[ ] Done</li> |
+| Upgrade Profile | Ketan | 25-6 | <li>[ ] Done</li> |
 
 
 
