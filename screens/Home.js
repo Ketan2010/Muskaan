@@ -5,7 +5,7 @@ require('firebase/auth');
 require('firebase/database');
 
 
-export default function Home({navigation}) {
+const Home = ({navigation}) => {
     const user = firebase.auth().currentUser;
 
     firebase.database()
@@ -29,9 +29,11 @@ export default function Home({navigation}) {
         firebase.auth().signOut()
     }
     return (
-        <View>
+        <View style={{flex:1,top:'50%'}}>
             <Text> Hello {user.email}</Text>
             <Button title='Logout'onPress={onSignoutPress} ></Button>
         </View>
     )
 }
+
+export default Home
