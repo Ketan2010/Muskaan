@@ -2,7 +2,6 @@ import React from 'react';
 import { Text, View,StyleSheet, Image, TextInput, TouchableOpacity, TouchableHighlight, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import * as Google from 'expo-google-app-auth';
-// import * as Google from 'expo-google-sign-in';
 import firebase from '@firebase/app';
 require('firebase/auth');
 import * as Facebook from 'expo-facebook';
@@ -113,13 +112,12 @@ isUserEqual = (googleUser, firebaseUser) =>{
       })
     }
     else {
-      console.log('eorror')
+      console.log('error')
     }
-
-   
   }
 
-export default  function LoginWith () {
+
+export default  function LoginWith ({navigation}) {
         return(
             <View>
                 <View style={{flexDirection: 'row',marginTop:hp('15%'),alignSelf: 'center',width:wp('60%')}}>
@@ -131,7 +129,7 @@ export default  function LoginWith () {
                 <View style={{marginTop:hp('2%'),left:wp('27%')}}>
                     <TouchableOpacity onPress={signInWithGoogleAsync} style={styles.border}>
                           <Image style={styles.logo} resizeMode={'stretch'} 
-                          source={require('../assets/images/google.png')}
+                          source={require('../assets/images/google.jpg')}
                           />
                     </TouchableOpacity>
                     
@@ -142,9 +140,9 @@ export default  function LoginWith () {
                     </TouchableOpacity>
 
 
-                    <TouchableOpacity style={{marginLeft:wp('36%'),...styles.border}}>
+                    <TouchableOpacity onPress={()=>navigation.navigate('Phoneauth')}  style={{marginLeft:wp('36%'),...styles.border}}>
                     <Image style={styles.logo} resizeMode={'stretch'}
-                    source={require('../assets/images/outlook.png')}
+                    source={require('../assets/images/phone.png')}
                     />
                     </TouchableOpacity>
                 </View>

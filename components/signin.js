@@ -61,7 +61,7 @@ export default  function SignIn ({navigation}) {
                             <Text style={{...styles.text}}>Forgot Password?</Text>
                         </TouchableOpacity>
                     <View style={{marginTop:hp(-9)}}>
-                        <LoginWith ></LoginWith>
+                        <LoginWith navigation= {navigation} ></LoginWith>
                     </View>
                 </View>
                 

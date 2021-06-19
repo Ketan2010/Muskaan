@@ -20,6 +20,7 @@ export default function Home({navigation}) {
             firebase.database().ref('users/').push({
                 uid: user.uid,
                 email: user.email,
+              
             })
             // try catch
         }
@@ -32,6 +33,7 @@ export default function Home({navigation}) {
         <View>
             <Text> Hello {user.email}</Text>
             <Button title='Logout'onPress={onSignoutPress} ></Button>
+            {/* <Button title='Wheel'  onPress={()=>navigation.navigate('Fortunewheel')}></Button> */}
         </View>
     )
 }
