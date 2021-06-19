@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import { View, Text, Button } from 'react-native'
+
 import firebase from '@firebase/app';
 require('firebase/auth');
 require('firebase/database');
@@ -32,6 +33,7 @@ const Home = ({navigation}) => {
     return (
         <View style={{flex:1,top:'50%'}}>
             <Text> Hello {user.email}</Text>
+            
             <Button title='Logout'onPress={onSignoutPress} ></Button>
             {/* <Button title='Wheel'  onPress={()=>navigation.navigate('Fortunewheel')}></Button> */}
         </View>

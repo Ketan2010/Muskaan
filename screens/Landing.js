@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, View,StyleSheet, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
 import AppLoading from 'expo-app-loading';
 import { useFonts } from 'expo-font';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
