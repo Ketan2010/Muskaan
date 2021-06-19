@@ -2,6 +2,8 @@ import React from 'react';
 import { View, StyleSheet, Image } from 'react-native';
 import firebase from '@firebase/app';
 require('firebase/auth');
+require('firebase/database');
+
 import {
     
     Drawer,
@@ -23,6 +25,7 @@ export default function DrawerContent(props) {
     const onSignoutPress = () =>{
         firebase.auth().signOut()
     }
+    const user = firebase.auth().currentUser;
     return(
         
         <View style={{flex:1}}>

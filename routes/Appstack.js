@@ -1,27 +1,3 @@
-// import {createStackNavigator} from "@react-navigation/stack"
-// import Home from '../screens/Home'
-// import Fortunewheel from '../screens/Fortunewheel'
-// import React from 'react'
-
-
-// const Stack = createStackNavigator()
-// const AppStack = () => {
- 
-//   return(
-//     <Stack.Navigator screenOptions={{
-//       headerShown: true,
-//     //   headerStyle: { backgroundColor: '#F44647', height: 150, borderBottomLeftRadius:20, borderBottomRightRadius:20 },
-//     }}>
-//         <Stack.Screen name='Home' component={Home} />
-//         {/* <Stack.Screen name='Fortunewheel' component={Fortunewheel} /> */}
-//     </Stack.Navigator>
-//   )
-
-// }
-
-// export default AppStack;
-
-
 import {createStackNavigator} from "@react-navigation/stack"
 import React from 'react'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
