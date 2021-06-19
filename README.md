@@ -14,7 +14,7 @@ A lending hand.
 | Setting Page UI | Darshan | 17-6 | <li>[x] Done</li> |
 | User Profile + Update Profile | Ketan | 21-6 | <li>[ ] Done</li> |
 | Donation 1 | Darshan | 21-6 | <li>[ ] Done</li> |
-| Upgrade Profile | Ketan | 25-6 | <li>[ ] Done</li> |
+| Upgrade User | Ketan | 25-6 | <li>[ ] Done</li> |
 
 
 
@@ -35,7 +35,7 @@ A lending hand.
 ```
  git pull origin main
 ```
-{u start project using expo start and if u got error stating that expo sdk not found then run: npm install expo}
+{u start project using expo start and if u got error stating that expo sdk not found then run: npm install expo} <br>
 4. Rename your master brance with main (this will required only once)
 ```
  git branch -m master main
