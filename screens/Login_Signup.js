@@ -43,7 +43,7 @@ export default function Login_Signup({navigation}){
                                     initial={0}
                                     onPress={value => setAuthstate(value)}
                                 />
-                                <View>{authstate=='login' ? <SignIn navigation= {navigation}/> : <SignUp/>}</View>
+                                <View>{authstate=='login' ? <SignIn navigation= {navigation}/> : <SignUp navigation= {navigation}/>}</View>
                             </View>
                             
                         </View>

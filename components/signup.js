@@ -8,7 +8,7 @@ require('firebase/auth');
 require('firebase/database');
 
 
-export default  function SignUp () {
+export default  function SignUp ({navigation}) {
     const [invisible_pass, SetVisible_pass] = useState(true)
     const [invisible_conf_pass, SetVisible_conf_pass] = useState(true)
     const [username, setUsername] = useState('')
@@ -85,7 +85,7 @@ export default  function SignUp () {
                             <Text style={styles.buttonText}>Signup</Text>
                         </TouchableOpacity>
                     </View>
-                <LoginWith></LoginWith>
+                <LoginWith navigation= {navigation}></LoginWith>
                 </View>
                 
         </View>

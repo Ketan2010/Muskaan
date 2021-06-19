@@ -20,6 +20,7 @@ const Home = ({navigation}) => {
             firebase.database().ref('users/').push({
                 uid: user.uid,
                 email: user.email,
+              
             })
             // try catch
         }
@@ -32,6 +33,7 @@ const Home = ({navigation}) => {
         <View style={{flex:1,top:'50%'}}>
             <Text> Hello {user.email}</Text>
             <Button title='Logout'onPress={onSignoutPress} ></Button>
+            {/* <Button title='Wheel'  onPress={()=>navigation.navigate('Fortunewheel')}></Button> */}
         </View>
     )
 }
