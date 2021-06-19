@@ -1,9 +1,9 @@
-import React from 'react'
-import { View, Text, Button } from 'react-native'
+import React, {useState} from 'react'
+import { View, Text, Button, StyleSheet} from 'react-native'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import WheelOfFortune from 'react-native-wheel-of-fortune'
 
-export default function Fortunewheel(){
+export default function Fortunewheel({navigation}){
     const [winnerValue, setwinnerValue] = useState('')
     const [winnerIndex, setwinnerIndex] = useState('')
     const participants = [
@@ -26,7 +26,7 @@ export default function Fortunewheel(){
             colors: ['#FFAA64','#FF534A','#AADB6B','#FFE05F','#FFAA64','#FF534A','#AADB6B','#FFE05F'],
             backgroundColor: 'transparent',
             textAngle: 'horizontal',
-            knobSource: require('../assets/images/knoob.png'),
+            // knobSource: '../assets/images/knob.png',
             getWinner: (value, index) => {
                 setwinnerValue(value)
                 setwinnerIndex(index)

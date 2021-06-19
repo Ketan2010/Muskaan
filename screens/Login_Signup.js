@@ -29,29 +29,22 @@ export default function Login_Signup({navigation}){
                     <SafeAreaView>
                         <View style={styles.container}>
                             <View style={styles.rectangle1}>
-                            <Image  style={styles.header}
-                            source={require('../assets/images/muskaan.png')}
-                            />
+                                <Image  style={styles.header}
+                                source={require('../assets/images/muskaan.png')}
+                                />
                             </View>
                             <View>
-                            <SwitchSelector
-                            style={styles.toogle}
-                            selectedColor={'#FFFEFE'}
-                            textColor={'#F44646'} 
-                            buttonColor={'#F44646'}
-                            options={toogler}
-                            initial={0}
-                            onPress={value => setAuthstate(value)}
-                            />
-                            <View>{authstate=='login' ? <SignIn navigation= {navigation}/> : <SignUp/>}</View>
-                            
+                                <SwitchSelector
+                                    style={styles.toogle}
+                                    selectedColor={'#FFFEFE'}
+                                    textColor={'#F44646'} 
+                                    buttonColor={'#F44646'}
+                                    options={toogler}
+                                    initial={0}
+                                    onPress={value => setAuthstate(value)}
+                                />
+                                <View>{authstate=='login' ? <SignIn navigation= {navigation}/> : <SignUp/>}</View>
                             </View>
-                            {/* <View style={styles.footer} >
-                                    <View style={styles.polygon2} opacity={0.8}>
-                                    </View>
-                                    <View style={styles.polygon1} opacity={0.8}>
-                                    </View>          
-                            </View> */}
                             
                         </View>
                         <Image style={{top:hp('84%'),height:hp('20%'),position:'absolute',justifyContent:'center',alignContent:'center',flexDirection:'row',width:wp('100%')}} resizeMode={'stretch'}  

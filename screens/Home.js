@@ -1,14 +1,15 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { View, Text, Button } from 'react-native'
 import firebase from '@firebase/app';
 require('firebase/auth');
 require('firebase/database');
 
+
 export default function Home({navigation}) {
     const user = firebase.auth().currentUser;
 
     firebase.database()
-    .ref(`/users`)
+    .ref("users/")
     .orderByChild("uid")
     .equalTo(user.uid)
     .once('value')
@@ -20,6 +21,7 @@ export default function Home({navigation}) {
                 uid: user.uid,
                 email: user.email,
             })
+            // try catch
         }
     });
 
@@ -30,8 +32,6 @@ export default function Home({navigation}) {
         <View>
             <Text> Hello {user.email}</Text>
             <Button title='Logout'onPress={onSignoutPress} ></Button>
- 
-
         </View>
     )
 }
