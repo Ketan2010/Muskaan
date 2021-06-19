@@ -5,7 +5,7 @@ require('firebase/auth');
 require('firebase/database');
 //hi darshan
 
-export default function Home({navigation}) {
+const Home = ({navigation}) => {
     const user = firebase.auth().currentUser;
 
 
@@ -36,3 +36,5 @@ export default function Home({navigation}) {
             </View>
     )
 }
+
+export default Home

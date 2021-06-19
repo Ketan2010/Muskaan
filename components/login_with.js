@@ -129,7 +129,7 @@ export default  function LoginWith ({navigation}) {
                 <View style={{marginTop:hp('2%'),left:wp('27%')}}>
                     <TouchableOpacity onPress={signInWithGoogleAsync} style={styles.border}>
                           <Image style={styles.logo} resizeMode={'stretch'} 
-                          source={require('../assets/images/google.jpg')}
+                          source={require('../assets/images/google1.png')}
                           />
                     </TouchableOpacity>
                     
