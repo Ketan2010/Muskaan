@@ -23,6 +23,7 @@ import { ImageBackground } from 'react-native';
 
 export default function DrawerContent(props) {
     const onSignoutPress = () =>{
+        // await props.navigation.navigate('Home', { screen: 'HomeScreen' })
         firebase.auth().signOut()
     }
     const user = firebase.auth().currentUser;
@@ -42,7 +43,10 @@ export default function DrawerContent(props) {
                             <View style={{top:'45%',left:30}} >
                                 <Image source={require('../assets/images/dummyphoto.png')} style={{width:50,height:50, borderRadius:50/2,backgroundColor:'white'}}/>
                                 {/* <Paragraph style={[styles.paragraph, styles.caption]}>-0</Paragraph> */}
-                                <Text  style={{top:'15%',backgroundColor:'white',alignSelf: 'flex-start',padding:5, borderRadius:15}}>muskaan@gmail.com</Text>
+                                {user.email?
+                                <Text  style={{top:'15%',backgroundColor:'white',alignSelf: 'flex-start',padding:5, borderRadius:15}}>{user.email?user.email:null}</Text>
+                                :null}
+                             
                             </View>
                             </ImageBackground>
                         </View> 
@@ -58,7 +62,7 @@ export default function DrawerContent(props) {
                                 />
                             )}
                             label="Home"
-                            onPress={() => {props.navigation.navigate('Home')}}
+                            onPress={() => {props.navigation.navigate('Home', { screen: 'HomeScreen' })}}
                             labelStyle={styles.labelstyle}
                         />
                         {/* <View style={styles.line} /> */}
@@ -71,7 +75,7 @@ export default function DrawerContent(props) {
                                 />
                             )}
                             label="Profile" labelStyle={styles.labelstyle}
-                            onPress={() => {props.navigation.navigate('Profile')}}
+                            onPress={() => {props.navigation.navigate('Profile', { screen: 'ProfileScreen' })}}
                         />
                         <DrawerItem 
                             icon={({color, size}) => (
@@ -82,7 +86,7 @@ export default function DrawerContent(props) {
                                 />
                             )}
                             label="Notifications"  labelStyle={styles.labelstyle}
-                            onPress={() => {props.navigation.navigate('Notifications')}}
+                            onPress={() => {props.navigation.navigate('Notifications', { screen: 'NotificationsScreen' })}}
                         />
                         <DrawerItem 
                             icon={({color, size}) => (
@@ -93,7 +97,7 @@ export default function DrawerContent(props) {
                                 />
                             )}
                             label="Settings"  labelStyle={styles.labelstyle}
-                            onPress={() => {props.navigation.navigate('Settings')}}
+                            onPress={() => {props.navigation.navigate('Settings', { screen: 'SettingsScreen' })}}
                         />
                         
                         <DrawerItem 
@@ -105,7 +109,7 @@ export default function DrawerContent(props) {
                                 />
                             )}
                             label="History"  labelStyle={styles.labelstyle}
-                            onPress={() => {props.navigation.navigate('History')}}
+                            onPress={() => {props.navigation.navigate('History', { screen: 'HistoryScreen' })}}
                         />
                         <DrawerItem 
                             icon={({color, size}) => (
@@ -116,7 +120,7 @@ export default function DrawerContent(props) {
                                 />
                             )}
                             label="Feedback"  labelStyle={styles.labelstyle}
-                            onPress={() => {props.navigation.navigate('Feedback')}}
+                            onPress={() => {props.navigation.navigate('Feedback', { screen: 'FeedbackScreen' })}}
                         />
                         
                         
@@ -129,7 +133,7 @@ export default function DrawerContent(props) {
                                 />
                             )}
                             label="FAQ & Help "  labelStyle={styles.labelstyle}
-                            onPress={() => {props.navigation.navigate('FAQ')}}
+                            onPress={() => {props.navigation.navigate('FAQ', { screen: 'FAQScreen' })}}
                         />
                         
                         <DrawerItem 

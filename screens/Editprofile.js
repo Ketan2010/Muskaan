@@ -1,12 +1,19 @@
-import React, {useState, useEffect} from 'react';
-import { View, Text, Button, Modal,Pressable, StyleSheet, Image, TextInput, ActivityIndicator, TouchableOpacity, Alert } from 'react-native';
+import React, {useState, useEffect } from 'react';
+import { View, Text, Button, StyleSheet, Image, TextInput, TouchableOpacity, Alert  } from 'react-native';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icons from 'react-native-vector-icons/Ionicons';
+import {Picker} from '@react-native-picker/picker';
 import firebase from '@firebase/app';
 require('firebase/auth');
 require('firebase/database');
+require('firebase/storage');
+import * as ImagePicker from 'expo-image-picker';
+import * as MediaLibrary from 'expo-media-library';
 
-const ProfileScreen = ({navigation}) => {
+const Editprofile = ({navigation}) => {
+
+  // states to set data
   const [id, setId] = useState('');
   const [Name, setName] = useState('');
   const [Email, setEmail] = useState('');
@@ -16,19 +23,22 @@ const ProfileScreen = ({navigation}) => {
   const [State, setState] = useState('');
   const [City, setCity] = useState('');
   const [Postalcode, setPostalcode] = useState('');
-  const [Usertype, setUsertype] = useState('');
   const [Imageurifront, setImageurifront] = useState('');
   const [Imageuriback, setImageuriback] = useState('');
+  const [frontstatus, setfrontstatus] = useState(false);
+  const [backstatus, setbackstatus] = useState(false);
+  const [loadingf, setLoadingf] = useState(false);
+  const [loadingb, setLoadingb] = useState(false);
   const user = firebase.auth().currentUser;
-  const [modalVisiblef, setModalVisiblef] = useState(false);
-  const [modalVisibleb, setModalVisibleb] = useState(false);
 
+  // retrieve data from firebase only once when screen loaded
   useEffect(() => {
     firebase.database()
     .ref("users/")
     .orderByChild("uid")
     .equalTo(user.uid)
-    .on('value', snapshot => {
+    .once('value')
+    .then(snapshot => {
         if (snapshot.exists()) {
           
           snapshot.forEach((child) => {
@@ -42,123 +52,167 @@ const ProfileScreen = ({navigation}) => {
             child.val().state? setState(child.val().state):setState('')
             child.val().city? setCity(child.val().city):setCity('')
             child.val().postalcode? setPostalcode(child.val().postalcode):setPostalcode('')
-            child.val().usertype? setUsertype(child.val().usertype):setUsertype('')
-
-
-
+            
           });
-
+  
         } else {
           console.log('Went wrong');
-
+  
         }
-    })
-   
-    
-}, [])
-
+    });
     firebase.storage()
     .ref(user.uid+'/identity/Front-identity')
     .getDownloadURL()
     .then((url) => {
-      //from url you can fetched the uploaded image easily
       setImageurifront(url)
-    }).catch(e=>{})
+      setfrontstatus(true)
+    })
     firebase.storage()
     .ref(user.uid+'/identity/Back-identity')
     .getDownloadURL()
     .then((url) => {
-      //from url you can fetched the uploaded image easily
       setImageuriback(url)
-    }).catch(e=>{})
+      setbackstatus(true)
+    })
+}, [])
 
-  
-  
+ 
+
+//  update data in firebase 
+ const updateprofile = () => {
+  firebase.database()
+  .ref("users/"+id)
+  .update({
+    name: Name,
+    email: Email,
+    phone: Phone,
+    gender: Gender,
+    address: Address,
+    state: State,
+    city: City,
+    postalcode: Postalcode,
+  })
+  .then(() =>Alert.alert(
+            "Success!",
+            "Profile updated successfuly",
+            [
+              { text: "OK", onPress: () => navigation.navigate('ProfileScreen') }
+            ]
+          ));
+  }
+    
+  // image picker 
+  useEffect(() => {
+    (async () => {
+      if (Platform.OS !== 'web') {
+        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (status !== 'granted') {
+          alert('Sorry, we need camera roll permissions to make this work!');
+        }
+      }
+    })();
+  }, []);
+
+  // front page
+  const pickImagefront = async () => {
+    
+    const uploadImage = async (uri, imageName) => {
+      const response = await fetch(uri);
+      const blob = await response.blob()
+      return firebase
+      .storage()
+      .ref(user.uid+'/identity/'+imageName)
+      .put(blob)
+      .then((snapshot) => {
+        setfrontstatus(true)
+      })
+     
+    }
+    setLoadingf(true);
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [5, 5],
+      base64: true,
+      quality: 1,
+    });
+
+    if (!result.cancelled) {
+              uploadImage(result.uri, 'Front-identity')
+              .then(() => Alert.alert(
+                "Success!",
+                "Front page uploaded successfuly",
+                [
+                  { text: "OK", onPress: () => setLoadingf(false) }
+                ]
+              ))
+              .catch(error => Alert.alert(
+                "Sorry!",
+                "Something went wrong, Please try again.",
+                [
+                  { text: "OK", onPress: () => setLoadingf(false)  }
+                ]
+              ))
+    }
+  };
+
+  // back page
+  const pickImageback = async () => {
+    const uploadImage = async (uri, imageName) => {
+      const response = await fetch(uri);
+      const blob = await response.blob()
+      return firebase
+      .storage()
+      .ref(user.uid+'/identity/'+imageName)
+      .put(blob)
+      .then((snapshot) => {
+        setbackstatus(true)
+      })
+     
+    }
+    setLoadingb(true)
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [5, 5],
+      base64: true,
+      quality: 1,
+    });
+
+    if (!result.cancelled) {
+              uploadImage(result.uri, 'Back-identity')
+              .then(() => Alert.alert(
+                "Success!",
+                "Back page uploaded successfuly",
+                [
+                  { text: "OK", onPress: () => setLoadingb(false) }
+                ]
+              ))
+              .catch(error => Alert.alert(
+                "Sorry!",
+                "Something went wrong, Please try again.",
+                [
+                  { text: "OK", onPress: () => setLoadingb(false)}
+                ]
+              ))
+    }
+  };
+
+ 
+
+
+
 
   return (
-
       <View style={styles.container}>
-        {/* front img modal  */}
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalVisiblef}
-          onRequestClose={() => {
-            setModalVisiblef(!modalVisiblef);
-          }}
-        >
-          <View style={styles.modalcenteredView}>
-            <View style={styles.modalView}>
-              <Text style={styles.modalText}>Front Page Identity</Text>
-              {
-                Imageurifront != ''?
-                <Image style={styles.modalimg} 
-                source={{uri: Imageurifront}}
-                />
-              :
-                <Text style={styles.modalText}>Please upload proofs</Text>
-              }
-             
-              <Pressable
-                style={[styles.modalbutton, styles.modalbuttonClose, {alignItems:'center'}]}
-                onPress={() => setModalVisiblef(!modalVisiblef)}
-              >
-                            <Icons name='close-circle-outline' color={'white'} size={hp('4%')} /> 
-              </Pressable>
-            </View>
-          </View>
-        </Modal>
-        {/* Back img modal */}
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalVisibleb}
-          onRequestClose={() => {
-            setModalVisibleb(!modalVisibleb);
-          }}
-        >
-          <View style={styles.modalcenteredView}>
-            <View style={styles.modalView}>
-              <Text style={styles.modalText}>Back Page Identity</Text>
-              {
-                Imageuriback != ''?
-                <Image style={styles.modalimg} 
-                source={{uri: Imageuriback}}
-                />
-              :
-                <Text style={styles.modalText}>Please upload proofs</Text>
-              }
-             
-              <Pressable
-                style={[styles.modalbutton, styles.modalbuttonClose, {alignItems:'center'}]}
-                onPress={() => setModalVisibleb(!modalVisibleb)}
-              >
-                            <Icons name='close-circle-outline' color={'white'} size={hp('4%')} /> 
-              </Pressable>
-            </View>
-          </View>
-        </Modal>
         <View style={styles.card}>
           <View style={{alignItems: 'center'}}>
-            <View style={styles.usericon}>
-                <Image style={styles.logo} 
-                    source={require('../assets/images/dummyphoto.png')}
-                />
-            </View>
-            <View style={styles.usertype}>
-              {Usertype=='U'?
-                  <Image style={styles.usertypelogo} 
-                  source={require('../assets/images/u.png')}/>  
-                :
-                  Usertype=='N'?
-                      <Image style={styles.usertypelogo} 
-                      source={require('../assets/images/n.png')}/>
-                    :
-                      <Image style={{width:wp('6%'), height:hp('3%'), alignSelf:'center', marginTop: hp('-1.5')}} 
-                      source={require('../assets/images/h.png')}/>
-              }
-                
-            </View>
+            
+                <View style={{flexDirection: 'row',alignSelf: 'center',width:wp('60%')}}>
+                        <View style={{backgroundColor: '#C4C4C4', height: 2, flex: 1, alignSelf: 'center'}} />
+                        <Text style={{ alignSelf:'center', paddingHorizontal:5, fontSize: 24,color:'#C4C4C4' }}>Update your profile</Text>
+                        <View style={{backgroundColor: '#C4C4C4', height: 2, flex: 1, alignSelf: 'center'}} />
+                </View>
 
           </View>
           <View style={{alignItems: 'center'}}>
@@ -167,92 +221,85 @@ const ProfileScreen = ({navigation}) => {
                     <TextInput
                         style={styles.inputContainer}
                         placeholder="Add your name"
-                        value= {Name}
-                        editable={false} 
+                        value= {Name} 
                         onChangeText={e=>{setName(e)}}
                     />
-
-            
-                    
               </View>
               <View style={{...styles.input}}>
                     <Icons name='mail-open-outline' style={styles.icon}  color={'#5a5858'} size={hp('4%')} /> 
                     <TextInput
                         style={styles.inputContainer}
                         placeholder="Add your mail ID"
-                        value= {Email}
-                        editable={false} 
+                        value= {Email} 
                         onChangeText={e=>{setEmail(e)}}
                     />
-                   
-                
-
               </View>
               <View style={{...styles.input}}>
                     <Icons name='call-outline' style={styles.icon}  color={'#5a5858'} size={hp('4%')} /> 
                     <TextInput
                         style={styles.inputContainer}
                         placeholder="Add your phone no."
-                        value={Phone}
-                        editable={false} 
+                        value={Phone} 
                         onChangeText={e=>{setPhone(e)}}
-                    />
-                  
-                    
+                    />      
               </View>
               <View style={{...styles.input}}>
                     <Icons name='home-outline' style={styles.icon}  color={'#5a5858'} size={hp('4%')} /> 
                     <TextInput
                         style={styles.inputContainer}
-                        placeholder="Add your address"
+                        placeholder="Address line 1"
                         value={Address}
-                        editable={false}
                         onChangeText={e=>{setAddress(e)}}
                     />
-                  
               </View>
               <View style={{...styles.inputflex}}>
                     <TextInput
                         style={styles.inputContainerflex}
                         placeholder="City"
                         value={City}
-                        editable={false}
-                        // onChangeText={e=>{setCity(e)}}
+                        onChangeText={e=>{setCity(e)}}
                     />
                     <TextInput
                         style={styles.inputContainerflex}
                         placeholder="State"
                         value={State}
-                        editable={false}
-                        // onChangeText={e=>{setState(e)}}
+                        onChangeText={e=>{setState(e)}}
                     />
                      <TextInput
                         style={styles.inputContainerflex}
                         placeholder="Postalcode"
                         value={Postalcode}
-                        editable={false}
-                        // onChangeText={e=>{setPostalcode(e)}}
+                        onChangeText={e=>{setPostalcode(e)}}
                     />
                      
               </View>
               
+              
               <View style={{...styles.input}}>
                     <Icons name='male-female-outline' style={styles.icon}  color={'#5a5858'} size={hp('4%')} /> 
-                    <TextInput
-                        style={styles.inputContainer}
-                        placeholder="Male/Female"
-                        value={Gender}
-                        editable={false}
-                        onChangeText={e=>{setGender(e)}}
-                    />
-                
+                   
+                    <Picker
+                    selectedValue={Gender}
+                    style={{ height: hp('4%'), width:wp('33%') }}
+                    onValueChange={(itemValue, itemIndex) => setGender(itemValue)}
+                    >
+                        <Picker.Item  style={{fontSize:9}} label="Male" value="Male" />
+                        <Picker.Item label="Female" value="Female" />
+                    </Picker>
               </View>
-            
-              <Text >Identity Proof:</Text>
+              
+              <Text>Upload Identity Proof:</Text>
               <View>
                 <View style={styles.docmumentcontainer}>
-                    <TouchableOpacity onPress={() => setModalVisiblef(true)}>
-                        {Imageurifront!=''?
+                      <TouchableOpacity onPress={pickImagefront}>
+                        {loadingf?
+                        (<View style={styles.doc}>
+                          <Text style={{marginTop:hp('-4')}} >Uploading</Text>
+                          <Text style={{marginTop:hp('0')}} >(Front)</Text>
+                          <Icons name='file-tray-full-outline' color={'#5a5858'} size={hp('4%')} /> 
+                        </View>)
+                        :
+                        (frontstatus?
                           <View style={styles.doc}>
                             <Text style={{marginTop:hp('-4')}} >Uploaded</Text>
                             <Text style={{marginTop:hp('0')}} >(Front)</Text>
@@ -264,52 +311,57 @@ const ProfileScreen = ({navigation}) => {
                             <Text style={{marginTop:hp('0')}} >(Front)</Text>
                             <Icons name='cloud-upload-outline' color={'#5a5858'} size={hp('4%')} /> 
                           </View>
+                        )
                         }
                         
+                        
                       </TouchableOpacity>
-                      <TouchableOpacity onPress={() => setModalVisibleb(true)}>
-                        {Imageuriback!=''?
-                          <View style={styles.doc}>
-                            <Text style={{marginTop:hp('-4')}} >Uploaded</Text>
+                      <TouchableOpacity onPress={pickImageback}>
+                        {loadingb?
+                          (<View style={styles.doc}>
+                            <Text style={{marginTop:hp('-4')}} >Uploading</Text>
                             <Text style={{marginTop:hp('0')}} >(Back)</Text>
-                            <Icons name='cloud-done-outline' color={'#5a5858'} size={hp('4%')} /> 
-                          </View>
-                        :
-                          <View style={styles.doc}>
-                            <Text style={{marginTop:hp('-4')}} >Upload</Text>
-                            <Text style={{marginTop:hp('0')}} >(Back)</Text>
-                            <Icons name='cloud-upload-outline' color={'#5a5858'} size={hp('4%')} /> 
-                          </View>
+                            <Icons name='file-tray-full-outline' color={'#5a5858'} size={hp('4%')} /> 
+                          </View>)
+                          :
+                          (backstatus?
+                            <View style={styles.doc}>
+                              <Text style={{marginTop:hp('-4')}} >Uploaded</Text>
+                              <Text style={{marginTop:hp('0')}} >(Back)</Text>
+                              <Icons name='cloud-done-outline' color={'#5a5858'} size={hp('4%')} /> 
+                            </View>
+                          :
+                            <View style={styles.doc}>
+                              <Text style={{marginTop:hp('-4')}} >Upload</Text>
+                              <Text style={{marginTop:hp('0')}} >(Back)</Text>
+                              <Icons name='cloud-upload-outline' color={'#5a5858'} size={hp('4%')} /> 
+                            </View>
+                          )
                         }
                       </TouchableOpacity>
                 </View>
               </View>
               <View style={styles.button}>
-                        <TouchableOpacity onPress={()=>navigation.navigate('Editprofile')}>
-                            <Text style={styles.buttonText}>Edit Profile</Text>
+                        <TouchableOpacity onPress={updateprofile}>
+                            <Text style={styles.buttonText}>Update Profile</Text>
                         </TouchableOpacity>
               </View>
               
               
           </View>
         </View>
-              <View style={styles.flatbutton}>
-                        <TouchableOpacity>
-                            <Text style={styles.flatbuttonText}>Upgrade to NGO / Restaurant</Text>
-                        </TouchableOpacity>
-              </View>
       </View>
     );
 };
 
-export default ProfileScreen;
+export default Editprofile;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1, 
     alignItems: 'center', 
     // justifyContent: 'center',
-    marginTop: hp('14%'),
+    marginTop: hp('15%'),
   },
   card: {
     backgroundColor: '#ffffff',
@@ -425,7 +477,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F44646',
     alignSelf:'center',
     width:wp('30%'),
-    top:hp('-96'),
+    top:hp('-95'),
     // marginBottom: hp('13%'),
   },
   buttonText: {
@@ -468,7 +520,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F44646',
     alignSelf:'center',
     width:wp('80%'),
-    top:hp('-6'),
+    top:hp('-5'),
     elevation: 7,
     // marginBottom: hp('13%'),
   },
@@ -481,52 +533,5 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     position:'relative'
   },
-  modalcenteredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 22
-  },
-  modalView: {
-    margin: 20,
-    backgroundColor: "white",
-    borderRadius: 20,
-    padding: 35,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5
-  },
-  modalbutton: {
-    borderRadius: 30,
-    padding: 10,
-    elevation: 2
-  },
-  modalbuttonOpen: {
-    backgroundColor: "#F194FF",
-  },
-  modalbuttonClose: {
-    backgroundColor: "#F44646",
-    width: wp('15')
-  },
-  modaltextStyle: {
-    color: "white",
-    fontWeight: "bold",
-    textAlign: "center"
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: "center"
-  },
-  modalimg: {
-    height: hp('35'),
-    width: wp('65'),
-    marginBottom: hp('2')
-  }
   
 });

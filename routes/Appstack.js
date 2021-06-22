@@ -13,6 +13,7 @@ import FeedbackScreen from '../screens/Feedbacks';
 import HistoryScreen from '../screens/History';
 import FAQScreen from '../screens/FAQ';
 import HomeHeader from "../components/home_header";
+import Editprofile from '../screens/Editprofile'
 
 const Stack = createStackNavigator()
 const HomeStack = createStackNavigator();
@@ -28,7 +29,7 @@ const Drawer = createDrawerNavigator();
 const HomeStackScreen = ({navigation}) => (
   <HomeStack.Navigator >
           
-          <HomeStack.Screen name="Home" component={HomeScreen} options={{
+          <HomeStack.Screen name="HomeScreen" component={HomeScreen} options={{
           headerTitle:false,
           headerStyle: {
             height:400, // Specify the height of your custom header
@@ -44,17 +45,31 @@ const HomeStackScreen = ({navigation}) => (
   );
   
   const ProfileStackScreen = ({navigation}) => (
-  <ProfileStack.Navigator >
-          <ProfileStack.Screen name="Details" component={ProfileScreen} options={{
-          headerTitle:false,
-          headerStyle: {
-            height:400, // Specify the height of your custom header
-          },
-          headerTransparent: true,
-          headerBackground: props => <HomeHeader style={{position:'absolute'}}{...props}/>,
-          headerLeft: () => (
-              <Icon name="menu" size={hp('5%')} style={{position:'absolute',top:hp('5%'),left:wp('2%'),color:'white'}} onPress={() => navigation.openDrawer()}></Icon>
-          ),
+  <ProfileStack.Navigator  initialRouteName='ProfileScreen'>
+          <ProfileStack.Screen  name="ProfileScreen" component={ProfileScreen} options={{
+            headerTitle:false,
+            headerStyle: {
+              height:400, // Specify the height of your custom header
+            },
+            headerTransparent: true,
+            
+            headerBackground: props => <HomeHeader style={{position:'absolute'}}{...props}/>,
+            headerLeft: () => (
+                <Icon name="menu" size={hp('5%')} style={{position:'absolute',top:hp('5%'),left:wp('2%'),color:'white'}} onPress={() => navigation.openDrawer()}></Icon>
+            ),
+          
+          }} />
+          <ProfileStack.Screen name="Editprofile" component={Editprofile} options={{
+            headerTitle:false,
+            headerStyle: {
+              height:400, // Specify the height of your custom header
+            },
+            headerTransparent: true,
+            unmountOnBlur: true,
+            headerBackground: props => <HomeHeader style={{position:'absolute'}}{...props}/>,
+            headerLeft: () => (
+                <Icon name="menu" size={hp('5%')} style={{position:'absolute',top:hp('5%'),left:wp('2%'),color:'white'}} onPress={() => navigation.openDrawer()}></Icon>
+            ),
           
           }} />
   </ProfileStack.Navigator>
@@ -63,7 +78,7 @@ const HomeStackScreen = ({navigation}) => (
 
   const NotificationsStackScreen = ({navigation}) => (
     <NotificationsStack.Navigator >
-            <NotificationsStack.Screen name="Notifications" component={NotificationsScreen} options={{
+            <NotificationsStack.Screen name="NotificationsScreen" component={NotificationsScreen} options={{
             headerTitle:false,
             headerStyle: {
               height:400, // Specify the height of your custom header
@@ -80,7 +95,7 @@ const HomeStackScreen = ({navigation}) => (
 
     const SettingsStackScreen = ({navigation}) => (
       <SettingsStack.Navigator >
-              <SettingsStack.Screen name="Settings" component={SettingsScreen} options={{
+              <SettingsStack.Screen name="SettingsScreen" component={SettingsScreen} options={{
               headerTitle:false,
               headerStyle: {
                 height:400, // Specify the height of your custom header
@@ -97,7 +112,7 @@ const HomeStackScreen = ({navigation}) => (
 
       const HistoryStackScreen = ({navigation}) => (
         <HistoryStack.Navigator >
-                <HistoryStack.Screen name="History" component={HistoryScreen} options={{
+                <HistoryStack.Screen name="HistoryScreen" component={HistoryScreen} options={{
                 headerTitle:false,
                 headerStyle: {
                   height:400, // Specify the height of your custom header
@@ -114,7 +129,7 @@ const HomeStackScreen = ({navigation}) => (
 
         const FeedbackStackScreen = ({navigation}) => (
           <FeedbackStack.Navigator >
-                  <FeedbackStack.Screen name="Feedback" component={FeedbackScreen} options={{
+                  <FeedbackStack.Screen name="FeedbackScreen" component={FeedbackScreen} options={{
                   headerTitle:false,
                   headerStyle: {
                     height:400, // Specify the height of your custom header
@@ -131,7 +146,7 @@ const HomeStackScreen = ({navigation}) => (
 
           const FAQStackScreen = ({navigation}) => (
             <FAQStack.Navigator >
-                    <FAQStack.Screen name="FAQ" component={FAQScreen} options={{
+                    <FAQStack.Screen name="FAQScreen" component={FAQScreen} options={{
                     headerTitle:false,
                     headerStyle: {
                       height:400, // Specify the height of your custom header

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, View,StyleSheet, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
 import AppLoading from 'expo-app-loading';
 import { useFonts } from 'expo-font';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
@@ -25,7 +26,7 @@ export default function LandingPage(){
           <Text style={styles.copyright}>
             Copyright  {""}
             <Icon name="copyright" size={hp('2%')} color={'#FFFEFE'} />
-            {""} 2021 by Muskaan .ltd
+            {""} 2021 by Muskaan.Ltd
           </Text>
           
             
@@ -78,3 +79,6 @@ const styles=StyleSheet.create({
       color: '#FFFEFE',
     }
 });
+
+
+// comment
