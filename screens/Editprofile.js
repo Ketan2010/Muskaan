@@ -1,7 +1,6 @@
 import React, {useState, useEffect } from 'react';
 import { View, Text, Button, StyleSheet, Image, TextInput, TouchableOpacity, Alert  } from 'react-native';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icons from 'react-native-vector-icons/Ionicons';
 import {Picker} from '@react-native-picker/picker';
 import firebase from '@firebase/app';
@@ -9,7 +8,7 @@ require('firebase/auth');
 require('firebase/database');
 require('firebase/storage');
 import * as ImagePicker from 'expo-image-picker';
-import * as MediaLibrary from 'expo-media-library';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const Editprofile = ({navigation}) => {
 
@@ -18,7 +17,7 @@ const Editprofile = ({navigation}) => {
   const [Name, setName] = useState('');
   const [Email, setEmail] = useState('');
   const [Phone, setPhone] = useState('');
-  const [Gender, setGender] = useState('');
+  const [Gender, setGender] = useState('Male');
   const [Address, setAddress] = useState('');
   const [State, setState] = useState('');
   const [City, setCity] = useState('');
@@ -47,7 +46,7 @@ const Editprofile = ({navigation}) => {
             child.val().name? setName(child.val().name):setName('')
             child.val().email? setEmail(child.val().email):setEmail('')
             child.val().phone? setPhone(child.val().phone):setPhone('')
-            child.val().gender? setGender(child.val().gender):setGender('')
+            child.val().gender? setGender(child.val().gender):setGender('Male')
             child.val().address? setAddress(child.val().address):setAddress('')
             child.val().state? setState(child.val().state):setState('')
             child.val().city? setCity(child.val().city):setCity('')
@@ -80,25 +79,38 @@ const Editprofile = ({navigation}) => {
 
 //  update data in firebase 
  const updateprofile = () => {
-  firebase.database()
-  .ref("users/"+id)
-  .update({
-    name: Name,
-    email: Email,
-    phone: Phone,
-    gender: Gender,
-    address: Address,
-    state: State,
-    city: City,
-    postalcode: Postalcode,
-  })
-  .then(() =>Alert.alert(
-            "Success!",
-            "Profile updated successfuly",
-            [
-              { text: "OK", onPress: () => navigation.navigate('ProfileScreen') }
-            ]
-          ));
+
+  if(Name != '' && Email!='' && frontstatus && backstatus && Phone!='' && Gender!='' && Address!='' && State!='' && City!='' && Postalcode!=''){
+    firebase.database()
+    .ref("users/"+id)
+    .update({
+      name: Name,
+      email: Email,
+      phone: Phone,
+      gender: Gender,
+      address: Address,
+      state: State,
+      city: City,
+      postalcode: Postalcode,
+    })
+    .then(() =>Alert.alert(
+              "Success!",
+              "Profile updated successfuly",
+              [
+                { text: "OK", onPress: () => navigation.navigate('ProfileScreen') }
+              ]
+            ));
+  }
+  else {
+    Alert.alert(
+      "Why hurry?",
+      "Please provide all details before submit",
+      [
+        { text: "OK"}
+      ]
+    )
+  }
+  
   }
     
   // image picker 
@@ -125,6 +137,7 @@ const Editprofile = ({navigation}) => {
       .put(blob)
       .then((snapshot) => {
         setfrontstatus(true)
+        setLoadingf(false)
       })
      
     }
@@ -136,6 +149,9 @@ const Editprofile = ({navigation}) => {
       base64: true,
       quality: 1,
     });
+    if(result.cancelled){
+      setLoadingf(false)
+    }
 
     if (!result.cancelled) {
               uploadImage(result.uri, 'Front-identity')
@@ -167,6 +183,7 @@ const Editprofile = ({navigation}) => {
       .put(blob)
       .then((snapshot) => {
         setbackstatus(true)
+        setLoadingb(false)
       })
      
     }
@@ -178,7 +195,9 @@ const Editprofile = ({navigation}) => {
       base64: true,
       quality: 1,
     });
-
+    if(result.cancelled){
+        setLoadingb(false)
+    }
     if (!result.cancelled) {
               uploadImage(result.uri, 'Back-identity')
               .then(() => Alert.alert(
@@ -204,6 +223,19 @@ const Editprofile = ({navigation}) => {
 
 
   return (
+    <View>
+        <Spinner
+          visible={loadingf}
+          textContent={'Uploading...'}
+          textStyle={{color: '#FFF'}}
+          animation= 'fade'
+        />
+        <Spinner
+          visible={loadingb}
+          textContent={'Uploading...'}
+          textStyle={{color: '#FFF'}}
+          animation= 'fade'
+        />
       <View style={styles.container}>
         <View style={styles.card}>
           <View style={{alignItems: 'center'}}>
@@ -244,7 +276,7 @@ const Editprofile = ({navigation}) => {
                     />      
               </View>
               <View style={{...styles.input}}>
-                    <Icons name='home-outline' style={styles.icon}  color={'#5a5858'} size={hp('4%')} /> 
+                    <Icons name='location-outline' style={styles.icon}  color={'#5a5858'} size={hp('4%')} /> 
                     <TextInput
                         style={styles.inputContainer}
                         placeholder="Address line 1"
@@ -292,30 +324,29 @@ const Editprofile = ({navigation}) => {
               <View>
                 <View style={styles.docmumentcontainer}>
                       <TouchableOpacity onPress={pickImagefront}>
-                        {loadingf?
-                        (<View style={styles.doc}>
-                          <Text style={{marginTop:hp('-4')}} >Uploading</Text>
-                          <Text style={{marginTop:hp('0')}} >(Front)</Text>
-                          <Icons name='file-tray-full-outline' color={'#5a5858'} size={hp('4%')} /> 
-                        </View>)
-                        :
-                        (frontstatus?
-                          <View style={styles.doc}>
-                            <Text style={{marginTop:hp('-4')}} >Uploaded</Text>
-                            <Text style={{marginTop:hp('0')}} >(Front)</Text>
-                            <Icons name='cloud-done-outline' color={'#5a5858'} size={hp('4%')} /> 
-                          </View>
-                        :
-                          <View style={styles.doc}>
-                            <Text style={{marginTop:hp('-4')}} >Upload</Text>
-                            <Text style={{marginTop:hp('0')}} >(Front)</Text>
-                            <Icons name='cloud-upload-outline' color={'#5a5858'} size={hp('4%')} /> 
-                          </View>
-                        )
-                        }
-                        
-                        
+                          {loadingf?
+                            (<View style={styles.doc}>
+                              <Text style={{marginTop:hp('-4')}} >Uploading</Text>
+                              <Text style={{marginTop:hp('0')}} >(Front)</Text>
+                              <Icons name='file-tray-full-outline' color={'#5a5858'} size={hp('4%')} /> 
+                            </View>)
+                            :
+                            (frontstatus?
+                              <View style={styles.doc}>
+                                <Text style={{marginTop:hp('-4')}} >Uploaded</Text>
+                                <Text style={{marginTop:hp('0')}} >(Front)</Text>
+                                <Icons name='cloud-done-outline' color={'#5a5858'} size={hp('4%')} /> 
+                              </View>
+                            :
+                              <View style={styles.doc}>
+                                <Text style={{marginTop:hp('-4')}} >Upload</Text>
+                                <Text style={{marginTop:hp('0')}} >(Front)</Text>
+                                <Icons name='cloud-upload-outline' color={'#5a5858'} size={hp('4%')} /> 
+                              </View>
+                            )
+                          }
                       </TouchableOpacity>
+
                       <TouchableOpacity onPress={pickImageback}>
                         {loadingb?
                           (<View style={styles.doc}>
@@ -347,10 +378,12 @@ const Editprofile = ({navigation}) => {
                         </TouchableOpacity>
               </View>
               
-              
           </View>
         </View>
       </View>
+
+    </View>
+      
     );
 };
 
@@ -436,7 +469,7 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     marginRight:wp(15),
-    width: wp(40),
+    width: wp(60),
   },
   inputflex:{
     flexDirection: 'row',

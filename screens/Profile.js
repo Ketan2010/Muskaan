@@ -19,6 +19,7 @@ const ProfileScreen = ({navigation}) => {
   const [Usertype, setUsertype] = useState('');
   const [Imageurifront, setImageurifront] = useState('');
   const [Imageuriback, setImageuriback] = useState('');
+  const [prereq, setprereq] = useState(false);
   const user = firebase.auth().currentUser;
   const [modalVisiblef, setModalVisiblef] = useState(false);
   const [modalVisibleb, setModalVisibleb] = useState(false);
@@ -30,10 +31,8 @@ const ProfileScreen = ({navigation}) => {
     .equalTo(user.uid)
     .on('value', snapshot => {
         if (snapshot.exists()) {
-          
           snapshot.forEach((child) => {
             setId(child.key)
-
             child.val().name? setName(child.val().name):setName('')
             child.val().email? setEmail(child.val().email):setEmail('')
             child.val().phone? setPhone(child.val().phone):setPhone('')
@@ -43,9 +42,7 @@ const ProfileScreen = ({navigation}) => {
             child.val().city? setCity(child.val().city):setCity('')
             child.val().postalcode? setPostalcode(child.val().postalcode):setPostalcode('')
             child.val().usertype? setUsertype(child.val().usertype):setUsertype('')
-
-
-
+            child.val().upgrade.upgradeto!=''? setprereq(true):setprereq(false)
           });
 
         } else {
@@ -96,7 +93,7 @@ const ProfileScreen = ({navigation}) => {
                 source={{uri: Imageurifront}}
                 />
               :
-                <Text style={styles.modalText}>Please upload proofs</Text>
+                <Text style={styles.modalText}>Please upload proofs by editing your profile</Text>
               }
              
               <Pressable
@@ -126,7 +123,7 @@ const ProfileScreen = ({navigation}) => {
                 source={{uri: Imageuriback}}
                 />
               :
-                <Text style={styles.modalText}>Please upload proofs</Text>
+                <Text style={styles.modalText}>Please upload proofs by editing your profile</Text>
               }
              
               <Pressable
@@ -171,9 +168,7 @@ const ProfileScreen = ({navigation}) => {
                         editable={false} 
                         onChangeText={e=>{setName(e)}}
                     />
-
-            
-                    
+ 
               </View>
               <View style={{...styles.input}}>
                     <Icons name='mail-open-outline' style={styles.icon}  color={'#5a5858'} size={hp('4%')} /> 
@@ -184,9 +179,6 @@ const ProfileScreen = ({navigation}) => {
                         editable={false} 
                         onChangeText={e=>{setEmail(e)}}
                     />
-                   
-                
-
               </View>
               <View style={{...styles.input}}>
                     <Icons name='call-outline' style={styles.icon}  color={'#5a5858'} size={hp('4%')} /> 
@@ -196,12 +188,10 @@ const ProfileScreen = ({navigation}) => {
                         value={Phone}
                         editable={false} 
                         onChangeText={e=>{setPhone(e)}}
-                    />
-                  
-                    
+                    />   
               </View>
               <View style={{...styles.input}}>
-                    <Icons name='home-outline' style={styles.icon}  color={'#5a5858'} size={hp('4%')} /> 
+                    <Icons name='location-outline' style={styles.icon}  color={'#5a5858'} size={hp('4%')} /> 
                     <TextInput
                         style={styles.inputContainer}
                         placeholder="Add your address"
@@ -209,7 +199,6 @@ const ProfileScreen = ({navigation}) => {
                         editable={false}
                         onChangeText={e=>{setAddress(e)}}
                     />
-                  
               </View>
               <View style={{...styles.inputflex}}>
                     <TextInput
@@ -291,13 +280,28 @@ const ProfileScreen = ({navigation}) => {
               </View>
               
               
+            </View>
           </View>
-        </View>
-              <View style={styles.flatbutton}>
-                        <TouchableOpacity>
-                            <Text style={styles.flatbuttonText}>Upgrade to NGO / Restaurant</Text>
-                        </TouchableOpacity>
-              </View>
+          {Usertype=='U'?
+          <View style={styles.flatbutton}>
+              <TouchableOpacity onPress={()=>
+                  prereq?
+                  Alert.alert(
+                    "Muskaan say's",
+                    "You alreay sent Upgrade request. we are verifying your details.",
+                    [
+                      { text: "OK", onPress: () => navigation.navigate('ProfileScreen') }
+                    ]
+                  )
+                  :
+                  navigation.navigate('Upgradeprofile')
+
+                  }>
+                    <Text style={styles.flatbuttonText}>Upgrade to NGO / Restaurant</Text>
+              </TouchableOpacity>
+          </View>:null
+          }
+          
       </View>
     );
 };
@@ -384,7 +388,7 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     marginRight:wp(15),
-    width: wp(40),
+    width: wp(60),
   },
   inputflex:{
     flexDirection: 'row',

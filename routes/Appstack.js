@@ -14,6 +14,7 @@ import HistoryScreen from '../screens/History';
 import FAQScreen from '../screens/FAQ';
 import HomeHeader from "../components/home_header";
 import Editprofile from '../screens/Editprofile'
+import Upgradeprofile from '../screens/Upgradeprofile'
 
 const Stack = createStackNavigator()
 const HomeStack = createStackNavigator();
@@ -60,6 +61,19 @@ const HomeStackScreen = ({navigation}) => (
           
           }} />
           <ProfileStack.Screen name="Editprofile" component={Editprofile} options={{
+            headerTitle:false,
+            headerStyle: {
+              height:400, // Specify the height of your custom header
+            },
+            headerTransparent: true,
+            unmountOnBlur: true,
+            headerBackground: props => <HomeHeader style={{position:'absolute'}}{...props}/>,
+            headerLeft: () => (
+                <Icon name="menu" size={hp('5%')} style={{position:'absolute',top:hp('5%'),left:wp('2%'),color:'white'}} onPress={() => navigation.openDrawer()}></Icon>
+            ),
+          
+          }} />
+          <ProfileStack.Screen name="Upgradeprofile" component={Upgradeprofile} options={{
             headerTitle:false,
             headerStyle: {
               height:400, // Specify the height of your custom header

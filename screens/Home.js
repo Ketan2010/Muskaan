@@ -29,7 +29,16 @@ export default function Home({navigation}){
                     address: '',
                     state: '',
                     city: '',
-                    postalcode: '',       
+                    postalcode: '',   
+                    upgrade : {
+                        upgradeto: '',
+                        orgname: '',
+                        address: '',
+                        state: '',
+                        city: '',
+                        postalcode: '',
+                        reqestaccepted: false,
+                    }    
                 })
                 navigation.navigate('Profile', { screen: 'Editprofile' })
 

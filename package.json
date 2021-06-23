@@ -28,6 +28,7 @@
     "react-native": "https://github.com/expo/react-native/archive/sdk-41.0.0.tar.gz",
     "react-native-elements": "^3.4.2",
     "react-native-gesture-handler": "^1.10.3",
+    "react-native-loading-spinner-overlay": "^2.0.0",
     "react-native-paper": "^4.9.1",
     "react-native-responsive-screen": "^1.4.2",
     "react-native-shadow-cards": "^1.0.2",
