@@ -15,7 +15,7 @@ A lending hand.
 | User Profile + Update Profile | Ketan | 21-6 | <li>[x] Done</li> |
 | Upgrade User | Ketan | 23-6 | <li>[x] Done</li> |
 | Donation Module UI | Darshan | 25-6 | <li>[ ] Done</li> |
-| Notification and FAQ UI | Darshan | 25-6 | <li>[ ] Done</li> |
+| Notification and FAQ UI | Ketan | 25-6 | <li>[ ] Done</li> |
 
 
 
