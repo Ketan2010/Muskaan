@@ -13,8 +13,11 @@ A lending hand.
 | Side Drawer Navigation | Darshan | 17-6 | <li>[x] Done</li> |
 | Setting Page UI | Darshan | 17-6 | <li>[x] Done</li> |
 | User Profile + Update Profile | Ketan | 21-6 | <li>[x] Done</li> |
-| Donation 1 | Darshan | 21-6 | <li>[ ] Done</li> |
-| Upgrade User | Ketan | 25-6 | <li>[ ] Done</li> |
+| Upgrade User | Ketan | 23-6 | <li>[x] Done</li> |
+| Donation Module UI | Darshan | 25-6 | <li>[ ] Done</li> |
+| Notification and History UI | Ketan | 25-6 | <li>[ ] Done</li> |
+| FAQ UI | Ketan | 25-6 | <li>[ ] Done</li> |
+
 
 
 
