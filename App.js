@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import Routes from './routes/Routes'
 import Landing from './screens/Landing'
 import { LogBox } from 'react-native';
+import Donation from './screens/Donation';
 
 LogBox.ignoreLogs(['Setting a timer']);
 
@@ -28,6 +29,7 @@ export default class App extends Component {
   render() {
   return (
     this.state.component
+         
   );
   }
 }
