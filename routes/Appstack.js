@@ -18,6 +18,7 @@ import Upgradeprofile from '../screens/Upgradeprofile'
 import Requests from '../screens/Requests'
 import FAQanswer from '../screens/FAQanswer'
 import ReceiveScreen from "../screens/ReceiveScreen";
+import Donation from '../screens/Donation'
 
 const Stack = createStackNavigator()
 const HomeStack = createStackNavigator();
@@ -27,7 +28,6 @@ const SettingsStack = createStackNavigator();
 const HistoryStack = createStackNavigator();;
 const FeedbackStack = createStackNavigator();
 const FAQStack = createStackNavigator();
-
 
 const Drawer = createDrawerNavigator();
 
@@ -47,6 +47,18 @@ const HomeStackScreen = ({navigation}) => (
           
           }} />
           <HomeStack.Screen name="ReceiveScreen" component={ReceiveScreen} options={{
+          headerTitle:false,
+          headerStyle: {
+            height:400, // Specify the height of your custom header
+          },
+          headerTransparent: true,
+          headerBackground: props => <HomeHeader style={{position:'absolute'}}{...props}/>,
+          headerLeft: () => (
+              <Icon name="menu" size={hp('5%')} style={{position:'absolute',top:hp('5%'),left:wp('2%'),color:'white'}} onPress={() => navigation.openDrawer()}></Icon>
+          ),
+          
+          }} />
+          <HomeStack.Screen name="Donation" component={Donation} options={{
           headerTitle:false,
           headerStyle: {
             height:400, // Specify the height of your custom header

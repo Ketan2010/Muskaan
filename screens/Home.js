@@ -48,9 +48,8 @@ export default function Home({navigation}){
     return (
         <View style={styles.container}>
             <Text> Hello {user.email}</Text>
-            <Button title='Receive' onPress={()=>{navigation.navigate('ReceiveScreen')}}>
-
-            </Button>
+            <Button title='Receive' onPress={()=>{navigation.navigate('ReceiveScreen')}}></Button>
+            <Button title='Donation' onPress={()=>{navigation.navigate('Donation')}}></Button>
         </View>
     )
 }
