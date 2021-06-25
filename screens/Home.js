@@ -1,11 +1,11 @@
 import React, {useState} from 'react'
-import { View, Text, Button } from 'react-native'
+import { View, Text, Button, StyleSheet, TouchableOpacity} from 'react-native'
 
 import firebase from '@firebase/app';
 require('firebase/auth');
 require('firebase/database');
 
-const Home = ({navigation}) => {
+export default function Home({navigation}){
     const user = firebase.auth().currentUser;
 
 
@@ -21,19 +21,42 @@ const Home = ({navigation}) => {
             } else {
                 firebase.database().ref('users/').push({
                     uid: user.uid,
-                    email: user.email,              
+                    email: user.email,  
+                    usertype: 'U',
+                    name: '',
+                    phone: '',
+                    gender:'',
+                    address: '',
+                    state: '',
+                    city: '',
+                    postalcode: '',   
+                    upgrade : {
+                        upgradeto: '',
+                        orgname: '',
+                        address: '',
+                        state: '',
+                        city: '',
+                        postalcode: '',
+                        reqestaccepted: false,
+                    }    
                 })
+                navigation.navigate('Profile', { screen: 'Editprofile' })
+
             }
     });
 
     return (
-        <View style={{flex:1,top:'50%'}}>
+        <View style={styles.container}>
             <Text> Hello {user.email}</Text>
-            
-            {/* <Button title='Logout'onPress={onSignoutPress} ></Button> */}
-            {/* <Button title='Wheel'  onPress={()=>navigation.navigate('Fortunewheel')}></Button> */}
         </View>
     )
 }
 
-export default Home
+
+const styles = StyleSheet.create({
+    container: {
+      flex: 1, 
+      alignItems: 'center', 
+      justifyContent: 'center'
+    },
+  });

@@ -63,7 +63,7 @@ export default function HomeHeader(){
             {/* <View style={styles.child}> */}
             <LinearGradient
                            // Background Linear Gradient
-                            colors={['#F44646','#882929']}
+                            colors={['#F44646','#F44646']}
                             style={styles.child}
                         />
             <Image  style={{position:'absolute',top:hp('7%'),width:wp('22%'),height:hp('8%'),left:wp('32%'),

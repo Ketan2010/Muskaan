@@ -26,7 +26,7 @@ export default function LandingPage(){
           <Text style={styles.copyright}>
             Copyright  {""}
             <Icon name="copyright" size={hp('2%')} color={'#FFFEFE'} />
-            {""} 2021 by Muskaan .ltd
+            {""} 2021 by Muskaan.Ltd
           </Text>
           
             

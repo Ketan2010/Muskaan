@@ -9,7 +9,7 @@ const Stack = createStackNavigator()
 
 const AuthStack = () => {
     return(
-      <Stack.Navigator   headerMode='none' >
+      <Stack.Navigator headerMode='none' >
           <Stack.Screen name='Login_Signup' component={Login_Signup} options={{header:()=>null} , {animationEnabled: false}}/>
           <Stack.Screen name='Forgot_pass' component={Forgot_pass} options={{header:()=>null} , {animationEnabled: false}}/>
           <Stack.Screen name='Phoneauth' component={Phoneauth} options={{header:()=>null} , {animationEnabled: false}}/>
