@@ -15,6 +15,7 @@ import FAQScreen from '../screens/FAQ';
 import HomeHeader from "../components/home_header";
 import Editprofile from '../screens/Editprofile'
 import Upgradeprofile from '../screens/Upgradeprofile'
+import Requests from '../screens/Requests'
 
 const Stack = createStackNavigator()
 const HomeStack = createStackNavigator();
@@ -127,6 +128,18 @@ const HomeStackScreen = ({navigation}) => (
       const HistoryStackScreen = ({navigation}) => (
         <HistoryStack.Navigator >
                 <HistoryStack.Screen name="HistoryScreen" component={HistoryScreen} options={{
+                headerTitle:false,
+                headerStyle: {
+                  height:400, // Specify the height of your custom header
+                },
+                headerTransparent: true,
+                headerBackground: props => <HomeHeader style={{position:'absolute'}}{...props}/>,
+                headerLeft: () => (
+                    <Icon name="menu" size={hp('5%')} style={{position:'absolute',top:hp('5%'),left:wp('2%'),color:'white'}} onPress={() => navigation.openDrawer()}></Icon>
+                ),
+                
+                }} />
+                <HistoryStack.Screen name="Requests" component={Requests} options={{
                 headerTitle:false,
                 headerStyle: {
                   height:400, // Specify the height of your custom header

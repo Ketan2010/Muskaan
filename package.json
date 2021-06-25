@@ -33,15 +33,12 @@
     "react-native-responsive-screen": "^1.4.2",
     "react-native-shadow-cards": "^1.0.2",
     "react-native-switch-selector": "^2.1.4",
-    "react-native-three-dots-loader": "^1.0.1",
-    "react-native-twitter-signin": "^1.1.1",
     "react-native-vector-icons": "^8.1.0",
     "react-native-web": "~0.13.12",
     "react-native-webview": "^11.6.4",
     "react-native-wheel-of-fortune": "^1.5.4",
     "react-navigation": "^4.4.4",
     "react-navigation-stack": "^2.10.4",
-    "react-spinning-wheel": "^2.1.0",
     "save": "^2.4.0"
   },
   "devDependencies": {
