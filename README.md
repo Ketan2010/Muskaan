@@ -14,11 +14,13 @@ A lending hand.
 | Setting Page UI | Darshan | 17-6 | <li>[x] Done</li> |
 | User Profile + Update Profile | Ketan | 21-6 | <li>[x] Done</li> |
 | Upgrade User | Ketan | 23-6 | <li>[x] Done</li> |
-| Donation Module UI | Darshan | 25-6 | <li>[ ] Done</li> |
 | Notification and History UI | Ketan | 25-6 | <li>[x] Done</li> |
 | FAQ UI | Ketan | 25-6 | <li>[x] Done</li> |
 | Tab Navigator | Darshan | 28-6 | <li>[ ] Done</li> |
-| Receive Module | Ketan | 28-6 | <li>[ ] Done</li> |
+| Donation Module UI | Darshan | 28-6 | <li>[ ] Done</li> |
+| Karma Page UI | Ketan | 28-6 | <li>[ ] Done</li> |
+| Receive Module UI + Firebase | Ketan | 30-6 | <li>[ ] Done</li> |
+
 
 
 
