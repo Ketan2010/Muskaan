@@ -17,6 +17,8 @@ A lending hand.
 | Donation Module UI | Darshan | 25-6 | <li>[ ] Done</li> |
 | Notification and History UI | Ketan | 25-6 | <li>[x] Done</li> |
 | FAQ UI | Ketan | 25-6 | <li>[x] Done</li> |
+| Tab Navigator | Darshan | 28-6 | <li>[ ] Done</li> |
+| Receive Module | Ketan | 28-6 | <li>[ ] Done</li> |
 
 
 
