@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React, { Component, useState, useRef } from 'react';
 import { View, Text,StyleSheet,TextInput,Button, Image, TouchableOpacity, KeyboardAvoidingView, Keyboard, ScrollView } from 'react-native';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import { ProgressSteps, ProgressStep } from 'react-native-progress-steps';
@@ -9,6 +9,8 @@ import InputSpinner from "react-native-input-spinner";
 import DatePicker from 'react-native-modern-datepicker';
 import Overlay from 'react-native-modal-overlay';
 import Modal from 'react-native-modal';
+import MapView from 'react-native-maps';
+import Geocoder from 'react-native-geocoder'
 
 // import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
@@ -41,13 +43,14 @@ const buttonTextStyle1={
 
 export default function Donation({props}) {
   // console.log(props)
-  
+  const mapRef = useRef(null)
   const [start,setStart] =useState(false);
   const [end,setEnd]= useState(false);
   const startFunction = () =>  {setStart(prevState =>! prevState); console.log(start);}
   const endFunction =() => setEnd(prevState=>!prevState)
   const [starttime, setstartTime] = useState('');
   const [endtime, setendTime] = useState('');
+  const [address, setaddress] = useState('');
 
   const [food, setFood] = useState('');
   const [shelf,setShelf]=useState('');
@@ -61,12 +64,14 @@ export default function Donation({props}) {
   const [error2,setError2] = useState(true);
 
   const [claim, setClaim] =useState(false);
+  const [marker, setMarker] = useState(null)
+
 
   function ratingCompleted (rating) {
     console.log("Rating is: " + rating);
   }
 
-  defaultScrollViewProps = {
+  const defaultScrollViewProps = {
     keyboardShouldPersistTaps: 'handled',
     contentContainerStyle: {
       flex: 1,
@@ -75,13 +80,13 @@ export default function Donation({props}) {
     }
   };
   
-  onNextStep = () => {
+  const onNextStep = () => {
     console.log('called next step');
   };
 
-  onFoodDetailComplete = () => {
+  const onFoodDetailComplete = () => {
     // alert('Food Details completed!');
-    if (food!='' && shelf!='' && plates!='' && starttime!='' && endtime!='' && cost!='' ){
+    if (food!='' && shelf!='' && plates!='' && starttime!='' && endtime!='' && cost!='' && address!='' ){
       setError1(prevState=>!prevState)
     } 
     else{
@@ -90,10 +95,11 @@ export default function Donation({props}) {
     else if (plates==''){ alert('Please select  the Food number of plates... ')}
     else if (starttime==''){ alert('Please select the pick up start timimg... ')}
     else if (endtime==''){ alert('Please select the pick up end timing... ')}
+    else if (address==''){ alert('Please select the pick up address... ')}
     }
   };
 
-  onFoodQualityComplete =() => {
+  const onFoodQualityComplete =() => {
     // alert('Food Quality completed!');
     if (pickedImagePath!='' && rating!=''){
       setError2(prevState=>!prevState)
@@ -103,11 +109,11 @@ export default function Donation({props}) {
       }
   }
 
-  onPrevStep = () => {
+  const onPrevStep = () => {
     console.log('called previous step');
   };
 
-  onSubmitSteps = () => {
+  const onSubmitSteps = () => {
     console.log('called on submit step.');
     setClaim(prevState=>!prevState);
     console.log(claim);
@@ -137,6 +143,33 @@ export default function Donation({props}) {
     }
   }
 
+
+  // method to get coordinates and zoom into map
+  const searchaddress = (add) =>{
+    if(add==''){
+      alert('Please enter address first')
+    }
+    else{
+      fetch('https://us1.locationiq.com/v1/search.php?key=pk.d27567067f647aefc7289b09c8fae25f&q='+(add)+'&format=json')
+      .then((response) => response.json())
+          .then((responseJson) => {
+              // console.log(responseJson[0])
+              setaddress(responseJson[0].display_name)
+              setMarker({
+                latitude: Number(responseJson[0].lat),
+                longitude: Number(responseJson[0].lon)
+              })
+              mapRef.current.animateToRegion({
+                latitude:Number(responseJson[0].lat),
+                longitude:Number(responseJson[0].lon),
+                latitudeDelta: 0.001,
+                longitudeDelta: 0.001,
+              }, 2000)
+  
+      })
+    }
+    
+  }
 
     return (
       // <KeyboardAwareScrollView style={{ flex: 1 }} extraHeight={120} enableOnAndroid>
@@ -243,7 +276,7 @@ export default function Donation({props}) {
                                           onTimeChange={selectedTime => (setendTime(selectedTime),endFunction()) }
                                         /></Overlay> : null}
                               </View>
-                              <View style={{alignItems: 'center', flexDirection: 'row',marginTop:hp('1%')}}>
+                              <View style={{alignItems: 'center', flexDirection: 'row'}}>
                                   <View style={{flex:1.5}}>
                                       <Text>Cost per plate :</Text>
                                   </View>
@@ -258,11 +291,47 @@ export default function Donation({props}) {
                                       <View style={{borderBottomColor: '#F44646',borderBottomWidth:wp('0.3%'),width:wp('10%')}}  />   
                                   </View>
                               </View>
-                              {/* <View style={{left:wp('30%'), width:wp('20%'),marginTop:hp('2%')}}>
-                              <TouchableOpacity>
-                                  <Button title='Next' color="#F44646" />
-                              </TouchableOpacity>
-                              </View> */}
+                              <View style={{alignItems: 'center',marginTop:hp('1%')}}>
+                                  
+                                  <View style={{marginLeft: wp('7%'), flexDirection:'row'}}>
+                                      <TextInput
+                                          style={{fontSize:hp('2%')}} 
+                                          onChangeText={add => setaddress(add)}
+                                          value = {address}
+                                          placeholder = 'Search pickup address'
+                                          // editable = {false}
+                                      />
+                                      <TouchableOpacity  onPress={()=>{searchaddress(address)}}>
+                                          <Icons name='search-circle-outline' color={'#F44646'} size={hp('4.5%')} style={{left:wp('5%')}}/>
+                                      </TouchableOpacity>
+
+                                  </View>
+                                  <View style={{marginLeft:wp('8'), borderBottomColor: '#F44646',borderBottomWidth:wp('0.3%'),width:wp('75%')}}  />   
+
+                              </View>
+                              <View style={{marginTop:hp('1%'), marginLeft:wp('2')}}>
+                                    <MapView  provider= 'google' showsMyLocationButton={true} showsUserLocation={true}  loadingEnabled={true} style={styles.map}
+                                      initialRegion={{
+                                        latitude: 23.9585367,
+                                        longitude: 73.6869317,
+                                        latitudeDelta: 25.0000,
+                                        longitudeDelta: 25.0000,
+                                      }}
+                                      ref={mapRef} 
+                                     
+                                    > 
+                                        {marker==null?null:
+                                          <MapView.Marker
+                                            id= '1'
+                                            coordinate={marker}
+                                            title={address}
+                                            description={""}
+                                          >
+                                          </MapView.Marker>}
+                                    </MapView>
+                              </View>
+                              
+                             
                           </View>          
                       </Card>   
                   </View>
@@ -491,7 +560,11 @@ export default function Donation({props}) {
       borderWidth:2,
       borderRadius:180/2
     
-    }
+    },
+    map: {
+      width: wp('75%'),
+      height: hp('22%'),
+    },
     
   });
 // export default Donation;
