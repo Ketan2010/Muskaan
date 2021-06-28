@@ -23,13 +23,18 @@ const buttonTextStyle ={
   borderRadius:wp('3%'),
   paddingVertical:hp('0.5%'),
   top:hp('1%'),
+  left:wp('4%'),
+  fontSize:hp('1.9%')
+  
 
   
 }
 const buttonTextStyle1={
   color:'#F44646', 
+  right:wp('4%'),
   borderWidth:wp('0.4%'),
-  paddingHorizontal:wp('8%'),
+  fontSize:hp('1.9%'),
+  paddingHorizontal:wp('6%'),
   // alignItems:'center',
   borderColor:'#F44646',
   borderRadius:wp('3%'),
@@ -50,8 +55,8 @@ export default function Donation({props}) {
   const [endtime, setendTime] = useState('');
 
   const [food, setFood] = useState('');
-  const [shelf,setShelf]=useState('');
-  const [plates, setPlates] = useState('');
+  const [shelf,setShelf]=useState('1');
+  const [plates, setPlates] = useState('1');
   const [cost,setCost] = useState('0');
   const [detail,setDetail] =useState('');
   const [pickedImagePath, setPickedImagePath] = useState('');
@@ -81,15 +86,14 @@ export default function Donation({props}) {
 
   onFoodDetailComplete = () => {
     // alert('Food Details completed!');
-    if (food!='' && shelf!='' && plates!='' && starttime!='' && endtime!='' && cost!='' ){
+    if (food!='' &&  starttime!='' && endtime!='' && cost!='' ){
       setError1(prevState=>!prevState)
     } 
     else{
     if (food==''){ alert('Please fill the Food item... ')}
-    else if (shelf==''){ alert('Please select the shelf life duration ... ')}
-    else if (plates==''){ alert('Please select  the Food number of plates... ')}
     else if (starttime==''){ alert('Please select the pick up start timimg... ')}
     else if (endtime==''){ alert('Please select the pick up end timing... ')}
+    else if (cost==''){ alert('Please mention the cost of food per plate... ')}
     }
   };
 
@@ -109,7 +113,13 @@ export default function Donation({props}) {
 
   onSubmitSteps = () => {
     console.log('called on submit step.');
-    setClaim(prevState=>!prevState);
+    // setClaim(prevState=>!prevState);
+    if (food==''){ alert('Please fill the Food item... ')}
+    else if (shelf==''){ alert('Please select the shelf life duration ... ')}
+    else if (plates==''){ alert('Please select  the Food number of plates... ')}
+    else if (starttime==''){ alert('Please select the pick up start timimg... ')}
+    else if (endtime==''){ alert('Please select the pick up end timing... ')}
+    
     console.log(claim);
     
   };
@@ -120,6 +130,7 @@ export default function Donation({props}) {
   const openCamera = async () => {
     // Ask the user for the permission to access the camera
     const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
+    console.log('open camera');
 
     if (permissionResult.granted === false) {
       alert("You've refused to allow this appp to access your camera!");
@@ -142,7 +153,7 @@ export default function Donation({props}) {
       // <KeyboardAwareScrollView style={{ flex: 1 }} extraHeight={120} enableOnAndroid>
       <View style={{ flex: 1 }} >
         <HomeHeader />
-        <ProgressSteps  topOffset={hp('2%')} marginBottom={hp('2%')} activeLabelColor={'#F44646'}  completedProgressBarColor={'#F44646'}  activeStepIconBorderColor={'#F44646'} completedStepIconColor={'#F44646'}>
+        <ProgressSteps labelFontSize={hp('1.4%')} topOffset={hp('1%')} marginBottom={hp('2%')} activeLabelColor={'#F44646'}  completedProgressBarColor={'#F44646'}  activeStepIconBorderColor={'#F44646'} completedStepIconColor={'#F44646'}>
             <ProgressStep errors={error1} ScrollView={true} nextBtnTextStyle={buttonTextStyle} label="Food Details" onNext={onFoodDetailComplete} onPrevious={onPrevStep} scrollViewProps={defaultScrollViewProps} >
               
               <View style={{ alignItems: 'center' }}>
@@ -174,7 +185,7 @@ export default function Donation({props}) {
                                               buttonFontSize={16}
                                               width={wp('22%')}
                                               height={hp('3%')}
-                                              max={12}
+                                              max={24}
                                               min={1}
                                               step={1}
                                               colorMax={"#F44646"}
@@ -221,8 +232,8 @@ export default function Donation({props}) {
                                     </View>
                                   </View>
                                   <View style={{flex:1.25}}>
-                                        <Text ><Button title="end  time"  onPress={ endFunction } color="#F44646"/></Text>
-                                        <Text style={{left:wp('5%')}}>{endtime}</Text>
+                                        <Text style={{left:wp('8%')}} ><Button title="end  time"  onPress={ endFunction } color="#F44646"/></Text>
+                                        <Text style={{left:wp('13%')}}>{endtime}</Text>
                                   </View>
                                         { start===true ? 
                                         <Overlay visible={start} >
@@ -269,9 +280,9 @@ export default function Donation({props}) {
               </View>
              
           </ProgressStep>
-          <ProgressStep erroe={error2} nextBtnTextStyle={buttonTextStyle}  previousBtnTextStyle={buttonTextStyle1} nextBtnText="Donate Now" previousBtnText="Back" label="Food Quality" onNext={onFoodQualityComplete} onPrevious={onPrevStep} scrollViewProps={defaultScrollViewProps} >
+          <ProgressStep errors={error2} nextBtnTextStyle={buttonTextStyle}  previousBtnTextStyle={buttonTextStyle1} nextBtnText="Donate Now" previousBtnText="Back" label="Food Quality" onNext={onFoodQualityComplete} onPrevious={onPrevStep} scrollViewProps={defaultScrollViewProps} >
            
-              <View style={{ alignItems: 'center' }}>
+              <View style={{ alignItems: 'center',top:hp('2%') }}>
                   <Card elevation={20}  cornerRadius={wp('2%')} >
                       <View style={styles.card}>
                             <Text style={{color:'#8c8c8c',top:hp('3%')}}>Upload Picture</Text>
