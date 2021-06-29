@@ -668,7 +668,7 @@ export default function Donation({props}) {
       </View>
       
     );
-  }
+  }}
 
 
   const styles = StyleSheet.create({
