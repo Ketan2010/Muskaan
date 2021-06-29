@@ -267,6 +267,7 @@ export default function Donation({props}) {
   useEffect(() => {
     (async () => {
       if (Platform.OS !== 'web') {
+        // replace requestMediaLibraryPermissionsAsync by getCameraPermissionsAsync
         const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
         if (status !== 'granted') {
           alert('Sorry, we need camera roll permissions to make this work!');
@@ -276,9 +277,8 @@ export default function Donation({props}) {
   }, []);
   
 
-  // This function is triggered when the "Open camera" button pressed
   const openCamera = async () => {
-    // Ask the user for the permission to access the camera
+    // replace launchImageLibraryAsync by launchCameraAsync 
     const result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
       aspect: [5, 5],
