@@ -16,9 +16,9 @@ A lending hand.
 | Upgrade User | Ketan | 23-6 | <li>[x] Done</li> |
 | Notification and History UI | Ketan | 25-6 | <li>[x] Done</li> |
 | FAQ UI | Ketan | 25-6 | <li>[x] Done</li> |
-| Tab Navigator | Darshan | 28-6 | <li>[ ] Done</li> |
-| Donation Module UI | Darshan | 28-6 | <li>[ ] Done</li> |
-| Karma Page UI | Ketan | 28-6 | <li>[ ] Done</li> |
+| Tab Navigator | Darshan | (On Hold) | <li>[ ] Done</li> |
+| Donation Module UI | Darshan | 28-6 | <li>[x] Done</li> |
+| Donation Module Firebase| Ketan | 28-6 | <li>[x] Done</li> |
 | Receive Module UI + Firebase | Ketan | 30-6 | <li>[ ] Done</li> |
 
 
