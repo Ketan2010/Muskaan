@@ -62,7 +62,7 @@ export default function DrawerContent(props) {
                                 />
                             )}
                             label="Home"
-                            onPress={() => {props.navigation.navigate('Home', { screen: 'HomeScreen' })}}
+                            onPress={() => {props.navigation.navigate('Home', { screen: 'Tabs', params: { screen: 'Home' } })}}
                             labelStyle={styles.labelstyle}
                         />
                         {/* <View style={styles.line} /> */}

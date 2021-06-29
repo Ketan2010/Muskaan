@@ -2,8 +2,10 @@ import React, {Component} from 'react';
 import Routes from './routes/Routes'
 import Landing from './screens/Landing'
 import { LogBox } from 'react-native';
+import Donation from './screens/Donation';
 
 LogBox.ignoreLogs(['Setting a timer']);
+LogBox.ignoreLogs(['Animated: `useNativeDriver` was not specified. This is a required option and must be explicitly set to `true` or `false`']);
 
 
 export default class App extends Component {
@@ -28,6 +30,7 @@ export default class App extends Component {
   render() {
   return (
     this.state.component
+
   );
   }
 }

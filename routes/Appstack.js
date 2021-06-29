@@ -15,10 +15,12 @@ import FAQScreen from '../screens/FAQ';
 import HomeHeader from "../components/home_header";
 import Editprofile from '../screens/Editprofile'
 import Upgradeprofile from '../screens/Upgradeprofile'
+import ChatScreen from '../screens/ChatScreen'
 import Requests from '../screens/Requests'
 import FAQanswer from '../screens/FAQanswer'
 import ReceiveScreen from "../screens/ReceiveScreen";
 import Donation from '../screens/Donation'
+import Tabs from "../components/bottom_tab";
 
 const Stack = createStackNavigator()
 const HomeStack = createStackNavigator();
@@ -28,13 +30,46 @@ const SettingsStack = createStackNavigator();
 const HistoryStack = createStackNavigator();;
 const FeedbackStack = createStackNavigator();
 const FAQStack = createStackNavigator();
-
+// const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
+
+const MessageStack = ({navigation}) => (
+  <Stack.Navigator>
+    <Stack.Screen name="FeedbackScreen" component={FeedbackScreen} 
+    options={{
+                  headerTitle:false,
+                  headerStyle: {
+                    height:400, // Specify the height of your custom header
+                  },
+                  headerTransparent: true,
+                  headerBackground: props => <HomeHeader style={{position:'absolute'}}{...props}/>,
+                  headerLeft: () => (
+                      <Icon name="menu" size={hp('5%')} style={{position:'absolute',top:hp('9%'),left:wp('2%'),color:'white'}} onPress={() => navigation.openDrawer()}></Icon>
+                  ),
+                  
+                  }}
+                   />
+    <Stack.Screen
+      name="ChatScreen"
+      component={ChatScreen}
+      options={({route}) => ({
+        title: route.params.userName,
+        headerBackTitleVisible: false,
+        headerStyle: {
+          height:100, 
+           // Specify the height of your custom header
+        },
+      })}
+    />
+  </Stack.Navigator>
+);
+
+
 
 const HomeStackScreen = ({navigation}) => (
   <HomeStack.Navigator >
           
-          <HomeStack.Screen name="HomeScreen" component={HomeScreen} options={{
+          <HomeStack.Screen name="Tabs" component={Tabs} options={{
           headerTitle:false,
           headerStyle: {
             height:400, // Specify the height of your custom header
@@ -183,7 +218,19 @@ const HomeStackScreen = ({navigation}) => (
 
         const FeedbackStackScreen = ({navigation}) => (
           <FeedbackStack.Navigator >
-                  <FeedbackStack.Screen name="FeedbackScreen" component={FeedbackScreen} options={{
+                  <FeedbackStack.Screen name="FeedbackScreen" component={MessageStack} options={{
+                  headerTitle:false,
+                  // headerStyle: {
+                  //   height:400, // Specify the height of your custom header
+                  // },
+                  headerTransparent: true,
+                  // headerBackground: props => <HomeHeader style={{position:'absolute'}}{...props}/>,
+                  // headerLeft: () => (
+                  //     <Icon name="menu" size={hp('5%')} style={{position:'absolute',top:hp('5%'),left:wp('2%'),color:'white'}} onPress={() => navigation.openDrawer()}></Icon>
+                  // ),
+                  
+                  }} />
+                  {/* <FeedbackStack.Screen name="ChatScreen" component={ChatScreen} options={{
                   headerTitle:false,
                   headerStyle: {
                     height:400, // Specify the height of your custom header
@@ -194,7 +241,8 @@ const HomeStackScreen = ({navigation}) => (
                       <Icon name="menu" size={hp('5%')} style={{position:'absolute',top:hp('5%'),left:wp('2%'),color:'white'}} onPress={() => navigation.openDrawer()}></Icon>
                   ),
                   
-                  }} />
+                  }} /> */}
+                  
           </FeedbackStack.Navigator>
           );
 

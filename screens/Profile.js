@@ -25,34 +25,30 @@ const ProfileScreen = ({navigation}) => {
   const [modalVisibleb, setModalVisibleb] = useState(false);
 
   useEffect(() => {
-    firebase.database()
-    .ref("users/")
-    .orderByChild("uid")
-    .equalTo(user.uid)
-    .on('value', snapshot => {
-        if (snapshot.exists()) {
-          snapshot.forEach((child) => {
-            setId(child.key)
-            child.val().name? setName(child.val().name):setName('')
-            child.val().email? setEmail(child.val().email):setEmail('')
-            child.val().phone? setPhone(child.val().phone):setPhone('')
-            child.val().gender? setGender(child.val().gender):setGender('')
-            child.val().address? setAddress(child.val().address):setAddress('')
-            child.val().state? setState(child.val().state):setState('')
-            child.val().city? setCity(child.val().city):setCity('')
-            child.val().postalcode? setPostalcode(child.val().postalcode):setPostalcode('')
-            child.val().usertype? setUsertype(child.val().usertype):setUsertype('')
-            child.val().upgrade.upgradeto!=''? setprereq(true):setprereq(false)
-          });
-
-        } else {
-          console.log('Went wrong');
-
-        }
-    })
-   
-    
-}, [])
+        firebase.database()
+        .ref("users/")
+        .orderByChild("uid")
+        .equalTo(user.uid)
+        .on('value', snapshot => {
+            if (snapshot.exists()) {
+              snapshot.forEach((child) => {
+                setId(child.key)
+                child.val().name? setName(child.val().name):setName('')
+                child.val().email? setEmail(child.val().email):setEmail('')
+                child.val().phone? setPhone(child.val().phone):setPhone('')
+                child.val().gender? setGender(child.val().gender):setGender('')
+                child.val().address? setAddress(child.val().address):setAddress('')
+                child.val().state? setState(child.val().state):setState('')
+                child.val().city? setCity(child.val().city):setCity('')
+                child.val().postalcode? setPostalcode(child.val().postalcode):setPostalcode('')
+                child.val().usertype? setUsertype(child.val().usertype):setUsertype('')
+                child.val().upgrade.upgradeto!=''? setprereq(true):setprereq(false)
+              });
+            } else {
+              console.log('Went wrong');
+            }
+        })
+  }, [])
 
     firebase.storage()
     .ref(user.uid+'/identity/Front-identity')
