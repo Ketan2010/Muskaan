@@ -91,7 +91,7 @@ export default function Donation({props}) {
           console.log('Went wrong');
         }
     })
-}, [])
+  }, [])
 
 
   // patch to avoid footer comming up event with keyboard
@@ -261,7 +261,7 @@ export default function Donation({props}) {
 
     }  
     
-  };
+  }};
 
 
   useEffect(() => {
@@ -303,19 +303,11 @@ export default function Donation({props}) {
               setaddress(responseJson.display_name)
               setMarker(coord)
       })
-      // .catch(
-      //   Alert.alert(
-      //     "Oops!",
-      //     "We are not able to fetch your location you can type it manually",
-      //     [
-      //       { text: "OK"}
-      //     ]
-      //   )
-      // )
+    }
      
     
     
-  }
+  
 
     return (
       <View style={{ flex: 1 }} >
@@ -668,7 +660,7 @@ export default function Donation({props}) {
       </View>
       
     );
-  }}
+  }
 
 
   const styles = StyleSheet.create({
