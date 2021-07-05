@@ -5,8 +5,8 @@ import Icons from 'react-native-vector-icons/Ionicons';
 import firebase from '@firebase/app';
 require('firebase/auth');
 require('firebase/database');
-// color condition
-// modal for requested
+
+
 const Imgcardshort = (props) => {
     return (
         <View>
@@ -16,13 +16,13 @@ const Imgcardshort = (props) => {
                     <View>
                                 <Image 
                                 style={{height:hp('10'), width:wp('25'), borderRadius: 4}}
-                                source={require('../assets/images/food.jpg')}
+                                source={{uri: props.foodimg}}
                                 />                    
                     </View>
                     <View style={{marginLeft:wp('3'),width:wp('50')}}>
                         <Text style={styles.text}><Text style={{fontWeight: "bold"}}>Food Item</Text> : {props.item}</Text>
                         <Text style={styles.text}><Text style={{fontWeight: "bold"}}>No of plates</Text> : {props.quantity}</Text>
-                        <Text style={styles.text}><Text style={{fontWeight: "bold"}}>Pickup Timing</Text> : {props.pickuptimefrom} to {props.pickuptimeto}</Text>
+                        <Text style={styles.text}><Text style={{fontWeight: "bold"}}>Pickup Timing</Text> : {props.pickuptimefrom} - {props.pickuptimeto}</Text>
                         <Text style={styles.text}><Text style={{fontWeight: "bold"}}>Shelf Life</Text> : {props.shelflife}</Text>
                         <Text style={styles.text}><Text style={{fontWeight: "bold"}}>Address</Text> : {props.address}</Text>
                     </View>
@@ -38,7 +38,7 @@ export default Imgcardshort
 const styles = StyleSheet.create({
     card: {
         backgroundColor: '#ffffff',
-        height: hp('20%'),
+        height: hp('23%'),
         width: wp('85%'),
         padding: hp('2%'),
         marginVertical: hp('1%'),

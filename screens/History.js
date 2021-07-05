@@ -1,56 +1,129 @@
-import React, {useState, PropTypes} from 'react';
-import { View, Text, Button, SafeAreaView, ScrollView, StyleSheet, StatusBar } from 'react-native';
+import React, { Component } from 'react'
+import { Text, StyleSheet, SafeAreaView, ScrollView, Image, Fragment, View } from 'react-native'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
-import Card from '../components/Card'
 import Imgcard from '../components/Imgcard';
 import SwitchSelector from 'react-native-switch-selector';
+import Card from '../components/Card'
+import firebase from '@firebase/app'; 
+require('firebase/auth');
+require('firebase/database');
 
+export default class History extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { data: ['empty'], loading:true, toggle:'Donations' };
+  }
 
-export default function History({navigation}){
-    const [toggle, settoggle] = useState('Donations')
+  componentDidMount() {
+      this.getData()
+  }
+
   
+  
+  getData = () => {
+    var user = firebase.auth().currentUser;
+    firebase.database()
+    .ref("users/")
+    .orderByChild("uid")
+    .equalTo(user.uid)
+    .on('value', snapshot => {
+        if (snapshot.exists()) {
+          snapshot.forEach((child) => {
+            // to get donations of current user logged in
+            firebase.database()
+            .ref("users/"+child.key+"/donationsmade/")
+            .on('value', snap => {
+                if (snap.exists()) {
+                    var dataContainer = []
+                    snap.forEach((child1) => {
+                          var val = child1.val()
+                          // push only donation id's of current user
+                          dataContainer.push(val.donationid) 
+                    });
+                    this.setState({ data: dataContainer.reverse() });                     
+                    this.setState({loading:false})
+                } else {
+                    console.log('Went wrong while fetching data');
+                    console.log(this.state.data)
+                    this.setState({loading:false})
+                }
+            })
+          }); 
+        } else {
+          console.log('Went wrong');
+          this.setState({loading:false})
+        }
+    }) 
+  }
+
+  render() {
+   
     return (
-    <SafeAreaView style={styles.container}>
-      <View style={{alignSelf: 'center',width:wp('60%')}}>
-            <Text style={{ alignSelf:'center', paddingHorizontal:5, fontSize: 24,color:'#C4C4C4' }}>Your activities</Text>
-      </View>
-      <SwitchSelector
-        initial={0}
-        style={{width:wp('80%'), marginTop: hp('2')}}
-        onPress={value => settoggle(value)}
-        textColor='#000000'
-        selectedColor='white'
-        buttonColor='#F44646'
-        borderColor='#F44646'
-        hasPadding
-        options={[
-          { label: "Donations", value: "Donations"}, 
-          { label: "Recieves", value: "Recieves"}
-        ]}
-     
-      />
-      
-          {toggle=='Donations'?
-            <ScrollView style={styles.scrollView}>
-                <Imgcard navigation={navigation} date='30 March' time='8:00 PM'  item='Chapati bhaji' quantity= '3' pickuptimefrom='9:30 AM' pickuptimeto='10:20 AM' shelflife='3 Hours' address='Naroji Nagar, Dadar, Mumbai' foodimg='../assets/images/food.jpg' donationstatus='PENDING' donatedto='Micky'></Imgcard>
-                <Imgcard navigation={navigation} date='30 March' time='8:00 PM'  item='Chapati bhaji' quantity= '3' pickuptimefrom='9:30 AM' pickuptimeto='10:20 AM' shelflife='3 Hours' address='Naroji Nagar, Dadar, Mumbai' foodimg='../assets/images/food.jpg' donationstatus='DONATED' donatedto='Micky'></Imgcard>
-            </ScrollView>
-          :
-            <ScrollView style={styles.scrollView}>
-                <Card notificationtype='to' date='2 March' time='4:00 PM' user='Joan' item='Pav bhaji' quantity= '1' pickuptimefrom='9:30 AM' pickuptimeto='10:20 AM' shelflife='3 Hours' address='Naroji Nagar, Dadar, Mumbai' status='PENDING'></Card>
-                <Card notificationtype='to' date='2 March' time='4:00 PM' user='Joan' item='Pav bhaji' quantity= '1' pickuptimefrom='9:30 AM' pickuptimeto='10:20 AM' shelflife='3 Hours' address='Naroji Nagar, Dadar, Mumbai' status='REFUSED'></Card>
-                <Card notificationtype='to' date='2 March' time='4:00 PM' user='Joan' item='Pav bhaji' quantity= '1' pickuptimefrom='9:30 AM' pickuptimeto='10:20 AM' shelflife='3 Hours' address='Naroji Nagar, Dadar, Mumbai' status='ACCEPTED'></Card>
-            </ScrollView>
-          }
-      
-    </SafeAreaView>
-    );
-};
-
-
+      <SafeAreaView style={styles.container}>
+          <View style={{alignSelf: 'center',width:wp('60%')}}>
+                 <Text style={{ alignSelf:'center', paddingHorizontal:5, fontSize: 24,color:'#C4C4C4' }}>Your activities</Text>
+           </View>
+           <SwitchSelector
+            initial={0}
+            style={{width:wp('80%'), marginTop: hp('2')}}
+            onPress={value => this.setState({toggle:value})}
+            textColor='#000000'
+            selectedColor='white'
+            buttonColor='#F44646'
+            borderColor='#F44646'
+            hasPadding
+            options={[
+              { label: "Donations", value: "Donations"}, 
+              { label: "Recieves", value: "Recieves"}
+            ]}
+         
+          />  
+          
+              {this.state.toggle=='Donations'?
+                <ScrollView style={styles.scrollView}>
+                    {this.state.data[0]!=['empty']?
+                      this.state.loading?
+                          <View style={{alignItems:'center'}}>
+                            <Image 
+                                style={{height:hp('40'), width:wp('55'), borderRadius: 4}}
+                                source={require('../assets/images/load.gif')}
+                                /> 
+                          </View>
+                      :
+                            
+                      <View>
+                        {this.state.data.map((v)=>{
+                            return(<Imgcard key={v} itemid={v} navigation={this.props.navigation}></Imgcard>)
+                        })}
+                      </View>
+                  
+                    :
+                    <View style={{alignItems:'center', marginTop:hp('20')}}>
+                            <Image 
+                                style={{height:hp('20'), width:wp('25'), borderRadius: 4}}
+                                source={require('../assets/images/pin.png')}
+                                />
+                            <Text>Your donations will appear here</Text>
+                            
+                    </View>
+                    }
+                    
+                </ScrollView>
+              :
+                <ScrollView style={styles.scrollView}>
+                    <Card notificationtype='to' date='2 March' time='4:00 PM' user='Joan' item='Pav bhaji' quantity= '1' pickuptimefrom='9:30 AM' pickuptimeto='10:20 AM' shelflife='3 Hours' address='Naroji Nagar, Dadar, Mumbai' status='PENDING'></Card>
+                    <Card notificationtype='to' date='2 March' time='4:00 PM' user='Joan' item='Pav bhaji' quantity= '1' pickuptimefrom='9:30 AM' pickuptimeto='10:20 AM' shelflife='3 Hours' address='Naroji Nagar, Dadar, Mumbai' status='REFUSED'></Card>
+                    <Card notificationtype='to' date='2 March' time='4:00 PM' user='Joan' item='Pav bhaji' quantity= '1' pickuptimefrom='9:30 AM' pickuptimeto='10:20 AM' shelflife='3 Hours' address='Naroji Nagar, Dadar, Mumbai' status='ACCEPTED'></Card>
+                </ScrollView>
+              }
+          
+        </SafeAreaView>
+    )
+  }
+}
 
 const styles = StyleSheet.create({
-  container: {
+    container: { 
     flex: 1, 
     alignItems: 'center', 
     justifyContent: 'center',
@@ -62,159 +135,4 @@ const styles = StyleSheet.create({
     marginTop: hp('2')
 
   },
-});
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import React from 'react';
-// import { View, Text, Button, StyleSheet, StatusBar } from 'react-native';
-// import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
-
-// import {Card} from 'react-native-shadow-cards';
-// import { useFonts } from 'expo-font';
-// import AppLoading from 'expo-app-loading';
-
-// const SettingsScreen = ({navigation}) => {
-//     let [fontsLoaded] = useFonts({
-//       'Volkhov-Bold': require('../assets/fonts/Volkhov-Bold.ttf'),
-//     });
-
-//     if (!fontsLoaded) {    
-//       return <AppLoading />;
-//     } else {
-//       return (
-//         <View style={styles.container}>
-//           <Card elevation={20}  cornerRadius={wp('2%')} >
-//               <View style={styles.feature}>
-//                 <View style={{flex:5,left:wp('2%')}}>
-//                     <Text style={{fontSize:hp('2%'),fontFamily:'Volkhov-Bold',fontWeight:'normal'}}>Ram Ahuja</Text>
-//                     <Text></Text>
-//                     <Text>Plates : 2</Text>
-//                     <Text>30, Navinagar , Wadala</Text>
-//                     <Text>Mumbai-400002</Text>
-//                 </View>
-//                 <View style={{flex:2,left:wp('8%')}}>
-//                   <Text style={{fontStyle:'italic',fontFamily:'Volkhov-Bold'}}>17 June, 10:40</Text>
-//                 </View>
-//               </View>
-//           </Card>   
-//         </View>
-//       )};
-// };
-
-// export default SettingsScreen;
-
-// const styles = StyleSheet.create({
-//   container: {
-    
-//     alignItems: 'center', 
-//     justifyContent: 'center',
-//     top:hp('22%')
-//   },
-//   feature:{
-//     // alignItems: 'center', 
-//     flexDirection: 'row',
-//     padding:wp('2%'),
-//     // paddingTop:hp('0.5%')
-//     width:wp('80%')
-//   },
-// });
+})

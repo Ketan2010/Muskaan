@@ -5,26 +5,80 @@ import Icons from 'react-native-vector-icons/Ionicons';
 import firebase from '@firebase/app';
 require('firebase/auth');
 require('firebase/database');
-// color condition
-// modal for requested
+
+
+
+
 const Imgcard = (props) => {
+
+    const [starttime, setstartTime] = useState('');
+    const [endtime, setendTime] = useState('');
+    const [address, setaddress] = useState('');
+    const [food, setFood] = useState('');
+    const [shelf,setShelf]=useState('');
+    const [plates, setPlates] = useState('');
+    const [cost,setCost] = useState('');
+    const [detail,setDetail] =useState(''); 
+    const [lat,setlat] =useState(''); 
+    const [long,setlong] =useState(''); 
+    const [donationdate,setdonationdate] =useState(''); 
+    const [donationtime,setdonationtime] =useState(''); 
+    const [status,setstatus] =useState(''); 
+    const [donatedto,setdonatedto] =useState(''); 
+    const [foodimg,setfoodimg] =useState(''); 
+    const [key,setkey] =useState(''); 
+
+
+    useEffect(() => {
+        if(props.itemid){
+            // fetch data
+            firebase.database()
+            .ref("donations/"+props.itemid)
+            .once('value')
+            .then(snapshot => {
+                if (snapshot.exists()) {
+                    setaddress(snapshot.val().address)
+                    setDetail(snapshot.val().detail)
+                    setdonationdate(snapshot.val().donationdate)
+                    setstatus(snapshot.val().donationstatus)
+                    setdonationtime(snapshot.val().donationtime)
+                    setendTime(snapshot.val().endtime)
+                    setstartTime(snapshot.val().starttime)
+                    setFood(snapshot.val().fooditem)
+                    setPlates(snapshot.val().plates)
+                    setShelf(snapshot.val().shelf)
+                    setCost(snapshot.val().cost)
+                    setdonatedto(snapshot.val().donatedto)
+                    setlat(snapshot.val().coords.latitude)
+                    setlong(snapshot.val().coords.longitude)
+                    setfoodimg(snapshot.val().imguri)
+                } else {
+                    console.log('Went wrong while fetching data');
+                }
+            });
+        }
+        else{
+            console.log('Food Item not exist')
+        }
+    }, [props])
+
     return (
         <View>
-            <View style={styles.card}>
-                <Text style={styles.datetime}>{props.date}, {props.time}</Text>
+            <View  style={styles.card}>
+                <Text   style={styles.datetime}>{donationdate}, {donationtime}</Text>
                 <View style={{flexDirection:'row', marginTop:hp('2')}}>
                     <View>
                                 <Image 
                                 style={{height:hp('10'), width:wp('25'), borderRadius: 4}}
-                                source={require('../assets/images/food.jpg')}
+                                source={{uri: foodimg}}
                                 />                    
                     </View>
                     <View style={{marginLeft:wp('3'),width:wp('50')}}>
-                        <Text style={styles.text}><Text style={{fontWeight: "bold"}}>Food Item</Text> : {props.item}</Text>
-                        <Text style={styles.text}><Text style={{fontWeight: "bold"}}>No of plates</Text> : {props.quantity}</Text>
-                        <Text style={styles.text}><Text style={{fontWeight: "bold"}}>Pickup Timing</Text> : {props.pickuptimefrom} to {props.pickuptimeto}</Text>
-                        <Text style={styles.text}><Text style={{fontWeight: "bold"}}>Shelf Life</Text> : {props.shelflife}</Text>
-                        <Text style={styles.text}><Text style={{fontWeight: "bold"}}>Address</Text> : {props.address}</Text>
+                        <Text style={styles.text}><Text style={{fontWeight: "bold"}}>Food Item</Text> : {food}</Text>
+                        <Text style={styles.text}><Text style={{fontWeight: "bold"}}>No of plates</Text> : {plates}</Text>
+                        <Text style={styles.text}><Text style={{fontWeight: "bold"}}>Pickup Timing</Text> : {starttime} - {endtime}</Text>
+                        <Text style={styles.text}><Text style={{fontWeight: "bold"}}>Shelf Life</Text> : {shelf}</Text>
+                        <Text style={styles.text}><Text style={{fontWeight: "bold"}}>Address</Text> : {address}</Text>
                     </View>
                 </View>
                 {props.fromrequests?
@@ -32,14 +86,14 @@ const Imgcard = (props) => {
                     null
                 :
                     [
-                        props.donationstatus=='PENDING'?
+                        status=='PENDING'?
                             <View style={styles.buttons}>
                                     <TouchableOpacity disabled={true}>
                                         <View style={[styles.accept, { borderColor: '#53a0ed'}]}>
                                             <Text style={[styles.buttonTextaccept, {color: '#53a0ed'}]}>Pending Donation</Text>
                                         </View>
                                     </TouchableOpacity>
-                                    <TouchableOpacity onPress={()=>{props.navigation.navigate('Requests')}}>
+                                    <TouchableOpacity onPress={()=>{props.navigation.navigate('Requests', {iteid: props.itemid})}}>
                                         <View style={styles.accept}>
                                             <Text style={styles.buttonTextaccept}>View Requests</Text>
                                         </View>
@@ -69,7 +123,7 @@ export default Imgcard
 const styles = StyleSheet.create({
     card: {
         backgroundColor: '#ffffff',
-        height: hp('25%'),
+        height: hp('28%'),
         width: wp('85%'),
         padding: hp('2%'),
         marginVertical: hp('1%'),

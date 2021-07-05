@@ -45,7 +45,7 @@ const buttonTextStyle1={
 
 
 
-export default function Donation({props}) {
+export default function Donation({navigation}) {
   const mapRef = useRef(null)
   const [start,setStart] =useState(false);
   const [end,setEnd]= useState(false);
@@ -154,6 +154,30 @@ export default function Donation({props}) {
     var strTime = hours + ':' + minutes + ' ' + ampm;
     return strTime;
   }
+
+  // to format start time selected using date picker to 12 hr 
+  function formaystarttime(time) {
+    var hours = Number(time.split(':')[0])
+    var minutes = Number(time.split(':')[1])
+    var ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    minutes = minutes < 10 ? '0'+minutes : minutes;
+    var strTime = hours + ':' + minutes + ' ' + ampm;
+    setstartTime(strTime)
+  }
+
+  // to format end time selected using date picker to 12 hr   
+  function formayendtime(time) {
+    var hours = Number(time.split(':')[0])
+    var minutes = Number(time.split(':')[1])
+    var ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    minutes = minutes < 10 ? '0'+minutes : minutes;
+    var strTime = hours + ':' + minutes + ' ' + ampm;
+    setendTime(strTime)
+  }
   
 
 
@@ -197,9 +221,11 @@ export default function Donation({props}) {
         address: address,
         detail: detail,
         coords: marker,
-        donationstatus: 'Pending',
+        donationstatus: 'PENDING',
+        donatedto: '',
         donationdate: getCurrentDate(),
-        donationtime:  formatAMPM(new Date()) 
+        donationtime:  formatAMPM(new Date()),
+        imguri:''
       })
       firebase.database().ref('users/'+id+'/donationsmade').push({
         donationid: pushed_data.key
@@ -209,57 +235,68 @@ export default function Donation({props}) {
         "Thanks!",
         "Your donation has been added successfully. wait for requests",
         [
-          { text:"View Requests", onPress: () => console.log('navigate to reuests page')  }
+          { text:"View Requests", onPress: () => {
+                                        firebase.storage()
+                                        .ref('FoodImgs/'+pushed_data.key+'/foodimg')
+                                        .getDownloadURL()
+                                        .then((url) => {
+                                                firebase.database()
+                                                .ref("donations/"+pushed_data.key)
+                                                .update({
+                                                  imguri: url,
+                                                }).then(navigation.navigate('History', { screen: 'Requests' , params: { iteid: pushed_data.key} }))
+                                        }).catch(e=>{console.log(e)})
+                                     
+                                  }
+          }
         ]
       ));
 
     }else{
           // function to upload image in firebase storage
-    const uploadImage = async (uri, key) => {
-      const response = await fetch(uri);
-      const blob = await response.blob()
-      return firebase
-      .storage()
-      .ref('FoodImgs/'+key+'/foodimg')
-      .put(blob)
-      .then((snapshot) => {
-        setLoadingf(false)
-      })
-     
-    }
-    setLoadingf(true);
-    if(cost=='0'){
-      // food items with cost
-      var pushed_data = firebase.database().ref('donations/').push({
-        donarid: id,
-        donarname: Name,  
-        donarcontact: Phone,
-        fooditem: food,
-        shelf: shelf,
-        plates:plates,
-        starttime: starttime,
-        endtime: endtime,
-        address: address,
-        detail: detail,
-        coords: marker,
-        cost : cost,
-        donationstatus: 'Pending',
-        donationdate: getCurrentDate(),
-        donationtime:  formatAMPM(new Date()) 
-      })
-      firebase.database().ref('users/'+id+'/donationsmade').push({
-        donationid: pushed_data.key
-      })
-      uploadImage(pickedImagePath, pushed_data.key)
-      .then(() =>Alert.alert(
-        "Thanks!",
-        "Your donation has been added successfully. wait for requests",
-        [
-          { text:"View Requests", onPress: () => console.log('navigate to reuests page')  }
-        ]
-      ));
-
-    }  
+          var pushed_data = firebase.database().ref('donations/').push({
+            donarid: id,
+            donarname: Name,  
+            donarcontact: Phone,
+            fooditem: food,
+            shelf: shelf,
+            plates:plates,
+            starttime: starttime,
+            endtime: endtime,
+            address: address,
+            detail: detail,
+            coords: marker,
+            cost: cost,
+            donationstatus: 'PENDING',
+            donatedto: '',
+            donationdate: getCurrentDate(),
+            donationtime:  formatAMPM(new Date()),
+            imguri:''
+          })
+          firebase.database().ref('users/'+id+'/donationsmade').push({
+            donationid: pushed_data.key
+          })
+          uploadImage(pickedImagePath, pushed_data.key)
+          .then(() =>Alert.alert(
+            "Thanks!",
+            "Your donation has been added successfully. wait for requests",
+            [
+              { text:"View Requests", onPress: () => {
+                                            firebase.storage()
+                                            .ref('FoodImgs/'+pushed_data.key+'/foodimg')
+                                            .getDownloadURL()
+                                            .then((url) => {
+                                                    firebase.database()
+                                                    .ref("donations/"+pushed_data.key)
+                                                    .update({
+                                                      imguri: url,
+                                                    }).then(navigation.navigate('History', { screen: 'Requests' , params: { iteid: pushed_data.key} }))
+                                            }).catch(e=>{console.log(e)})
+                                        
+                                      }
+              }
+            ]
+          ));
     
   }};
 
@@ -406,7 +443,7 @@ export default function Donation({props}) {
                                             // style={{height:hp('40%'),width:300}}
                                             mode="time"
                                             minuteInterval={1}
-                                            onTimeChange={selectedTime => (setstartTime(selectedTime),startFunction()) }
+                                            onTimeChange={selectedTime => (formaystarttime(selectedTime),startFunction()) }
                                           />
                                         </Overlay>: null}
                                         { end===true ? 
@@ -415,7 +452,7 @@ export default function Donation({props}) {
                                           options={{mainColor:'red'}}
                                           mode="time"
                                           minuteInterval={1}
-                                          onTimeChange={selectedTime => (setendTime(selectedTime),endFunction()) }
+                                          onTimeChange={selectedTime => (formayendtime(selectedTime),endFunction()) }
                                         /></Overlay> : null}
                               </View>
                               {Usertype=='H'?
