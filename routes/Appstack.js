@@ -1,5 +1,6 @@
 import {createStackNavigator} from "@react-navigation/stack"
 import React from 'react'
+import { View,StyleSheet, Image,Text} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { NavigationContainer } from '@react-navigation/native';
 import DrawerContent from "../components/drawer_content";
@@ -21,6 +22,9 @@ import FAQanswer from '../screens/FAQanswer'
 import ReceiveScreen from "../screens/ReceiveScreen";
 import Donation from '../screens/Donation'
 import Tabs from "../components/bottom_tab";
+import Karma from "../screens/Karma";
+import { TouchableOpacity } from "react-native";
+import Spinthewheel from "../screens/Spinthewheel";
 
 const Stack = createStackNavigator()
 const HomeStack = createStackNavigator();
@@ -66,6 +70,7 @@ const MessageStack = ({navigation}) => (
 
 
 
+
 const HomeStackScreen = ({navigation}) => (
   <HomeStack.Navigator >
           
@@ -79,7 +84,11 @@ const HomeStackScreen = ({navigation}) => (
           headerLeft: () => (
               <Icon name="menu" size={hp('5%')} style={{position:'absolute',top:hp('5%'),left:wp('2%'),color:'white'}} onPress={() => navigation.openDrawer()}></Icon>
           ),
-          
+           headerRight: () => (
+              <Icon name="" size={hp('7%')} style={{position:'absolute',top:hp('5%'),right:wp('5%'),color:'white'}} onPress={() => navigation.navigate('Home', { screen: 'Karma' })}>
+                  <Image style={{position:'absolute',top:hp('5%'), width:wp('10%'),height:hp('5%'), right:wp('5%')}}  source={require('../assets/images/karma.png')} />   
+              </Icon>                    
+            ),
           }} />
           <HomeStack.Screen name="ReceiveScreen" component={ReceiveScreen} options={{
           headerTitle:false,
@@ -90,6 +99,11 @@ const HomeStackScreen = ({navigation}) => (
           headerBackground: props => <HomeHeader style={{position:'absolute'}}{...props}/>,
           headerLeft: () => (
               <Icon name="menu" size={hp('5%')} style={{position:'absolute',top:hp('5%'),left:wp('2%'),color:'white'}} onPress={() => navigation.openDrawer()}></Icon>
+          ),
+          headerRight: () => (
+            <Icon name="" size={hp('7%')} style={{position:'absolute',top:hp('5%'),right:wp('5%'),color:'white'}} onPress={() => navigation.navigate('Home', { screen: 'Karma' })}>
+                <Image style={{position:'absolute',top:hp('5%'), width:wp('10%'),height:hp('5%'), right:wp('5%')}}  source={require('../assets/images/karma.png')} />   
+            </Icon>                    
           ),
           
           }} />
@@ -102,6 +116,46 @@ const HomeStackScreen = ({navigation}) => (
           headerBackground: props => <HomeHeader style={{position:'absolute'}}{...props}/>,
           headerLeft: () => (
               <Icon name="menu" size={hp('5%')} style={{position:'absolute',top:hp('5%'),left:wp('2%'),color:'white'}} onPress={() => navigation.openDrawer()}></Icon>
+          ),
+          headerRight: () => (
+            <Icon name="" size={hp('7%')} style={{position:'absolute',top:hp('5%'),right:wp('5%'),color:'white'}} onPress={() => navigation.navigate('Home', { screen: 'Karma' })}>
+                <Image style={{position:'absolute',top:hp('5%'), width:wp('10%'),height:hp('5%'), right:wp('5%')}}  source={require('../assets/images/karma.png')} />   
+            </Icon>                    
+          ),
+          
+          }} />
+          <HomeStack.Screen name="Karma" component={Karma} options={{
+          headerTitle:false,
+          headerStyle: {
+            height:400, // Specify the height of your custom header
+          },
+          headerTransparent: true,
+          headerBackground: props => <HomeHeader style={{position:'absolute'}}{...props}/>,
+          headerLeft: () => (
+              <Icon name="menu" size={hp('5%')} style={{position:'absolute',top:hp('5%'),left:wp('2%'),color:'white'}} onPress={() => navigation.openDrawer()}></Icon>
+          ),
+          headerRight: () => (
+            <Icon name="" size={hp('7%')} style={{position:'absolute',top:hp('5%'),right:wp('5%'),color:'white'}} onPress={() => navigation.navigate('Home', { screen: 'Karma' })}>
+                <Image style={{position:'absolute',top:hp('5%'), width:wp('10%'),height:hp('5%'), right:wp('5%')}}  source={require('../assets/images/karma.png')} />   
+            </Icon>                    
+          ),
+          
+          }} />
+
+          <HomeStack.Screen name="Spinthewheel" component={Spinthewheel} options={{
+          headerTitle:false,
+          headerStyle: {
+            height:400, // Specify the height of your custom header
+          },
+          headerTransparent: true,
+          headerBackground: props => <HomeHeader style={{position:'absolute'}}{...props}/>,
+          headerLeft: () => (
+              <Icon name="menu" size={hp('5%')} style={{position:'absolute',top:hp('5%'),left:wp('2%'),color:'white'}} onPress={() => navigation.openDrawer()}></Icon>
+          ),
+          headerRight: () => (
+            <Icon name="" size={hp('7%')} style={{position:'absolute',top:hp('5%'),right:wp('5%'),color:'white'}} onPress={() => navigation.navigate('Home', { screen: 'Karma' })}>
+                <Image style={{position:'absolute',top:hp('5%'), width:wp('10%'),height:hp('5%'), right:wp('5%')}}  source={require('../assets/images/karma.png')} />   
+            </Icon>                    
           ),
           
           }} />
@@ -121,6 +175,7 @@ const HomeStackScreen = ({navigation}) => (
             headerLeft: () => (
                 <Icon name="menu" size={hp('5%')} style={{position:'absolute',top:hp('5%'),left:wp('2%'),color:'white'}} onPress={() => navigation.openDrawer()}></Icon>
             ),
+           
           
           }} />
           <ProfileStack.Screen name="Editprofile" component={Editprofile} options={{
@@ -165,7 +220,6 @@ const HomeStackScreen = ({navigation}) => (
             headerLeft: () => (
                 <Icon name="menu" size={hp('5%')} style={{position:'absolute',top:hp('5%'),left:wp('2%'),color:'white'}} onPress={() => navigation.openDrawer()}></Icon>
             ),
-            
             }} />
     </NotificationsStack.Navigator>
     );

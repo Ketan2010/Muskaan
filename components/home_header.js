@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View,StyleSheet, Image,Text} from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import { TouchableOpacity } from 'react-native';
 
 // class HomeHeader extends Component {
 //     render(){
@@ -68,9 +69,8 @@ export default function HomeHeader(){
                         />
             <Image  style={{position:'absolute',top:hp('7%'),width:wp('22%'),height:hp('8%'),left:wp('32%'),
                      resizeMode:'stretch'}}  source={require('../assets/images/muskaan.png')} />
+                {/*  */}
             
-            {/* <Image  style={{...styles.images,position:'absolute',top:60,width:35,height:40,right:120,
-                    resizeMode:'cover' }}  source={require('../assets/images/dummyphoto.png')} /> */}
             
         </View>
         
