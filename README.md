@@ -21,8 +21,8 @@ A lending hand.
 | Donation Module Firebase| Ketan | 28-6 | <li>[x] Done</li> |
 | Receive Module UI | Ketan | 30-6 | <li>[x] Done</li> |
 | Receive Module Firebase | Darshan | 2-7 | <li>[ ] Done</li> |
-| History Firebase | Ketan | 2-7 | <li>[ ] Done</li> |
-
+| History (Donation) Firebase | Ketan | 5-7 | <li>[x] Done</li> |
+| Karma Points UI | Ketan | 24-7 | <li>[ ] Done</li> |
 
 
 
