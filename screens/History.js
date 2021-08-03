@@ -3,7 +3,7 @@ import { Text, StyleSheet, SafeAreaView, ScrollView, Image, Fragment, View } fro
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import Imgcard from '../components/Imgcard';
 import SwitchSelector from 'react-native-switch-selector';
-import Card from '../components/Card'
+import Card from '../components/Card';
 import HistoryReceive from '../screens/history_receive'
 import firebase from '@firebase/app'; 
 require('firebase/auth');

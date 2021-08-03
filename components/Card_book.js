@@ -23,15 +23,17 @@ const Card = (props) => {
     const [address, setaddress] = useState(false);
     const [phone,setphone] = useState('');
 
-    const refresh=()=>{
-        useEffect(() => {
-            getbookinfo();
-       }, []);
-    }
+    // const refresh=()=>{
+    //     useEffect(() => {
+    //         getbookinfo();
+    //    }, []);
+    // }
 
     useEffect(() => {
         getbookinfo();
    }, []);
+
+
   
    const gettime = (date_obj) =>{
         var date  = new Date(date_obj)

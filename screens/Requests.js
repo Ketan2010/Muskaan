@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { View, Text, Button, SafeAreaView, ScrollView, StyleSheet, StatusBar, TouchableOpacity } from 'react-native';
+import { View, Text, Button, SafeAreaView, Image, ScrollView, StyleSheet, StatusBar, TouchableOpacity } from 'react-native';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import Card from '../components/Card';
 import Icons from 'react-native-vector-icons/Ionicons';
@@ -26,8 +26,9 @@ const Requests = (props) => {
     const [status,setstatus] =useState(''); 
     const [donatedto,setdonatedto] =useState(''); 
     const [foodimg,setfoodimg] =useState(''); 
+    const [requests,setrequests] =useState([]); 
     const [key,setkey] =useState(''); 
-
+    
    
     
 
@@ -55,6 +56,25 @@ const Requests = (props) => {
                     snapshot.val().coords.latitude? setlat(snapshot.val().coords.latitude):setlat('')
                     snapshot.val().coords.longitude? setlong(snapshot.val().coords.longitude):setlong('')
                     snapshot.val().imguri? setfoodimg(snapshot.val().imguri):setfoodimg('')
+
+                    firebase.database()
+                    .ref("booking/")
+                    .once('value',snapshot =>{
+                    if(snapshot.exists()){
+                        var datareceive=[];
+                        snapshot.forEach((child) =>{
+                            if (child.val().donationid==props.route.params.iteid)
+                            {
+                                datareceive.push(child.val().bid)
+                            }}
+                        )
+                        // reverse it to get letest item first
+                        setrequests(datareceive.reverse());
+                    }
+                    else{
+                        console.log('Something went wrong');
+                    }
+                    })
                 } else {
                     console.log('Went wrong while fetching data');
                 }
@@ -81,9 +101,24 @@ const Requests = (props) => {
                     <Text style={{ alignSelf:'center', paddingHorizontal:5, fontSize: 20,color:'#C4C4C4' }}>Requests</Text>
             </View>
             <ScrollView style={styles.scrollView}>
+                {requests.length==0?
+                    <View style={{alignItems:'center', marginTop:hp('20')}}>
+                            <Image 
+                                style={{height:hp('20'), width:wp('25'), borderRadius: 4}}
+                                source={require('../assets/images/pin.png')}
+                                />
+                            <Text>Requests will appear here</Text>
+                    </View>
+                        
+                    :
+                    requests.map((val,key) => {
+                        return (<Card id={val}></Card>) 
+                    } )
+                }
+                
+                {/* <Card notificationtype='from' date='30 March' time='8:00 PM' user='Micky' item='Chapati bhaji' quantity= '3' pickuptimefrom='9:30 AM' pickuptimeto='10:20 AM' shelflife='3 Hours' address='Naroji Nagar, Dadar, Mumbai'></Card>
                 <Card notificationtype='from' date='30 March' time='8:00 PM' user='Micky' item='Chapati bhaji' quantity= '3' pickuptimefrom='9:30 AM' pickuptimeto='10:20 AM' shelflife='3 Hours' address='Naroji Nagar, Dadar, Mumbai'></Card>
-                <Card notificationtype='from' date='30 March' time='8:00 PM' user='Micky' item='Chapati bhaji' quantity= '3' pickuptimefrom='9:30 AM' pickuptimeto='10:20 AM' shelflife='3 Hours' address='Naroji Nagar, Dadar, Mumbai'></Card>
-                <Card notificationtype='from' date='30 March' time='8:00 PM' user='Micky' item='Chapati bhaji' quantity= '3' pickuptimefrom='9:30 AM' pickuptimeto='10:20 AM' shelflife='3 Hours' address='Naroji Nagar, Dadar, Mumbai'></Card>
+                <Card notificationtype='from' date='30 March' time='8:00 PM' user='Micky' item='Chapati bhaji' quantity= '3' pickuptimefrom='9:30 AM' pickuptimeto='10:20 AM' shelflife='3 Hours' address='Naroji Nagar, Dadar, Mumbai'></Card> */}
             </ScrollView>
         </SafeAreaView>
     )
