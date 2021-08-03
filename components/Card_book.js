@@ -1,8 +1,10 @@
 import React, {useState, useEffect}from 'react'
-import { StyleSheet, Text, Modal,Pressable, View, TouchableOpacity} from 'react-native'
+import { StyleSheet, Text, Modal,Pressable, View, TouchableOpacity, Alert} from 'react-native'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import Icons from 'react-native-vector-icons/Ionicons';
+import call from 'react-native-phone-call';
 import firebase from '@firebase/app';
+import { FirebaseRecaptchaBanner } from 'expo-firebase-recaptcha';
 require('firebase/auth');
 require('firebase/database');
 
@@ -19,12 +21,20 @@ const Card = (props) => {
     const [pickto, setpickto] = useState(false);
     const [shelf, setshelf] = useState(false);
     const [address, setaddress] = useState(false);
+    const [phone,setphone] = useState('');
+
+    const refresh=()=>{
+        useEffect(() => {
+            getbookinfo();
+       }, []);
+    }
 
     useEffect(() => {
         getbookinfo();
    }, []);
 
 
+  
    const gettime = (date_obj) =>{
         var date  = new Date(date_obj)
         var hours = date.getHours();
@@ -48,7 +58,7 @@ const Card = (props) => {
    const getbookinfo = () =>{
         firebase.database()
         .ref("booking/"+props.bid)
-        .once('value',snapshot => {
+        .on('value',snapshot => {
             if (snapshot.exists()) {
                 setfooditem(snapshot.val().fooditem)
                 setplate(snapshot.val().bookedplate)
@@ -58,13 +68,14 @@ const Card = (props) => {
 
                 firebase.database()
                 .ref("users/"+snapshot.val().donarid)
-                .once('value',snapshot2 => {
+                .on('value',snapshot2 => {
                     setdonar(snapshot2.val().name)
+                    setphone(snapshot2.val().phone)
                 })
 
                 firebase.database()
                 .ref("donations/"+snapshot.val().donationid)
-                .once('value',snapshot3 => {
+                .on('value',snapshot3 => {
                     setpickfrom(snapshot3.val().starttime)
                     setpickto(snapshot3.val().endtime)
                     setshelf(snapshot3.val().shelf)
@@ -80,6 +91,46 @@ const Card = (props) => {
         })
 
    }
+
+
+   const triggerCall = (phone_no) => {
+        var num= phone_no;
+        console.warn(num);
+        var args = {
+            number: phone_no,
+            prompt: true,
+        };
+        if(isNaN(num))
+        {
+            Alert.alert(
+              "Sorry for inconvience !",
+              "We can't connect right now....",
+              [
+                { text: "OK" }
+              ]
+        )}
+        else{
+            call(args).catch(console.error);
+        }
+    };
+
+    const deletebooking = (id) =>{
+        var del=''
+        del=firebase.database().ref("booking/"+id).remove();
+        if (del!='')
+        {
+            Alert.alert(
+                "Success!",
+                "Your order is successfuly",
+                [
+                  { text: "OK" }
+                ]
+              )
+            //   , onPress: () => navigation.navigate('History')
+            // window.location.reload();
+        }
+        
+    }
     
     const showmodalt = () =>{
         setModalVisiblet(true)
@@ -105,7 +156,7 @@ const Card = (props) => {
                             <Icons name='close-circle-outline' color={'white'} size={hp('4%')} /> 
                         </Pressable>
                         <View style={styles.modaldetails}>
-                            <Text style={styles.modalText}><Text style={{fontWeight: "bold"}}>Requested To</Text> : {donar}</Text>
+                            <Text style={styles.modalText}><Text style={{fontWeight: "bold"}}>Requested To</Text> : {donar} </Text>
                             <Text style={styles.modalText}><Text style={{fontWeight: "bold"}}>Requested For</Text> : {plate} plate, {fooditem}</Text>
                             <Text style={styles.modalText}><Text style={{fontWeight: "bold"}}>Pickup Timing</Text> : {pickfrom} to {pickto}</Text>
                             <Text style={styles.modalText}><Text style={{fontWeight: "bold"}}>Shelf Life</Text> : {shelf}</Text>
@@ -127,8 +178,8 @@ const Card = (props) => {
                                 }
                                 {status!='REFUSED'?
                                 <View style={[styles.call, {marginLeft:wp('3')}]}>
-                                    <TouchableOpacity>
-                                        <Text style={styles.buttonTextcall}>Make a call</Text>
+                                    <TouchableOpacity onPress={()=>{triggerCall(phone)}}>
+                                        <Text style={styles.buttonTextcall} >Make a call</Text>
                                     </TouchableOpacity>
                                 </View>
                                 :
@@ -137,7 +188,7 @@ const Card = (props) => {
                             </View>
                             {status=='PENDING'?
                             <View style={[styles.refuse, {marginTop:hp('3'), width:wp('35')}]}>
-                                <TouchableOpacity>
+                                <TouchableOpacity onPress={()=>{deletebooking(props.bid)}}>
                                     <Text style={styles.buttonTextrefuse}>Cancel Request</Text>
                                 </TouchableOpacity>
                             </View>:null
@@ -167,7 +218,7 @@ const Card = (props) => {
                         }
                         {status=='PENDING'?
                             <View style={[styles.refuse, {width:wp('35'),  marginLeft:wp('1')}]}>
-                                <TouchableOpacity>
+                                <TouchableOpacity onPress={()=>{deletebooking(props.bid)}}>
                                     <Text style={styles.buttonTextrefuse}>Cancel Request</Text>
                                 </TouchableOpacity>
                             </View>:null
