@@ -45,7 +45,7 @@ export default function HistoryReceive(){
         if(snapshot.exists()){
             var datareceive=[];
             snapshot.forEach((child) =>{
-                if (child.val().recieverid==currentuserid)
+                if (child.val().receiverid==currentuserid)
                 {
                     datareceive.push(child.val().bid)
                 }}
