@@ -9,15 +9,69 @@ require('firebase/database');
 // modal for requested
 const Card = (props) => {
     const [modalVisiblef, setModalVisiblef] = useState(false);
-    const [modalVisiblet, setModalVisiblet] = useState(false);
+    const [fooditem, setfooditem] = useState(false);
+    const [plate, setplate] = useState(false);
+    const [requester, setrequester] = useState(false);
+    const [status, setstatus] = useState(false);
+    const [time, settime] = useState(false);
+    const [date, setdate] = useState(false);
+    const [address, setaddress] = useState(false);
+    
+    useEffect(() => {
+        getbookinfo();
+   }, []);
+
+   const gettime = (date_obj) =>{
+    var date  = new Date(date_obj)
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
+    var ampm = hours >= 12 ? 'pm' : 'am';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    minutes = minutes < 10 ? '0'+minutes : minutes;
+    var strTime = hours + ':' + minutes + ' ' + ampm;
+    settime(strTime);
+}
+
+const getdate = (date_obj) => {
+    const monthNames = ["Jan", "Feb", "March", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"];
+    var date = new Date(date_obj)
+    var day = date.getDate()
+    var month =  monthNames[date.getMonth()]
+    setdate(day + ' ' + month)
+}
+
+
+   const getbookinfo = () =>{
+    firebase.database()
+    .ref("booking/"+props.id)
+    .once('value',snapshot => {
+        if (snapshot.exists()) {
+            setfooditem(snapshot.val().fooditem)
+            setplate(snapshot.val().bookedplate)
+            setstatus(snapshot.val().bookingstatus)
+            gettime(snapshot.val().bookingdate)
+            getdate(snapshot.val().bookingdate)
+
+            firebase.database()
+            .ref("users/"+snapshot.val().receiverid)
+            .once('value',snapshot2 => {
+                setrequester(snapshot2.val().name)
+                setaddress(snapshot2.val().address)
+            })
+        } else {
+        console.log('Went wrong');
+        }
+    })
+
+}
+
+
 
     const showmodalf = () =>{
         setModalVisiblef(true)
     }
-    const showmodalt = () =>{
-        setModalVisiblet(true)
-    }
-
+    
     return (
         <View>
             {/* request from modal */}
@@ -38,11 +92,9 @@ const Card = (props) => {
                             <Icons name='close-circle-outline' color={'white'} size={hp('4%')} /> 
                         </Pressable>
                         <View style={styles.modaldetails}>
-                            <Text style={styles.modalText}><Text style={{fontWeight: "bold"}}>Request From</Text> : {props.user}</Text>
-                            <Text style={styles.modalText}><Text style={{fontWeight: "bold"}}>Request For</Text> : {props.quantity} plate, {props.item}</Text>
-                            <Text style={styles.modalText}><Text style={{fontWeight: "bold"}}>Pickup Timing</Text> : {props.pickuptimefrom} to {props.pickuptimeto}</Text>
-                            <Text style={styles.modalText}><Text style={{fontWeight: "bold"}}>Shelf Life</Text> : {props.shelflife}</Text>
-                            <Text style={styles.modalText}><Text style={{fontWeight: "bold"}}>Address</Text> : {props.address}</Text>
+                            <Text style={styles.modalText}><Text style={{fontWeight: "bold"}}>Request From</Text> : {requester}</Text>
+                            <Text style={styles.modalText}><Text style={{fontWeight: "bold"}}>Request For</Text> : {plate} plate, {fooditem}</Text>
+                            <Text style={styles.modalText}><Text style={{fontWeight: "bold"}}>Address of receiver</Text> : {address}</Text>
                             <View style={styles.buttonsmodal}>
                                 <View style={[styles.accept, {marginLeft:wp('-1')}]}>
                                     <TouchableOpacity>
@@ -64,70 +116,11 @@ const Card = (props) => {
                     </View>
                 </View>
             </Modal>
-            {/* request to modal */}
-            <Modal
-                animationType="fade"
-                transparent={true}
-                visible={modalVisiblet}
-                onRequestClose={() => {
-                    setModalVisiblet(!modalVisiblet);
-                }}
-            >
-                <View style={styles.modalcenteredView}>
-                    <View style={styles.modalView}>
-                        <Pressable
-                            style={[styles.modalbutton, styles.modalbuttonClose, {alignItems:'center'}]}
-                            onPress={() => setModalVisiblet(!modalVisiblet)}
-                        >
-                            <Icons name='close-circle-outline' color={'white'} size={hp('4%')} /> 
-                        </Pressable>
-                        <View style={styles.modaldetails}>
-                            <Text style={styles.modalText}><Text style={{fontWeight: "bold"}}>Requested To</Text> : {props.user}</Text>
-                            <Text style={styles.modalText}><Text style={{fontWeight: "bold"}}>Requested For</Text> : {props.quantity} plate, {props.item}</Text>
-                            <Text style={styles.modalText}><Text style={{fontWeight: "bold"}}>Pickup Timing</Text> : {props.pickuptimefrom} to {props.pickuptimeto}</Text>
-                            <Text style={styles.modalText}><Text style={{fontWeight: "bold"}}>Shelf Life</Text> : {props.shelflife}</Text>
-                            <Text style={styles.modalText}><Text style={{fontWeight: "bold"}}>Address</Text> : {props.address}</Text>
-                            <View style={styles.buttonsmodal}>
-                                {props.status=='PENDING'?
-                                    <View style={[styles.statusbutton, {borderColor: '#53a0ed', marginLeft:wp('-1')}]}>
-                                        <Text style={[styles.statusbuttonText, {color: '#53a0ed'}]}>Status: PENDING</Text>
-                                    </View>
-                                :
-                                    props.status=='ACCEPTED'?
-                                        <View style={[styles.statusbutton, {borderColor: '#43AB33', marginLeft:wp('-1')}]}>
-                                            <Text style={[styles.statusbuttonText, {color: '#43AB33'}]}>Status: ACCEPTED</Text>
-                                        </View>
-                                    :
-                                        <View style={[styles.statusbutton, {borderColor: '#F44646', marginLeft:wp('-1')}]}>
-                                            <Text style={[styles.statusbuttonText, {color: '#F44646'}]}>Status: REFUSED</Text>
-                                        </View>
-                                }
-                                {props.status!='REFUSED'?
-                                <View style={[styles.call, {marginLeft:wp('3')}]}>
-                                    <TouchableOpacity>
-                                        <Text style={styles.buttonTextcall}>Make a call</Text>
-                                    </TouchableOpacity>
-                                </View>
-                                :
-                                null}
-                                
-                            </View>
-                            {props.status=='PENDING'?
-                            <View style={[styles.refuse, {marginTop:hp('3'), width:wp('35')}]}>
-                                <TouchableOpacity>
-                                    <Text style={styles.buttonTextrefuse}>Cancel Request</Text>
-                                </TouchableOpacity>
-                            </View>:null
-                            }
-                            
-                        </View>
-                    </View>
-                </View>
-            </Modal>
-        {props.notificationtype=='from'?
+          
+     
             <TouchableOpacity onPress={showmodalf} style={styles.card}>
-                <Text style={styles.datetime}>{props.date}, {props.time}</Text>
-                <Text style={styles.username}>{props.user} is requesting you for {props.quantity} plate, {props.item}</Text>
+                <Text style={styles.datetime}>{date}, {time}</Text>
+                <Text style={styles.username}>{requester} is requesting you for {plate} plate, {fooditem}</Text>
                 <View style={styles.buttons}>
                     <TouchableOpacity>
                         <View style={styles.accept}>
@@ -141,36 +134,8 @@ const Card = (props) => {
                     </TouchableOpacity>
                 </View>
             </TouchableOpacity>
-        :
-            <TouchableOpacity onPress={showmodalt} style={styles.card}>
-                <Text style={styles.datetime}>{props.date}, {props.time}</Text>
-                <Text style={styles.username}>Your request for {props.quantity} plate, {props.item} has been sent to {props.user}</Text>
-                <View style={styles.buttons}>
-                        {props.status=='PENDING'?
-                            <View style={[styles.statusbutton, {borderColor: '#53a0ed'}]}>
-                                <Text style={[styles.statusbuttonText, {color: '#53a0ed'}]}>Status: PENDING</Text>
-                            </View>
-                        :
-                            props.status=='ACCEPTED'?
-                                <View style={[styles.statusbutton, {borderColor: '#43AB33'}]}>
-                                    <Text style={[styles.statusbuttonText, {color: '#43AB33'}]}>Status: ACCEPTED</Text>
-                                </View>
-                            :
-                                <View style={[styles.statusbutton, {borderColor: '#F44646'}]}>
-                                    <Text style={[styles.statusbuttonText, {color: '#F44646'}]}>Status: REFUSED</Text>
-                                </View>
-                        }
-                        {props.status=='PENDING'?
-                            <View style={[styles.refuse, {width:wp('35'),  marginLeft:wp('1')}]}>
-                                <TouchableOpacity>
-                                    <Text style={styles.buttonTextrefuse}>Cancel Request</Text>
-                                </TouchableOpacity>
-                            </View>:null
-                        }
-                        
-                </View>
-            </TouchableOpacity>
-        }
+        
+           
         </View>
         
     )

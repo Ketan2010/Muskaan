@@ -27,6 +27,7 @@
     "expo-location": "^12.0.4",
     "expo-media-library": "^12.0.2",
     "expo-status-bar": "~1.0.4",
+    "expo-ui-kit": "^0.1.6",
     "firebase": "^8.2.3",
     "lodash.filter": "^4.6.0",
     "randomcolor": "^0.6.2",

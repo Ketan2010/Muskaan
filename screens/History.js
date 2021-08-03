@@ -4,6 +4,7 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-nativ
 import Imgcard from '../components/Imgcard';
 import SwitchSelector from 'react-native-switch-selector';
 import Card from '../components/Card'
+import HistoryReceive from '../components/history_receive'
 import firebase from '@firebase/app'; 
 require('firebase/auth');
 require('firebase/database');
@@ -110,11 +111,12 @@ export default class History extends Component {
                     
                 </ScrollView>
               :
-                <ScrollView style={styles.scrollView}>
-                    <Card notificationtype='to' date='2 March' time='4:00 PM' user='Joan' item='Pav bhaji' quantity= '1' pickuptimefrom='9:30 AM' pickuptimeto='10:20 AM' shelflife='3 Hours' address='Naroji Nagar, Dadar, Mumbai' status='PENDING'></Card>
-                    <Card notificationtype='to' date='2 March' time='4:00 PM' user='Joan' item='Pav bhaji' quantity= '1' pickuptimefrom='9:30 AM' pickuptimeto='10:20 AM' shelflife='3 Hours' address='Naroji Nagar, Dadar, Mumbai' status='REFUSED'></Card>
-                    <Card notificationtype='to' date='2 March' time='4:00 PM' user='Joan' item='Pav bhaji' quantity= '1' pickuptimefrom='9:30 AM' pickuptimeto='10:20 AM' shelflife='3 Hours' address='Naroji Nagar, Dadar, Mumbai' status='ACCEPTED'></Card>
-                </ScrollView>
+                // <ScrollView style={styles.scrollView}>
+                //     <Card notificationtype='to' date='2 March' time='4:00 PM' user='Joan' item='Pav bhaji' quantity= '1' pickuptimefrom='9:30 AM' pickuptimeto='10:20 AM' shelflife='3 Hours' address='Naroji Nagar, Dadar, Mumbai' status='PENDING'></Card>
+                //     <Card notificationtype='to' date='2 March' time='4:00 PM' user='Joan' item='Pav bhaji' quantity= '1' pickuptimefrom='9:30 AM' pickuptimeto='10:20 AM' shelflife='3 Hours' address='Naroji Nagar, Dadar, Mumbai' status='REFUSED'></Card>
+                //     <Card notificationtype='to' date='2 March' time='4:00 PM' user='Joan' item='Pav bhaji' quantity= '1' pickuptimefrom='9:30 AM' pickuptimeto='10:20 AM' shelflife='3 Hours' address='Naroji Nagar, Dadar, Mumbai' status='ACCEPTED'></Card>
+                // </ScrollView>
+                <HistoryReceive/>
               }
           
         </SafeAreaView>
