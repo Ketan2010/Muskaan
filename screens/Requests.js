@@ -85,7 +85,7 @@ const Requests = (props) => {
         }
     }, [props.route])
 
-    
+    console.warn(requests)
     return (
         <SafeAreaView style={styles.container}>
             <View style={{felx:1, flexDirection:'row'}}>

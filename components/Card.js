@@ -1,8 +1,10 @@
 import React, {useState, useEffect}from 'react'
-import { StyleSheet, Text, Modal,Pressable, View, TouchableOpacity} from 'react-native'
+import { StyleSheet, Text, Modal,Pressable, View, TouchableOpacity, Alert} from 'react-native'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import Icons from 'react-native-vector-icons/Ionicons';
 import firebase from '@firebase/app';
+import call from 'react-native-phone-call';
+import { NavigationEvents } from 'react-navigation';
 require('firebase/auth');
 require('firebase/database');
 // color condition
@@ -16,6 +18,7 @@ const Card = (props) => {
     const [time, settime] = useState(false);
     const [date, setdate] = useState(false);
     const [address, setaddress] = useState(false);
+    const [phone,setphone] = useState("");
     
     useEffect(() => {
         getbookinfo();
@@ -45,7 +48,7 @@ const getdate = (date_obj) => {
    const getbookinfo = () =>{
     firebase.database()
     .ref("booking/"+props.id)
-    .once('value',snapshot => {
+    .on('value',snapshot => {
         if (snapshot.exists()) {
             setfooditem(snapshot.val().fooditem)
             setplate(snapshot.val().bookedplate)
@@ -55,7 +58,7 @@ const getdate = (date_obj) => {
 
             firebase.database()
             .ref("users/"+snapshot.val().receiverid)
-            .once('value',snapshot2 => {
+            .on('value',snapshot2 => {
                 setrequester(snapshot2.val().name)
                 setaddress(snapshot2.val().address)
             })
@@ -66,6 +69,67 @@ const getdate = (date_obj) => {
 
 }
 
+    function acceptRequest(id){
+        firebase.database()
+        .ref("booking/"+id)
+        .update({
+            bookingstatus:"ACCEPTED"
+        })
+        .then(() =>Alert.alert(
+            "Success!",
+            `Request for ${plate} plate ${fooditem} from ${requester} is accepted successfully `,
+            [
+              { text: "OK" }
+            ]
+          ));
+    }
+    function refuseRequest(id){
+        firebase.database()
+        .ref("booking/"+id)
+        .update({
+            bookingstatus:"REFUSED"
+        })
+        .then(() =>Alert.alert(
+            "Success!",
+            `Request for ${plate} plate ${fooditem} from ${requester} is refused successfully `,
+            [
+              { text: "OK" }
+            ]
+          ));
+    }
+
+    const triggerCall = (id) => {
+        var userid=[];
+        firebase.database().ref("booking/"+id).on('value',snapshot => {
+            if (snapshot.exists()){ userid.push(snapshot.val().receiverid) }
+        });
+
+        firebase.database()
+        .ref("users/"+userid[0])
+        .on('value', snapshot => {
+            if ( snapshot.exists())
+            {
+                setphone(snapshot.val().phone)
+            }
+        })
+        var num=phone;
+        var args = {
+            number: phone,
+            prompt: true,
+        };
+        if(isNaN(num))
+        {
+            Alert.alert(
+              "Sorry for inconvience !",
+              "We can't connect right now....",
+              [
+                { text: "OK" }
+              ]
+        )}
+        else{
+            call(args).catch(console.error);
+        }
+    };
 
 
     const showmodalf = () =>{
@@ -95,22 +159,42 @@ const getdate = (date_obj) => {
                             <Text style={styles.modalText}><Text style={{fontWeight: "bold"}}>Request From</Text> : {requester}</Text>
                             <Text style={styles.modalText}><Text style={{fontWeight: "bold"}}>Request For</Text> : {plate} plate, {fooditem}</Text>
                             <Text style={styles.modalText}><Text style={{fontWeight: "bold"}}>Address of receiver</Text> : {address}</Text>
-                            <View style={styles.buttonsmodal}>
-                                <View style={[styles.accept, {marginLeft:wp('-1')}]}>
-                                    <TouchableOpacity>
-                                        <Text style={styles.buttonTextaccept}>ACCEPT</Text>
-                                    </TouchableOpacity>
+                            <View style={{flexDirection:'row'}}>
+                                { status=="PENDING" ? 
+                                <View style={{...styles.buttonsmodal,flex:2}}>
+                                    <View style={[styles.accept, {marginLeft:wp('-1')}]}>
+                                        <TouchableOpacity onPress={()=>{acceptRequest(props.id)}} >
+                                            <Text style={styles.buttonTextaccept}>ACCEPT</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                    <View style={[styles.refuse, {marginLeft:wp('3')}]}>
+                                        <TouchableOpacity onPress={()=>{refuseRequest(props.id)}} >
+                                            <Text style={styles.buttonTextrefuse}>REFUSE</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                    <View style={[styles.call, {marginLeft:wp('3'),flex:1}]}>
+                                        <TouchableOpacity onPress={()=>triggerCall(props.id)}>
+                                            <Text style={styles.buttonTextcall}>Make a call</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                    
+                                </View> : 
+                                status=="ACCEPTED" ? 
+                                <View style={{flexDirection:'row', flex:2}}>
+                                    <View style={{ flex:2}}>
+                                        <Text style={styles.statusoutput}>Status :<Text style={{...styles.statusoutput,fontSize:17,color: '#43AB33',fontWeight:'bold'}}> ACCEPTED</Text></Text> 
+                                    </View>
+                                    
+                                    <View style={[styles.call, {marginLeft:wp('3'),flex:1}]}>
+                                        <TouchableOpacity onPress={()=>triggercall} onPress={()=>triggerCall(props.id)}>
+                                            <Text style={styles.buttonTextcall}>Make a call</Text>
+                                        </TouchableOpacity>
+                                    </View>
                                 </View>
-                                <View style={[styles.refuse, {marginLeft:wp('3')}]}>
-                                    <TouchableOpacity>
-                                        <Text style={styles.buttonTextrefuse}>REFUSE</Text>
-                                    </TouchableOpacity>
-                                </View>
-                                <View style={[styles.call, {marginLeft:wp('3')}]}>
-                                    <TouchableOpacity>
-                                        <Text style={styles.buttonTextcall}>Make a call</Text>
-                                    </TouchableOpacity>
-                                </View>
+                                :
+                                <Text style={styles.statusoutput}>Status :<Text style={{...styles.statusoutput,fontSize:17,color: '#F44646',fontWeight:'bold'}}> REFUSED</Text></Text>} 
+            
+                                
                             </View>
                         </View>
                     </View>
@@ -121,18 +205,24 @@ const getdate = (date_obj) => {
             <TouchableOpacity onPress={showmodalf} style={styles.card}>
                 <Text style={styles.datetime}>{date}, {time}</Text>
                 <Text style={styles.username}>{requester} is requesting you for {plate} plate, {fooditem}</Text>
+                { status=="PENDING" ?
                 <View style={styles.buttons}>
-                    <TouchableOpacity>
+                    
+                    <TouchableOpacity onPress={()=>{acceptRequest(props.id)}}>
                         <View style={styles.accept}>
                             <Text style={styles.buttonTextaccept}>ACCEPT</Text>
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={()=>{refuseRequest(props.id)}} >
                         <View style={styles.refuse}>
                             <Text style={styles.buttonTextrefuse}>REFUSE</Text>
                         </View>
                     </TouchableOpacity>
-                </View>
+                </View> :  
+                status=="ACCEPTED" ? 
+                    <Text style={styles.statusoutput}>Status :<Text style={{...styles.statusoutput,fontSize:17,color: '#43AB33',fontWeight:'bold'}}> ACCEPTED</Text></Text> 
+                    :
+                    <Text style={styles.statusoutput}>Status :<Text style={{...styles.statusoutput,fontSize:17,color: '#F44646',fontWeight:'bold'}}> REFUSED</Text></Text>} 
             </TouchableOpacity>
         
            
@@ -261,6 +351,14 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         marginTop: 22
+      },
+      statusoutput:{
+        marginTop:hp('1%'),
+        fontFamily: 'Voces-Regular',
+        fontStyle: 'normal',
+        fontWeight: 'normal',
+        fontSize: 15,
+        // textAlign: 'center',
       },
       modalView: {
         margin: 20,
