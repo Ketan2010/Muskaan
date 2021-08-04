@@ -20,9 +20,10 @@ A lending hand.
 | Donation Module UI | Darshan | 28-6 | <li>[x] Done</li> |
 | Donation Module Firebase| Ketan | 28-6 | <li>[x] Done</li> |
 | Receive Module UI | Ketan | 30-6 | <li>[x] Done</li> |
-| Receive Module Firebase | Darshan | 2-7 | <li>[ ] Done</li> |
+| Receive Module Firebase | Darshan | 2-7 | <li>[x] Done</li> |
 | History (Donation) Firebase | Ketan | 5-7 | <li>[x] Done</li> |
 | Karma Points UI | Ketan | 24-7 | <li>[x] Done</li> |
+| Testing and Bug Fix | Darshan Ketan | 14-8 | <li>[x] Done</li> |
 
 
 
