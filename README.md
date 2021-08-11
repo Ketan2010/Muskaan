@@ -26,6 +26,14 @@ A lending hand.
 | Testing and Bug Fix | Darshan Ketan | 14-8 | <li>[ ] Done</li> |
 
 
+## Bug Fixing
+| **Bug** | **Assigned to** | **Fized** |
+| :--- | :--- | :---: |
+| xxx | YYY | <li>[ ] Fixed</li> |
+| xxx | YYY | <li>[ ] Fixed</li> |
+| xxx | YYY | <li>[ ] Fixed</li> |
+| xxx | YYY | <li>[ ] Fixed</li> |
+
 
 
 ## Contribution Guide
