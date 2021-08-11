@@ -27,12 +27,16 @@ A lending hand.
 
 
 ## Bug Fixing
-| **Bug** | **Assigned to** | **Fized** |
+| **Bug** | **Assigned to** | **Fixed** |
 | :--- | :--- | :---: |
-| xxx | YYY | <li>[ ] Fixed</li> |
-| xxx | YYY | <li>[ ] Fixed</li> |
-| xxx | YYY | <li>[ ] Fixed</li> |
-| xxx | YYY | <li>[ ] Fixed</li> |
+| Show msg on map if no donations | Darshan | <li>[ ] Fixed</li> |
+| Header Hight | Ketan | <li>[ ] Fixed</li> |
+| Navigate default to homepage after login | Ketan | <li>[ ] Fixed</li> |
+| Profile page icons and responsiveness | Ketan | <li>[ ] Fixed</li> |
+| Pending donations: no of remaining plates | Darshan | <li>[ ] Fixed</li> |
+| Plates-- after successful donation | Darshan | <li>[ ] Fixed</li> |
+| Receive need refresh | Ketan | <li>[ ] Fixed</li> |
+| Auto delete donations | Darshan | <li>[ ] Fixed</li> |
 
 
 
