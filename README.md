@@ -36,7 +36,10 @@ A lending hand.
 | Pending donations: no of remaining plates | Darshan | <li>[ ] Fixed</li> |
 | Plates-- after successful donation | Darshan | <li>[ ] Fixed</li> |
 | Receive need refresh | Ketan | <li>[ ] Fixed</li> |
-| Auto delete donations | Darshan | <li>[ ] Fixed</li> |
+| Dont show outdated donations on map | Darshan | <li>[ ] Fixed</li> |
+| On cancle request: Other request is deleted (refresh needed to reflect change) | XXX | <li>[ ] Fixed</li> |
+| To see requests of donations refresh is needed | XXX | <li>[ ] Fixed</li> |
+
 
 
 
