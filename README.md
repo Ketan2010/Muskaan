@@ -31,8 +31,8 @@ A lending hand.
 | :--- | :--- | :---: |
 | 1. Show msg on map if no donations | Darshan | <li>[ ] Fixed</li> |
 | 2. Header Hight | Ketan | <li>[ ] Fixed</li> |
-| 3. Navigate default to homepage after login | Ketan | <li>[ ] Fixed</li> |
-| 4. Profile page icons and responsiveness | Ketan | <li>[ ] Fixed</li> |
+| 3. Navigate default to homepage after login | Ketan, Darshan | <li>[ ] Fixed</li> |
+| 4. Profile page icons and responsiveness | Darshan | <li>[ ] Fixed</li> |
 | 5. Pending donations: no of remaining plates | Darshan | <li>[ ] Fixed</li> |
 | 6. Plates-- after successful donation | Darshan | <li>[ ] Fixed</li> |
 | 7. Receive need refresh | Ketan | <li>[ ] Fixed</li> |
