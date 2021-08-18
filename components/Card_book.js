@@ -121,13 +121,11 @@ const Card = (props) => {
         {
             Alert.alert(
                 "Success!",
-                "Your order is successfuly",
+                "Your order is successfuly deleted!",
                 [
                   { text: "OK" }
                 ]
               )
-            //   , onPress: () => navigation.navigate('History')
-            // window.location.reload();
         }
         
     }

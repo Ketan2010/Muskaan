@@ -19,12 +19,36 @@ import Icons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { ImageBackground } from 'react-native';
-
+import { CommonActions } from '@react-navigation/native';
+import { StackActions } from '@react-navigation/native';
 
 export default function DrawerContent(props) {
     const onSignoutPress = () =>{
         // await props.navigation.navigate('Home', { screen: 'HomeScreen' })
         firebase.auth().signOut()
+        // try {
+        //       firebase.auth()
+        //       .signOut()
+        //       .then(() => {
+        //         props.navigation.dispatch(
+        //             NavigationActions.reset(
+        //                 {
+        //                    index: 0,
+        //                    actions: [
+        //                      NavigationActions.navigate({ routeName: 'Home'})
+        //                    ]
+        //                  })
+        //         );
+        //         // const resetAction = StackActions.reset({
+        //         //   index: 0,
+        //         //   actions: [NavigationActions.navigate('Home', { screen: 'Tabs'})],
+        //         // });
+        //         // props.navigation.dispatch(resetAction);
+        //         // alert("You have signed out");
+        //       });
+        //   } catch (error) {
+        //     console.log("err", error);
+        //   }
     }
     const user = firebase.auth().currentUser;
     return(

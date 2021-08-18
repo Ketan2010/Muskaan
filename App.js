@@ -6,6 +6,8 @@ import Donation from './screens/Donation';
 
 LogBox.ignoreLogs(['Setting a timer']);
 LogBox.ignoreLogs(['Animated: `useNativeDriver` was not specified. This is a required option and must be explicitly set to `true` or `false`']);
+LogBox.ignoreLogs(['source.uri should not be an empty string']);
+
 
 
 export default class App extends Component {

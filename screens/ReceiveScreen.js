@@ -288,9 +288,9 @@ console.log(search);
                 </View>
           </Modal> 
             
-          <View style={{marginTop:hp('8%')}}>
+          <View style={{marginTop:hp('16%')}}>
           {/* <View ><Image  source={require('../assets/images/backarrow.png')} style={{width:30,height:30, borderRadius:50/2,backgroundColor:'white'}}/> */}
-          <Feather onPress={() => navigation.goBack()} name='arrow-left' size={hp('10%')} color='red'></Feather>
+          {/* <Feather onPress={() => navigation.goBack()} name='arrow-left' size={hp('10%')} color='red'></Feather> */}
           {/* </View> */}
               <SearchableDropdown
                   onTextChange={(text) => console.log(text)}
@@ -345,7 +345,7 @@ console.log(search);
                       description={val.donarname}
                       onPress = {()=>{
                         setfoodimg('../assets/images/food.jpg')
-                        setdonar(val.name)
+                        setdonar(val.donarname)
                         setaddress(val.address)
                         setfooditem(val.fooditem)
                         setplates(val.plates)

@@ -309,7 +309,7 @@ const styles = StyleSheet.create({
     flex: 1, 
     alignItems: 'center', 
     // justifyContent: 'center',
-    marginTop: hp('14%'),
+    marginTop: hp('12%'),
   },
   card: {
     backgroundColor: '#ffffff',

@@ -19,8 +19,6 @@ export default class History extends Component {
       this.getData()
   }
 
-  
-  
   getData = () => {
     var user = firebase.auth().currentUser;
     firebase.database()
@@ -41,11 +39,12 @@ export default class History extends Component {
                           // push only donation id's of current user
                           dataContainer.push(val.donationid) 
                     });
-                    this.setState({ data: dataContainer.reverse() });                     
+                    this.setState({ data: dataContainer.reverse() });   
+                    console.log('Donations array:', this.state.data)                  
                     this.setState({loading:false})
                 } else {
-                    console.log('Went wrong while fetching data');
-                    console.log(this.state.data)
+                    console.log('There is no donations associated with this user');
+                    console.log('Donations array:', this.state.data)
                     this.setState({loading:false})
                 }
             })
@@ -111,12 +110,7 @@ export default class History extends Component {
                     
                 </ScrollView>
               :
-                // <ScrollView style={styles.scrollView}>
-                //     <Card notificationtype='to' date='2 March' time='4:00 PM' user='Joan' item='Pav bhaji' quantity= '1' pickuptimefrom='9:30 AM' pickuptimeto='10:20 AM' shelflife='3 Hours' address='Naroji Nagar, Dadar, Mumbai' status='PENDING'></Card>
-                //     <Card notificationtype='to' date='2 March' time='4:00 PM' user='Joan' item='Pav bhaji' quantity= '1' pickuptimefrom='9:30 AM' pickuptimeto='10:20 AM' shelflife='3 Hours' address='Naroji Nagar, Dadar, Mumbai' status='REFUSED'></Card>
-                //     <Card notificationtype='to' date='2 March' time='4:00 PM' user='Joan' item='Pav bhaji' quantity= '1' pickuptimefrom='9:30 AM' pickuptimeto='10:20 AM' shelflife='3 Hours' address='Naroji Nagar, Dadar, Mumbai' status='ACCEPTED'></Card>
-                // </ScrollView>
-                <HistoryReceive/>
+                <HistoryReceive />
               }
           
         </SafeAreaView>

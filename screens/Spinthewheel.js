@@ -28,7 +28,7 @@ class Spinthewheel extends Component {
       winnerIndex: null,
       started: false,
     };
-    this.child = null;
+    // this.child = null;
   }
 
   buttonPress = () => {
@@ -53,7 +53,7 @@ class Spinthewheel extends Component {
     };
     return (
       <View style={styles.container}>
-        <StatusBar barStyle={'light-content'} />
+        {/* <StatusBar barStyle={'light-content'} /> */}
         <WheelOfFortune
           options={wheelOptions}
           getWinner={(value, index) => {

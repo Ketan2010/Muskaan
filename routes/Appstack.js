@@ -72,7 +72,7 @@ const MessageStack = ({navigation}) => (
 
 
 const HomeStackScreen = ({navigation}) => (
-  <HomeStack.Navigator >
+  <HomeStack.Navigator initialRouteName='Tabs'>
           
           <HomeStack.Screen name="Tabs" component={Tabs} options={{
           headerTitle:false,
@@ -143,6 +143,7 @@ const HomeStackScreen = ({navigation}) => (
           }} />
 
           <HomeStack.Screen name="Spinthewheel" component={Spinthewheel} options={{
+            // headerShown: false
           headerTitle:false,
           headerStyle: {
             height:400, // Specify the height of your custom header
@@ -163,7 +164,7 @@ const HomeStackScreen = ({navigation}) => (
   );
   
   const ProfileStackScreen = ({navigation}) => (
-  <ProfileStack.Navigator  initialRouteName='ProfileScreen'>
+  <ProfileStack.Navigator  >
           <ProfileStack.Screen  name="ProfileScreen" component={ProfileScreen} options={{
             headerTitle:false,
             headerStyle: {

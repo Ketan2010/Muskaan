@@ -11,13 +11,14 @@ export default function HistoryReceive(){
     const user = firebase.auth().currentUser;
     
 
-    const [currentuserid, setcurrentuserid] = useState();
+    // const [currentuserid, setcurrentuserid] = useState();
     const [userdonations, setuserdonations] = useState([]);
     
 
 
     useEffect(() => {
          getreceive();
+       
     }, []);
    
 
@@ -30,7 +31,28 @@ export default function HistoryReceive(){
             if (snapshot.exists()) {
                 snapshot.forEach((child) => { 
                     if (child.val().uid == user.uid ){
-                        setcurrentuserid(child.key);
+                        // setcurrentuserid(child.key);
+                        // get booking ids of current user
+                        firebase.database()
+                        .ref("booking/")
+                        .on('value',snapshot =>{
+                        if(snapshot.exists()){
+                            var datareceive=[];
+                            snapshot.forEach((child1) =>{
+                                if (child1.val().receiverid==child.key)
+                                {
+                                    datareceive.push(child1.val().bid)
+                                }}
+                            )
+                            // reverse it to get letest item first
+                            setuserdonations(datareceive.reverse());
+                            console.log('Receives array after stateset:', userdonations);
+                        }
+                        else{
+                            console.log('There is no receive associated with this user');
+                            console.log('Receives array:', userdonations);
+                        }
+                        })
                     }
                 });
             } else {
@@ -38,33 +60,14 @@ export default function HistoryReceive(){
             }
         })
 
-        // get booking ids of current user
-        firebase.database()
-        .ref("booking/")
-        .on('value',snapshot =>{
-        if(snapshot.exists()){
-            var datareceive=[];
-            snapshot.forEach((child) =>{
-                if (child.val().receiverid==currentuserid)
-                {
-                    datareceive.push(child.val().bid)
-                }}
-            )
-            // reverse it to get letest item first
-            setuserdonations(datareceive.reverse());
-        }
-        else{
-            console.log('Something went wrong');
-        }
-        })
     }
 
-
+    
     
 
     return(
         <ScrollView style={styles.scrollView}>
-            {userdonations!=[]?
+            {userdonations.length!=0?
                      userdonations.map((val,key) => {
                         return (<Card bid={val}></Card>) 
                    } )
@@ -74,7 +77,7 @@ export default function HistoryReceive(){
                                 style={{height:hp('20'), width:wp('25'), borderRadius: 4}}
                                 source={require('../assets/images/pin.png')}
                                 />
-                            <Text>Your donation requests will appear here</Text>
+                            <Text>Request you sent will appear here</Text>
                     </View>
             }
            
