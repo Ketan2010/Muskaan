@@ -7,7 +7,7 @@ require('firebase/auth');
 require('firebase/database');
 
 export default function HistoryReceive(){
-
+    
     const user = firebase.auth().currentUser;
     
 
@@ -62,12 +62,12 @@ export default function HistoryReceive(){
 
     }
 
-    
+    console.log(userdonations);
     
 
     return(
         <ScrollView style={styles.scrollView}>
-            {userdonations.length!=0?
+            { userdonations.length!=0 ?
                      userdonations.map((val,key) => {
                         return (<Card bid={val}></Card>) 
                    } )

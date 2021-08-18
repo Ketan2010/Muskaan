@@ -59,28 +59,23 @@ import { TouchableOpacity } from 'react-native';
 
 export default function HomeHeader(){
     return(
-        // <View>
         <View style={styles.parent}>
             {/* <View style={styles.child}> */}
             <LinearGradient
-                           // Background Linear Gradient
-                            colors={['#F44646','#F44646']}
-                            style={styles.child}
-                        />
-            <Image  style={{position:'absolute',top:hp('7%'),width:wp('22%'),height:hp('8%'),left:wp('32%'),
-                     resizeMode:'stretch'}}  source={require('../assets/images/muskaan.png')} />
-                {/*  */}
-            
-            
-        </View>
+            // Background Linear Gradient
+            colors={['#F44646','#F44646']}
+            style={styles.child}
+            />
         
-        // </View>
+            <Image  style={{position:'absolute',top:hp('5%'),width:wp('22%'),height:hp('8%'),left:wp('32%'),
+            resizeMode:'stretch'}}  source={require('../assets/images/muskaan.png')} />
+        </View> 
     )
 }
 
 const styles = StyleSheet.create({
     parent : {
-        height : hp('18%'),
+        height : hp('15%'),
         width : wp('100%'),
         transform : [ { scaleX :2 } ],
         // borderBottomStartRadius : 200,

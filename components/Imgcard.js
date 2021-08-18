@@ -16,6 +16,7 @@ const Imgcard = (props) => {
     const [address, setaddress] = useState('');
     const [food, setFood] = useState('');
     const [shelf,setShelf]=useState('');
+    const [initialplates,setinitialplates] = useState('');
     const [plates, setPlates] = useState('');
     const [cost,setCost] = useState('');
     const [detail,setDetail] =useState(''); 
@@ -34,8 +35,7 @@ const Imgcard = (props) => {
             // fetch data
             firebase.database()
             .ref("donations/"+props.itemid)
-            .once('value')
-            .then(snapshot => {
+            .on('value', snapshot => {
                 if (snapshot.exists()) {
                     setaddress(snapshot.val().address)
                     setDetail(snapshot.val().detail)
@@ -46,6 +46,7 @@ const Imgcard = (props) => {
                     setstartTime(snapshot.val().starttime)
                     setFood(snapshot.val().fooditem)
                     setPlates(snapshot.val().plates)
+                    setinitialplates(snapshot.val().initialplates)
                     setShelf(snapshot.val().shelf)
                     setCost(snapshot.val().cost)
                     setdonatedto(snapshot.val().donatedto)
@@ -75,7 +76,7 @@ const Imgcard = (props) => {
                     </View>
                     <View style={{marginLeft:wp('3'),width:wp('50')}}>
                         <Text style={styles.text}><Text style={{fontWeight: "bold"}}>Food Item</Text> : {food}</Text>
-                        <Text style={styles.text}><Text style={{fontWeight: "bold"}}>No of plates</Text> : {plates}</Text>
+                        <Text style={styles.text}><Text style={{fontWeight: "bold"}}>No of plates</Text> : {initialplates}</Text>
                         <Text style={styles.text}><Text style={{fontWeight: "bold"}}>Pickup Timing</Text> : {starttime} - {endtime}</Text>
                         <Text style={styles.text}><Text style={{fontWeight: "bold"}}>Shelf Life</Text> : {shelf}</Text>
                         <Text style={styles.text}><Text style={{fontWeight: "bold"}}>Address</Text> : {address}</Text>
@@ -88,10 +89,16 @@ const Imgcard = (props) => {
                     [
                         status=='PENDING'?
                             <View style={styles.buttons}>
-                                    <TouchableOpacity disabled={true}>
-                                        <View style={[styles.accept, { borderColor: '#53a0ed'}]}>
+                                    <TouchableOpacity disabled={true} style={{top:hp('1')}}>
+                                        {/* <View style={[styles.accept, { borderColor: '#53a0ed'}]}>
                                             <Text style={[styles.buttonTextaccept, {color: '#53a0ed'}]}>Pending Donation</Text>
-                                        </View>
+                                        </View> */}
+                                        { plates >='9' ? 
+                                        <Text style={{...styles.text,color:'black',fontSize:hp('2')}}>Remaining:<Text style={{fontSize:hp('2'),fontWeight:'bold',top:hp('4'),color:'green'}}> {plates} plates </Text> </Text> :
+                                        plates>'0' ?
+                                        <Text style={{...styles.text,color:'black',fontSize:hp('2')}}>Remaining:<Text style={{fontSize:hp('2'),fontWeight:'bold',top:hp('4'),color:'orange'}}> {plates} plates </Text> </Text>:
+                                        <Text style={{...styles.text,color:'black',fontSize:hp('2')}}>Remaining:<Text style={{fontSize:hp('2'),fontWeight:'bold',top:hp('4'),color:'red'}}> {plates} plates </Text> </Text>}
+
                                     </TouchableOpacity>
                                     <TouchableOpacity onPress={()=>{props.navigation.navigate('Requests', {iteid: props.itemid})}}>
                                         <View style={styles.accept}>

@@ -490,8 +490,8 @@ const styles = StyleSheet.create({
     width: wp(25),
   },
   icon: {
-    height: 30,
-    width: 30,
+    height: hp('4.5'),
+    width: wp('12'),
     // marginLeft:wp(1),
     marginRight:wp(3)
   },

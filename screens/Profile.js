@@ -385,6 +385,7 @@ const styles = StyleSheet.create({
   inputContainer: {
     marginRight:wp(15),
     width: wp(60),
+    // paddingLeft: wp()
   },
   inputflex:{
     flexDirection: 'row',
@@ -405,10 +406,10 @@ const styles = StyleSheet.create({
     width: wp(25),
   },
   icon: {
-    height: 30,
-    width: 30,
+    height: hp('4.5%'),
+    width: wp('12%')
     // marginLeft:wp(1),
-    marginRight:wp(3)
+    // marginRight:wp(5)
   },
   parameter:{
     alignItems: 'center', 
@@ -425,7 +426,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F44646',
     alignSelf:'center',
     width:wp('30%'),
-    top:hp('-96'),
+    top:hp('-94'),
     // marginBottom: hp('13%'),
   },
   buttonText: {

@@ -55,7 +55,7 @@ export default function Donation({navigation}) {
   const [endtime, setendTime] = useState('');
   const [address, setaddress] = useState('');
   const [food, setFood] = useState('');
-  const [shelf,setShelf]=useState('1');
+  const [shelf,setShelf]=useState(1);
   const [plates, setPlates] = useState('1');
   const [cost,setCost] = useState('0');
   const [detail,setDetail] =useState('');
@@ -71,6 +71,7 @@ export default function Donation({navigation}) {
   const [Phone, setPhone] = useState('');
   const [Usertype, setUsertype] = useState('');
   const [loadingf, setLoadingf] = useState(false);
+  const [validtime,setvalidtime] = useState('0');
   const user = firebase.auth().currentUser;
 
   // get current logged in user id
@@ -171,11 +172,28 @@ export default function Donation({navigation}) {
   function formayendtime(time) {
     var hours = Number(time.split(':')[0])
     var minutes = Number(time.split(':')[1])
+    let hr;
+    // let d = new Date(); // get current date
+    // // console.log(d)
+    // // console.log(Number(hours))
+    // // console.log(shelf)
+    // // console.log(d.getMinutes())
+    // d.setHours( Number(hours)+Number(shelf),d.getMinutes(),0,0);
+    // // console.log(d.getHours());
+    // console.log(d);
+    // console.log(shelf)
+    // setvalidtime(d);
+    
+    // console.log("jjjjj"+ d);
+    setvalidtime(hours + ':' + minutes )
+    console.log(validtime)
     var ampm = hours >= 12 ? 'PM' : 'AM';
+    
     hours = hours % 12;
     hours = hours ? hours : 12; // the hour '0' should be '12'
     minutes = minutes < 10 ? '0'+minutes : minutes;
     var strTime = hours + ':' + minutes + ' ' + ampm;
+    // console.log(Number(strT.split(':')[0]))
     setendTime(strTime)
   }
   
@@ -209,6 +227,11 @@ export default function Donation({navigation}) {
     setLoadingf(true);
     if(cost=='0'){
       // food item fonated for free
+
+      console.log(validtime)
+      let d = new Date(); // get current date
+      d.setHours( Number(validtime.split(':')[0])+Number(shelf),Number(validtime.split(':')[1]),0,0);
+      
       var pushed_data = firebase.database().ref('donations/').push({
         donarid: id,
         donarname: Name,  
@@ -216,6 +239,7 @@ export default function Donation({navigation}) {
         fooditem: food,
         shelf: shelf,
         plates:plates,
+        initialplates:plates,
         starttime: starttime,
         endtime: endtime,
         address: address,
@@ -223,9 +247,11 @@ export default function Donation({navigation}) {
         coords: marker,
         donationstatus: 'PENDING',
         donatedto: '',
+        validtime:`${d}`,
         donationdate: getCurrentDate(),
         donationtime:  formatAMPM(new Date()),
-        imguri:''
+        imguri:'',
+        
       })
       firebase.database().ref('users/'+id+'/donationsmade').push({
         donationid: pushed_data.key
@@ -263,6 +289,7 @@ export default function Donation({navigation}) {
             plates:plates,
             starttime: starttime,
             endtime: endtime,
+            validtime:`${d}`,
             address: address,
             detail: detail,
             coords: marker,
