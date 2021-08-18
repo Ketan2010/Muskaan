@@ -15,6 +15,7 @@ require('firebase/database');
 require('firebase/storage');
 var itm =[] ;
 const ReceiveScreen = ({navigation}) => {
+    
     const mapRef = useRef(null)
     const [lat, setlat] = useState(20.9583367);
     const [long, setlong] = useState(74.6869917);
@@ -70,12 +71,20 @@ const ReceiveScreen = ({navigation}) => {
         firebase.database()
         .ref("donations/")
         .on('value',snapshot => {
+
+          let currentDate = new Date(); // get current date
+          currentDate.setHours( currentDate.getHours(),currentDate.getMinutes(),0,0);
+
+          console.log(currentDate)
             if (snapshot.exists()) {
                 snapshot.forEach((child) => {
-                    if (child.val().donarid != keys ){
-                      dataContainer1.push(child.val());
-                      dkey.push(child.key)
-                      setukey(keys);
+                  
+                    let check=Date.parse(child.val().validtime)
+                    if (child.val().donarid != keys &&  check>=currentDate.getTime()){
+                        dataContainer1.push(child.val());
+                        dkey.push(child.key)
+                        setukey(keys);
+                      
                     }
                 });
             } else {
@@ -169,11 +178,7 @@ const ReceiveScreen = ({navigation}) => {
         console.log(pushed_data.key)
 
         
-        firebase.database()
-        .ref("donations/"+donationid)
-        .update({
-          plates:plates-bookedplate,
-        })
+        
           
       }
       else {
@@ -287,10 +292,10 @@ console.log(search);
                       </View>
                 </View>
           </Modal> 
-            
-          <View style={{marginTop:hp('8%')}}>
+          { donations.length!=0 ?
+          <View style={{marginTop:hp('16%')}}>
           {/* <View ><Image  source={require('../assets/images/backarrow.png')} style={{width:30,height:30, borderRadius:50/2,backgroundColor:'white'}}/> */}
-          <Feather onPress={() => navigation.goBack()} name='arrow-left' size={hp('10%')} color='red'></Feather>
+          {/* <Feather onPress={() => navigation.goBack()} name='arrow-left' size={hp('10%')} color='red'></Feather> */}
           {/* </View> */}
               <SearchableDropdown
                   onTextChange={(text) => console.log(text)}
@@ -321,8 +326,8 @@ console.log(search);
                   underlineColorAndroid="transparent"
               />
               {/* {console.log(donations)} */}
-          </View>
-          
+          </View> :null}
+          { donations.length!=0 ? 
           <MapView  provider= 'google' showsMyLocationButton={true} showsUserLocation={true}  loadingEnabled={true} style={styles.map}
               initialRegion={{
                 latitude: lat,
@@ -345,7 +350,7 @@ console.log(search);
                       description={val.donarname}
                       onPress = {()=>{
                         setfoodimg('../assets/images/food.jpg')
-                        setdonar(val.name)
+                        setdonar(val.donarname)
                         setaddress(val.address)
                         setfooditem(val.fooditem)
                         setplates(val.plates)
@@ -368,7 +373,17 @@ console.log(search);
               
               )}
                   
-          </MapView>
+          </MapView> :
+          
+          <View style={{alignItems:'center', marginTop:hp('40')}}>
+                            <Image 
+                                style={{height:hp('22'), width:wp('30')}}
+                                source={require('../assets/images/pin.png')}
+                                />
+                            <Text style={{color:"#F44646",fontWeight:'bold',fontSize:hp('2'),alignContent:'center'}}>Sorry !</Text>
+                            <Text style={{color:"#F44646",fontWeight:'bold',fontSize:hp('2')}}>Donations will appear here...</Text>
+                    </View>
+                    }
 
           
       </View>

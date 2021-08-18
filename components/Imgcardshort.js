@@ -21,7 +21,7 @@ const Imgcardshort = (props) => {
                     </View>
                     <View style={{marginLeft:wp('3'),width:wp('50')}}>
                         <Text style={styles.text}><Text style={{fontWeight: "bold"}}>Food Item</Text> : {props.item}</Text>
-                        <Text style={styles.text}><Text style={{fontWeight: "bold"}}>No of plates</Text> : {props.quantity}</Text>
+                        <Text style={styles.text}><Text style={{fontWeight: "bold"}}>No of plates</Text> : {props.initialplates}</Text>
                         <Text style={styles.text}><Text style={{fontWeight: "bold"}}>Pickup Timing</Text> : {props.pickuptimefrom} - {props.pickuptimeto}</Text>
                         <Text style={styles.text}><Text style={{fontWeight: "bold"}}>Shelf Life</Text> : {props.shelflife}</Text>
                         <Text style={styles.text}><Text style={{fontWeight: "bold"}}>Address</Text> : {props.address}</Text>

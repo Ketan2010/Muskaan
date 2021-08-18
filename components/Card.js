@@ -19,6 +19,8 @@ const Card = (props) => {
     const [date, setdate] = useState(false);
     const [address, setaddress] = useState(false);
     const [phone,setphone] = useState("");
+    const [donid,setdonid] = useState("");
+    const [availableplates,setavailableplates] =useState("");
     
     useEffect(() => {
         getbookinfo();
@@ -69,19 +71,57 @@ const getdate = (date_obj) => {
 
 }
 
-    function acceptRequest(id){
-        firebase.database()
-        .ref("booking/"+id)
-        .update({
-            bookingstatus:"ACCEPTED"
-        })
-        .then(() =>Alert.alert(
-            "Success!",
-            `Request for ${plate} plate ${fooditem} from ${requester} is accepted successfully `,
-            [
-              { text: "OK" }
-            ]
-          ));
+    function acceptRequest(id,plate){
+        firebase.database().
+        ref("booking/"+id).
+        once('value', snapshot1 => { 
+            if (snapshot1.exists()){
+                 console.log('llll '+snapshot1.val().donationid)
+                 firebase.database()
+                 .ref("donations/"+snapshot1.val().donationid)
+                 .once('value',snapshot => { 
+                     if (snapshot.exists()) { 
+                         setavailableplates(snapshot.val().plates)
+                         console.log('kkkk '+snapshot.val().plates)
+
+
+                         if (snapshot.val().plates-plate>=0)
+                    {
+                        firebase.database()
+                        .ref("booking/"+id)
+                        .update({
+                            bookingstatus:"ACCEPTED"
+                        })
+                        firebase.database()
+                        .ref("donations/"+snapshot1.val().donationid)
+                        .update({
+                            plates:snapshot.val().plates-plate
+                        })
+                        .then(() =>Alert.alert(
+                            "Success!",
+                            `Request for ${plate} plate ${fooditem} from ${requester} is accepted successfully `,
+                            [
+                            { text: "OK" }
+                            ]
+                        ));
+                    }
+                    else
+                    {
+                        Alert.alert(
+                            "Sorry...Insufficient food plates available",
+                            ` ${plate} plate ${fooditem} are not available`,
+                            [
+                            { text: "OK" }
+                            ]
+                        )
+                    }
+                        
+                    }})
+
+                    
+        
+            
+            }})
     }
     function refuseRequest(id){
         firebase.database()
@@ -208,7 +248,7 @@ const getdate = (date_obj) => {
                 { status=="PENDING" ?
                 <View style={styles.buttons}>
                     
-                    <TouchableOpacity onPress={()=>{acceptRequest(props.id)}}>
+                    <TouchableOpacity onPress={()=>{acceptRequest(props.id,plate)}}>
                         <View style={styles.accept}>
                             <Text style={styles.buttonTextaccept}>ACCEPT</Text>
                         </View>

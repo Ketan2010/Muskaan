@@ -17,6 +17,7 @@ const Requests = (props) => {
     const [food, setFood] = useState('');
     const [shelf,setShelf]=useState('');
     const [plates, setPlates] = useState('');
+    const [initialplates,setinitialplates] = useState('');
     const [cost,setCost] = useState('');
     const [detail,setDetail] =useState(''); 
     const [lat,setlat] =useState(''); 
@@ -50,6 +51,7 @@ const Requests = (props) => {
                     snapshot.val().starttime? setstartTime(snapshot.val().starttime):setstartTime('')
                     snapshot.val().fooditem? setFood(snapshot.val().fooditem):setFood('')
                     snapshot.val().plates? setPlates(snapshot.val().plates):setPlates('')
+                    snapshot.val().initialplates? setinitialplates(snapshot.val().initialplates):setinitialplates('')
                     snapshot.val().shelf? setShelf(snapshot.val().shelf):setShelf('')
                     snapshot.val().cost? setCost(snapshot.val().cost):setCost('')
                     snapshot.val().donatedto? setdonatedto(snapshot.val().donatedto):setdonatedto('')
@@ -96,7 +98,7 @@ const Requests = (props) => {
                         <Text style={{ alignSelf:'center', paddingHorizontal:5, fontSize: 20,color:'#C4C4C4' }}>Donating Item</Text>
                 </View>
             </View>
-            <Imgcardshort date={donationdate} time={donationtime}  item={food} quantity= {plates} pickuptimefrom={starttime} pickuptimeto={endtime} shelflife={shelf+' Hours'} address={address} foodimg={foodimg} donationstatus={status} donatedto={donatedto}></Imgcardshort>
+            <Imgcardshort date={donationdate} time={donationtime}  item={food} initialplates={initialplates} quantity= {plates} pickuptimefrom={starttime} pickuptimeto={endtime} shelflife={shelf+' Hours'} address={address} foodimg={foodimg} donationstatus={status} donatedto={donatedto}></Imgcardshort>
             <View style={{alignSelf: 'center',width:wp('60%')}}>
                     <Text style={{ alignSelf:'center', paddingHorizontal:5, fontSize: 20,color:'#C4C4C4' }}>Requests</Text>
             </View>

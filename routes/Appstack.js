@@ -72,7 +72,7 @@ const MessageStack = ({navigation}) => (
 
 
 const HomeStackScreen = ({navigation}) => (
-  <HomeStack.Navigator >
+  <HomeStack.Navigator initialRouteName='Tabs'>
           
           <HomeStack.Screen name="Tabs" component={Tabs} options={{
           headerTitle:false,
