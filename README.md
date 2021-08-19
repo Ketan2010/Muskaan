@@ -32,7 +32,7 @@ A lending hand.
 | 1. Show msg on map if no donations | Darshan | <li>[x] Fixed</li> |
 | 2. Header Hight | Ketan | <li>[x] Fixed</li> |
 | 3. Navigate default to homepage after login | Ketan, Darshan | <li>[x] Fixed</li> |
-| 4. Profile page icons and responsiveness | Darshan | <li>[ ] Fixed</li> |
+| 4. Profile page icons and responsiveness | Darshan | <li>[x] Fixed</li> |
 | 5. Pending donations: no of remaining plates | Darshan | <li>[x] Fixed</li> |
 | 6. Plates-- after successful donation | Darshan | <li>[x] Fixed</li> |
 | 7. Receive need refresh | Ketan | <li>[x] Fixed</li> |
