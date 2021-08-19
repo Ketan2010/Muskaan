@@ -37,12 +37,12 @@ A lending hand.
 | 6. Plates-- after successful donation | Darshan | <li>[x] Fixed</li> |
 | 7. Receive need refresh | Ketan | <li>[x] Fixed</li> |
 | 8. Dont show outdated donations on map | Darshan | <li>[x] Fixed</li> |
-| 9. On cancle request: Other request is deleted (refresh needed to reflect change) | XXX | <li>[ ] Fixed</li> |
-| 10. Same same cards of request (Need to get back in another page) | XXX | <li>[ ] Fixed</li> |
-| 11. on receive page:same same tiles | XXX | <li>[ ] Fixed</li> |
-| 12. Validate donation time | XXX | <li>[ ] Fixed</li> |
-| 13. Dynamic hide of card | XXX | <li>[ ] Fixed</li> |
-| 14. Dont show 0 plates donation | XXX | <li>[ ] Fixed</li> |
+| 9. On cancle request: Other request is deleted (refresh needed to reflect change) | Ketan | <li>[ ] Fixed</li> |
+| 10. Same same cards of request (Need to get back in another page) | Ketan | <li>[ ] Fixed</li> |
+| 11. on receive page:same same tiles | Darshan | <li>[ ] Fixed</li> |
+| 12. Validate donation time | Darshan | <li>[ ] Fixed</li> |
+| 13. Dynamic hight of card | Darshan | <li>[ ] Fixed</li> |
+| 14. Dont show 0 plates donation | Darshan | <li>[ ] Fixed</li> |
 
 
 
