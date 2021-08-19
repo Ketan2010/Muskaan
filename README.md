@@ -29,16 +29,18 @@ A lending hand.
 ## Bug Fixing
 | **Bug** | **Assigned to** | **Fixed** |
 | :--- | :--- | :---: |
-| 1. Show msg on map if no donations | Darshan | <li>[ ] Fixed</li> |
-| 2. Header Hight | Ketan | <li>[ ] Fixed</li> |
-| 3. Navigate default to homepage after login | Ketan, Darshan | <li>[ ] Fixed</li> |
+| 1. Show msg on map if no donations | Darshan | <li>[x] Fixed</li> |
+| 2. Header Hight | Ketan | <li>[x] Fixed</li> |
+| 3. Navigate default to homepage after login | Ketan, Darshan | <li>[x] Fixed</li> |
 | 4. Profile page icons and responsiveness | Darshan | <li>[ ] Fixed</li> |
-| 5. Pending donations: no of remaining plates | Darshan | <li>[ ] Fixed</li> |
-| 6. Plates-- after successful donation | Darshan | <li>[ ] Fixed</li> |
-| 7. Receive need refresh | Ketan | <li>[ ] Fixed</li> |
-| 8. Dont show outdated donations on map | Darshan | <li>[ ] Fixed</li> |
+| 5. Pending donations: no of remaining plates | Darshan | <li>[x] Fixed</li> |
+| 6. Plates-- after successful donation | Darshan | <li>[x] Fixed</li> |
+| 7. Receive need refresh | Ketan | <li>[x] Fixed</li> |
+| 8. Dont show outdated donations on map | Darshan | <li>[x] Fixed</li> |
 | 9. On cancle request: Other request is deleted (refresh needed to reflect change) | XXX | <li>[ ] Fixed</li> |
 | 10. To see requests of donations refresh is needed | XXX | <li>[ ] Fixed</li> |
+| 11. on receive page:same same tiles | XXX | <li>[ ] Fixed</li> |
+| 12. Validate donation time | XXX | <li>[ ] Fixed</li> |
 
 
 
