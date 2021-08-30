@@ -23,7 +23,8 @@ A lending hand.
 | Receive Module Firebase | Darshan | 2-7 | <li>[x] Done</li> |
 | History (Donation) Firebase | Ketan | 5-7 | <li>[x] Done</li> |
 | Karma Points UI | Ketan | 24-7 | <li>[x] Done</li> |
-| Testing and Bug Fix | Darshan Ketan | 14-8 | <li>[ ] Done</li> |
+| Testing and Bug Fix | Darshan Ketan | 14-8 | <li>[x] Done</li> |
+
 
 
 ## Bug Fixing
@@ -37,12 +38,12 @@ A lending hand.
 | 6. Plates-- after successful donation | Darshan | <li>[x] Fixed</li> |
 | 7. Receive need refresh | Ketan | <li>[x] Fixed</li> |
 | 8. Dont show outdated donations on map | Darshan | <li>[x] Fixed</li> |
-| 9. On cancle request: Other request is deleted (refresh needed to reflect change) | Ketan | <li>[ ] Fixed</li> |
-| 10. Same same cards of request (Need to get back in another page) | Ketan | <li>[ ] Fixed</li> |
-| 11. on receive page:same same tiles | Darshan | <li>[ ] Fixed</li> |
-| 12. Validate donation time | Darshan | <li>[ ] Fixed</li> |
-| 13. Dynamic hight of card | Darshan | <li>[ ] Fixed</li> |
-| 14. Dont show 0 plates donation | Darshan | <li>[ ] Fixed</li> |
+| 9. On cancle request: Other request is deleted (refresh needed to reflect change) | Darshan | <li>[x] Fixed</li> |
+| 10. Same same cards of request (Need to get back in another page) | Ketan | <li>[x] Fixed</li> |
+| 11. on receive page:same same tiles | Darshan | <li>[x] Fixed</li> |
+| 12. Validate donation time | Darshan | <li>[x] Fixed</li> |
+| 13. Dynamic hight of card | Darshan | <li>[x] Fixed</li> |
+| 14. Dont show 0 plates donation | Darshan | <li>[x] Fixed</li> |
 
 
 
