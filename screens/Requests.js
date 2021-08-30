@@ -61,11 +61,11 @@ const Requests = (props) => {
 
                     firebase.database()
                     .ref("booking/")
-                    .once('value',snapshot =>{
+                    .on('value',snapshot =>{
                     if(snapshot.exists()){
                         var datareceive=[];
                         snapshot.forEach((child) =>{
-                            if (child.val().donationid==props.route.params.iteid)
+                            if (child.val().donationid==props.route.params.iteid && child.val().bookingstatus!="CANCELLED")
                             {
                                 datareceive.push(child.val().bid)
                             }}

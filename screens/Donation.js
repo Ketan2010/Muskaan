@@ -72,6 +72,8 @@ export default function Donation({navigation}) {
   const [Usertype, setUsertype] = useState('');
   const [loadingf, setLoadingf] = useState(false);
   const [validtime,setvalidtime] = useState('0');
+  const [datestartcheck, setdatestartcheck] = useState();
+  const [dateendcheck, setdateendcheck] = useState();
   const user = firebase.auth().currentUser;
 
   // get current logged in user id
@@ -126,13 +128,18 @@ export default function Donation({navigation}) {
 
 
   const onFoodDetailComplete = () => {
-    if (food!='' && shelf!='' && plates!='' && starttime!='' && endtime!='' && cost!='' && address!='' ){
+  
+    var date =new Date();
+    
+    if (food!='' && shelf!='' && plates!='' && starttime!='' && endtime!='' && cost!='' && address!='' && datestartcheck >= date && dateendcheck >= date ){
       setError1(prevState=>!prevState)
     } 
     else{
     if (food==''){ alert('Please fill the Food item... ')}
     else if (starttime==''){ alert('Please select the pick up start timimg... ')}
     else if (endtime==''){ alert('Please select the pick up end timing... ')}
+    else if (datestartcheck < date){ alert('Please select the valid pick up start timing... ') }
+    else if (dateendcheck < date) { alert('Please select the valid pick up end timing... ') }
     else if (address==''){ alert('Please select the pick up address... ')}
     else if (cost==''){ alert('Please mention the cost of food per plate... ')}
     }
@@ -158,6 +165,13 @@ export default function Donation({navigation}) {
 
   // to format start time selected using date picker to 12 hr 
   function formaystarttime(time) {
+
+    console.log(time);
+    let d = new Date(); // get current date
+    d.setHours( Number(time.split(':')[0]),Number(time.split(':')[1]),0,0);
+    setdatestartcheck(d)
+    console.log(datestartcheck)
+
     var hours = Number(time.split(':')[0])
     var minutes = Number(time.split(':')[1])
     var ampm = hours >= 12 ? 'PM' : 'AM';
@@ -170,6 +184,13 @@ export default function Donation({navigation}) {
 
   // to format end time selected using date picker to 12 hr   
   function formayendtime(time) {
+    
+    console.log(time);
+    let d = new Date(); // get current date
+    d.setHours( Number(time.split(':')[0]),Number(time.split(':')[1]),0,0);
+    setdateendcheck(d)
+    console.log(dateendcheck)
+
     var hours = Number(time.split(':')[0])
     var minutes = Number(time.split(':')[1])
     let hr;
@@ -212,6 +233,8 @@ export default function Donation({navigation}) {
   // when user click on confirm and donate  button 
   const onSubmitSteps = () => {
     // function to upload image in firebase storage
+    
+
     const uploadImage = async (uri, key) => {
       const response = await fetch(uri);
       const blob = await response.blob()
@@ -485,7 +508,7 @@ export default function Donation({navigation}) {
                               {Usertype=='H'?
                               <View style={{alignItems: 'center', flexDirection: 'row'}}>
                                   <View style={{flex:1.5}}>
-                                      <Text>Cost per plate :</Text>
+                                      <Text>Cost per plate (Rs):</Text>
                                   </View>
                                   <View style={{flex:2.5}}>
                                       <TextInput

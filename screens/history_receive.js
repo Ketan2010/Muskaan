@@ -1,12 +1,12 @@
 import React, { useState,  useEffect } from 'react';
-import { StyleSheet, ScrollView, Image, Text, Fragment, View } from 'react-native'
+import { StyleSheet, ScrollView, Image, Text, Fragment, View, TouchableOpacity } from 'react-native'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import Card from '../components/Card_book'
 import firebase from '@firebase/app'; 
 require('firebase/auth');
 require('firebase/database');
 
-export default function HistoryReceive(){
+export default function HistoryReceive({navigation}){
     
     const user = firebase.auth().currentUser;
     
@@ -66,6 +66,22 @@ export default function HistoryReceive(){
     
 
     return(
+        <View style={styles.container}>  
+        <View style={{alignSelf: 'center',width:wp('60%')}}>
+                 <Text style={{ alignSelf:'center', paddingHorizontal:5, fontSize: 24,color:'#C4C4C4' }}>Your activities</Text>
+           </View>
+           <View style={{flexDirection:'row'}}>
+             <View style={{flex:1,marginLeft:wp('15')}}>
+               <TouchableOpacity style={styles.buttonstyle} onPress={()=>navigation.navigate('HistoryScreen')}>
+                  <Text style={{fontSize:hp('2'),textAlign:'center',top:hp('1')}}>Donations</Text>
+               </TouchableOpacity>
+             </View>
+             <View style={{flex:1,marginLeft:wp('-8')}}>
+               <TouchableOpacity style={styles.buttonstyle} onPress={()=>navigation.navigate('HistoryReceive')}>
+                  <Text style={{fontSize:hp('2'),textAlign:'center',top:hp('1')}}>Receive</Text>
+               </TouchableOpacity>
+             </View>
+           </View>
         <ScrollView style={styles.scrollView}>
             { userdonations.length!=0 ?
                      userdonations.map((val,key) => {
@@ -82,6 +98,7 @@ export default function HistoryReceive(){
             }
            
         </ScrollView>
+        </View>
     )
 
 }
@@ -92,7 +109,7 @@ const styles = StyleSheet.create({
     flex: 1, 
     alignItems: 'center', 
     justifyContent: 'center',
-    marginTop: hp('15%'),
+    marginTop: hp('20%'),
     
   },
   scrollView: {
@@ -100,4 +117,10 @@ const styles = StyleSheet.create({
     marginTop: hp('2')
 
   },
+  buttonstyle:{
+    borderRadius:wp('10'),
+    backgroundColor:'red',
+    width:wp('30'),
+    height:hp('5')
+  }
 })

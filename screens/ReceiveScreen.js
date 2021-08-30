@@ -80,7 +80,7 @@ const ReceiveScreen = ({navigation}) => {
                 snapshot.forEach((child) => {
                   
                     let check=Date.parse(child.val().validtime)
-                    if (child.val().donarid != keys &&  check>=currentDate.getTime()){
+                    if (child.val().donarid != keys &&  check>=currentDate.getTime() &&  child.val().plates!=0){
                         dataContainer1.push(child.val());
                         dkey.push(child.key)
                         setukey(keys);
@@ -172,7 +172,7 @@ const ReceiveScreen = ({navigation}) => {
           "Success!",
           "Your order is successfuly",
           [
-            { text: "OK", onPress: () => navigation.navigate('History') }
+            { text: "OK", onPress: () => navigation.navigate('HistoryScreen') }
           ]
         ));
         console.log(pushed_data.key)
@@ -293,7 +293,7 @@ console.log(search);
                 </View>
           </Modal> 
           { donations.length!=0 ?
-          <View style={{marginTop:hp('16%')}}>
+          <View style={{marginTop:hp('18%')}}>
           {/* <View ><Image  source={require('../assets/images/backarrow.png')} style={{width:30,height:30, borderRadius:50/2,backgroundColor:'white'}}/> */}
           {/* <Feather onPress={() => navigation.goBack()} name='arrow-left' size={hp('10%')} color='red'></Feather> */}
           {/* </View> */}
