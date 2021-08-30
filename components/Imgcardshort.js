@@ -38,7 +38,7 @@ export default Imgcardshort
 const styles = StyleSheet.create({
     card: {
         backgroundColor: '#ffffff',
-        height: hp('23%'),
+        // height: hp('23%'),
         width: wp('85%'),
         padding: hp('2%'),
         marginVertical: hp('1%'),

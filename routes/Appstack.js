@@ -25,6 +25,8 @@ import Tabs from "../components/bottom_tab";
 import Karma from "../screens/Karma";
 import { TouchableOpacity } from "react-native";
 import Spinthewheel from "../screens/Spinthewheel";
+import HistoryReceive from "../screens/history_receive";
+import Card from "../components/Card_book";
 
 const Stack = createStackNavigator()
 const HomeStack = createStackNavigator();
@@ -243,8 +245,8 @@ const HomeStackScreen = ({navigation}) => (
       );
 
       const HistoryStackScreen = ({navigation}) => (
-        <HistoryStack.Navigator >
-                <HistoryStack.Screen name="HistoryScreen" component={HistoryScreen} options={{
+        <HistoryStack.Navigator initialRouteName="HistoryScreen" >
+                <HistoryStack.Screen name="HistoryScreen"  component={HistoryScreen} options={{
                 headerTitle:false,
                 headerStyle: {
                   height:400, // Specify the height of your custom header
@@ -268,6 +270,19 @@ const HomeStackScreen = ({navigation}) => (
                 ),
                 
                 }} />
+                <HistoryStack.Screen name="HistoryReceive" component={HistoryReceive} options={{
+                headerTitle:false,
+                headerStyle: {
+                  height:400, // Specify the height of your custom header
+                },
+                headerTransparent: true,
+                headerBackground: props => <HomeHeader style={{position:'absolute'}}{...props}/>,
+                headerLeft: () => (
+                    <Icon name="menu" size={hp('5%')} style={{position:'absolute',top:hp('5%'),left:wp('2%'),color:'white'}} onPress={() => navigation.openDrawer()}></Icon>
+                ),
+                
+                }} />
+                
         </HistoryStack.Navigator>
         );
 

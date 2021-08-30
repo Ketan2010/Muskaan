@@ -67,7 +67,7 @@ export default function HomeHeader(){
             style={styles.child}
             />
         
-            <Image  style={{position:'absolute',top:hp('5%'),width:wp('22%'),height:hp('8%'),left:wp('32%'),
+            <Image  style={{position:'absolute',top:hp('7%'),width:wp('22%'),height:hp('8%'),left:wp('32%'),
             resizeMode:'stretch'}}  source={require('../assets/images/muskaan.png')} />
         </View> 
     )
@@ -75,7 +75,7 @@ export default function HomeHeader(){
 
 const styles = StyleSheet.create({
     parent : {
-        height : hp('15%'),
+        height : hp('18%'),
         width : wp('100%'),
         transform : [ { scaleX :2 } ],
         // borderBottomStartRadius : 200,

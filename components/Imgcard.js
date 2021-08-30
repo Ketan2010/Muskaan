@@ -130,7 +130,7 @@ export default Imgcard
 const styles = StyleSheet.create({
     card: {
         backgroundColor: '#ffffff',
-        height: hp('28%'),
+        
         width: wp('85%'),
         padding: hp('2%'),
         marginVertical: hp('1%'),

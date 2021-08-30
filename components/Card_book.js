@@ -116,7 +116,10 @@ const Card = (props) => {
 
     const deletebooking = (id) =>{
         var del=''
-        del=firebase.database().ref("booking/"+id).remove();
+        del=firebase.database().ref("booking/"+id)
+        .update({
+            bookingstatus:"CANCELLED"
+        });
         if (del!='')
         {
             Alert.alert(

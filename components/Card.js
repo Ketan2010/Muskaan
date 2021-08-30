@@ -83,10 +83,8 @@ const getdate = (date_obj) => {
                      if (snapshot.exists()) { 
                          setavailableplates(snapshot.val().plates)
                          console.log('kkkk '+snapshot.val().plates)
-
-
                          if (snapshot.val().plates-plate>=0)
-                    {
+                            {
                         firebase.database()
                         .ref("booking/"+id)
                         .update({
@@ -117,10 +115,6 @@ const getdate = (date_obj) => {
                     }
                         
                     }})
-
-                    
-        
-            
             }})
     }
     function refuseRequest(id){
@@ -276,7 +270,7 @@ export default Card
 const styles = StyleSheet.create({
     card: {
         backgroundColor: '#ffffff',
-        height: hp('16%'),
+        // height: hp('16%'),
         width: wp('85%'),
         padding: hp('2%'),
         marginVertical: hp('1%'),
