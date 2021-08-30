@@ -28,6 +28,7 @@ export default function Home({navigation}){
                     gender:'',
                     address: '',
                     state: '',
+                    karma:20,
                     city: '',
                     postalcode: '',   
                     upgrade : {

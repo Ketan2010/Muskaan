@@ -9,9 +9,31 @@ require('firebase/database');
 
 
 const Vouchercard = (props) => {
+    const user = firebase.auth().currentUser;
+
     const clickaction = () =>{
         //update available karma points here
-        if(props.reqkarma<=100){
+        if(props.reqkarma<=props.karma){
+            var updated_karma = props.karma-props.reqkarma;
+            console.log('updated karma:', updated_karma);
+
+            // firebase.database()
+            // .ref("users/")
+            // .orderByChild("uid")
+            // .equalTo(user.uid)
+            // .on('value', snapshot => {
+            //     if (snapshot.exists()) {
+            //       snapshot.forEach((child) => {
+            //             firebase.database()
+            //             .ref('users/')
+            //             .child(child.key)
+            //             .update({karma:updated_karma});
+            //       });
+            //     } else {
+            //       console.log('Went wrong');
+            //     }
+            // })
+           
             props.navigation.navigate('Home', { screen: 'Spinthewheel' })
         }
         else{
