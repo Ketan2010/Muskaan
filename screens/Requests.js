@@ -61,7 +61,7 @@ const Requests = (props) => {
 
                     firebase.database()
                     .ref("booking/")
-                    .on('value',snapshot =>{
+                    .once('value',snapshot =>{
                     if(snapshot.exists()){
                         var datareceive=[];
                         snapshot.forEach((child) =>{

@@ -50,7 +50,7 @@ const getdate = (date_obj) => {
    const getbookinfo = () =>{
     firebase.database()
     .ref("booking/"+props.id)
-    .on('value',snapshot => {
+    .once('value',snapshot => {
         if (snapshot.exists()) {
             setfooditem(snapshot.val().fooditem)
             setplate(snapshot.val().bookedplate)
@@ -60,7 +60,7 @@ const getdate = (date_obj) => {
 
             firebase.database()
             .ref("users/"+snapshot.val().receiverid)
-            .on('value',snapshot2 => {
+            .once('value',snapshot2 => {
                 setrequester(snapshot2.val().name)
                 setaddress(snapshot2.val().address)
             })
@@ -140,7 +140,7 @@ const getdate = (date_obj) => {
 
         firebase.database()
         .ref("users/"+userid[0])
-        .on('value', snapshot => {
+        .once('value', snapshot => {
             if ( snapshot.exists())
             {
                 setphone(snapshot.val().phone)
