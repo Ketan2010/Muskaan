@@ -23,7 +23,7 @@ A lending hand.
 | Receive Module Firebase | Darshan | 2-7 | <li>[x] Done</li> |
 | History (Donation) Firebase | Ketan | 5-7 | <li>[x] Done</li> |
 | Karma Points UI | Ketan | 24-7 | <li>[x] Done</li> |
-| Testing and Bug Fix | Darshan Ketan | 14-8 | <li>[ ] Done</li> |
+| Testing and Bug Fix | Darshan Ketan | 14-8 | <li>[x] Done</li> |
 
 
 
