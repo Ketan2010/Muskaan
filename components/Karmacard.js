@@ -19,7 +19,9 @@ const Imgcardshort = (props) => {
                                 />                    
                     </View>
                     <View style={{marginLeft:wp('8'),width:wp('50')}}>
-                        <Text style={styles.text}><Text style={{fontWeight: "bold", fontSize:30}}> {props.karma}</Text></Text>
+                        {props.karma==''?
+                        <Text style={styles.text}><Text style={{fontWeight: "bold", fontSize:30}}>0</Text></Text>:
+                        <Text style={styles.text}><Text style={{fontWeight: "bold", fontSize:30}}> {props.karma}</Text></Text>}
                         <Text style={styles.text}><Text style={{fontWeight: "bold", color:'#F44646'}}>Karma Points</Text></Text>
                     </View>
                 </View>

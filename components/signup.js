@@ -39,12 +39,13 @@ export default  function SignUp ({navigation}) {
     }
     return(
         <View>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Email Id"
-                    value={username}
-                    onChangeText={e=>{setUsername(e)}}
-                />
+                <View style={{marginTop:wp('3%'),...styles.input}}>
+                    <TextInput
+                        style={styles.inputContainer}
+                        placeholder="Email Id"
+                        value={username}
+                        onChangeText={e=>{setUsername(e)}} ></TextInput>
+                </View>
                 <View style={{marginTop:wp('7%'),...styles.input}}>
                     <TextInput
                         style={styles.inputContainer}

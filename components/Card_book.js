@@ -132,6 +132,30 @@ const Card = (props) => {
         }
         
     }
+
+    const confirmdelivery = (id) =>{
+        var del=''
+        del=firebase.database().ref("booking/"+id)
+        // .update({
+        //     bookingstatus:"DELIVERED"
+        // });
+        if (del!='')
+        {
+            Alert.alert(
+                "Confirm Delivery!",
+                "Have you received the food?",
+                [
+                  { text: "No" },
+                  { text: "Yes" , onPress: () => {
+                    del.update({
+                          bookingstatus:"DELIVERED"
+                      });
+                  }}
+                ]
+              )
+        }
+        
+    }
     
     const showmodalt = () =>{
         setModalVisiblet(true)
@@ -168,16 +192,21 @@ const Card = (props) => {
                                         <Text style={[styles.statusbuttonText, {color: '#53a0ed'}]}>Status: PENDING</Text>
                                     </View>
                                 :
-                                    status=='ACCEPTED'?
+                                    status=='DELIVERED'?
                                         <View style={[styles.statusbutton, {borderColor: '#43AB33', marginLeft:wp('-1')}]}>
-                                            <Text style={[styles.statusbuttonText, {color: '#43AB33'}]}>Status: ACCEPTED</Text>
+                                            <Text style={[styles.statusbuttonText, {color: '#43AB33'}]}>Status: DELIVERED</Text>
                                         </View>
-                                    :
-                                        <View style={[styles.statusbutton, {borderColor: '#F44646', marginLeft:wp('-1')}]}>
-                                            <Text style={[styles.statusbuttonText, {color: '#F44646'}]}>Status: REFUSED</Text>
-                                        </View>
+                                    :   
+                                        status == 'ACCEPTED'?
+                                            <View style={[styles.statusbutton, {borderColor: '#43AB33', marginLeft:wp('-1')}]}>
+                                                <Text style={[styles.statusbuttonText, {color: '#43AB33'}]}>Status: ACCEPTED</Text>
+                                            </View>
+                                            :
+                                            <View style={[styles.statusbutton, {borderColor: '#F44646', marginLeft:wp('-1')}]}>
+                                                <Text style={[styles.statusbuttonText, {color: '#F44646'}]}>Status: REFUSED</Text>
+                                            </View>
                                 }
-                                {status!='REFUSED'?
+                                {status!='REFUSED' && status != 'DELIVERED'?
                                 <View style={[styles.call, {marginLeft:wp('3')}]}>
                                     <TouchableOpacity onPress={()=>{triggerCall(phone)}}>
                                         <Text style={styles.buttonTextcall} >Make a call</Text>
@@ -194,6 +223,13 @@ const Card = (props) => {
                                 </TouchableOpacity>
                             </View>:null
                             }
+                            {status=='ACCEPTED'?
+                            <View style={[styles.refuse, {marginTop:hp('3'), width:wp('35'),  marginLeft:wp('1')}]}>
+                                <TouchableOpacity onPress={()=>{confirmdelivery(props.bid)}}>
+                                    <Text style={styles.buttonTextrefuse}>I got the food</Text>
+                                </TouchableOpacity>
+                            </View>:null
+                        }
                             
                         </View>
                     </View>
@@ -208,19 +244,31 @@ const Card = (props) => {
                                 <Text style={[styles.statusbuttonText, {color: '#53a0ed'}]}>Status: PENDING</Text>
                             </View>
                         :
-                            status=='ACCEPTED'?
-                                <View style={[styles.statusbutton, {borderColor: '#43AB33'}]}>
-                                    <Text style={[styles.statusbuttonText, {color: '#43AB33'}]}>Status: ACCEPTED</Text>
+                            status=='DELIVERED'?
+                                <View style={[styles.statusbutton, {borderColor: '#43AB33', marginLeft:wp('-1')}]}>
+                                    <Text style={[styles.statusbuttonText, {color: '#43AB33'}]}>Status: DELIVERED</Text>
                                 </View>
-                            :
-                                <View style={[styles.statusbutton, {borderColor: '#F44646'}]}>
-                                    <Text style={[styles.statusbuttonText, {color: '#F44646'}]}>Status: REFUSED</Text>
-                                </View>
+                                :   
+                                status == 'ACCEPTED'?
+                                    <View style={[styles.statusbutton, {borderColor: '#43AB33', marginLeft:wp('-1')}]}>
+                                        <Text style={[styles.statusbuttonText, {color: '#43AB33'}]}>Status: ACCEPTED</Text>
+                                    </View>
+                                    :
+                                    <View style={[styles.statusbutton, {borderColor: '#F44646', marginLeft:wp('-1')}]}>
+                                        <Text style={[styles.statusbuttonText, {color: '#F44646'}]}>Status: REFUSED</Text>
+                                    </View>
                         }
                         {status=='PENDING'?
                             <View style={[styles.refuse, {width:wp('35'),  marginLeft:wp('1')}]}>
                                 <TouchableOpacity onPress={()=>{deletebooking(props.bid)}}>
                                     <Text style={styles.buttonTextrefuse}>Cancel Request</Text>
+                                </TouchableOpacity>
+                            </View>:null
+                        }
+                         {status=='ACCEPTED'?
+                            <View style={[styles.refuse, {width:wp('35'),  marginLeft:wp('1')}]}>
+                                <TouchableOpacity onPress={()=>{confirmdelivery(props.bid)}}>
+                                    <Text style={styles.buttonTextrefuse}>I got the food</Text>
                                 </TouchableOpacity>
                             </View>:null
                         }

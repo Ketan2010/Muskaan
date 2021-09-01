@@ -10,7 +10,7 @@ require('firebase/database');
 
 export default function Karma({navigation}){
     const [karma, setkarma] = useState('');
-
+    const [id, setid] = useState('');
     const user = firebase.auth().currentUser;
 
     useEffect(() => {
@@ -21,6 +21,7 @@ export default function Karma({navigation}){
         .on('value', snapshot => {
             if (snapshot.exists()) {
               snapshot.forEach((child) => {
+                setid(child.key)
                 child.val().karma? setkarma(child.val().karma):setkarma('')
               });
             } else {
@@ -32,7 +33,7 @@ export default function Karma({navigation}){
     return (
         <SafeAreaView style={styles.container}>
             <View style={{marginTop:hp('20')}}>
-                <Karmacard karma={karma}></Karmacard>
+                <Karmacard karma={karma} ></Karmacard>
             </View>
             <View style={{alignSelf: 'center',width:wp('60%'), marginTop:hp('2')}}>
                     <Text style={{alignSelf:'center', paddingHorizontal:5, fontSize: 35,color:'#C4C4C4'}}>
@@ -47,11 +48,11 @@ export default function Karma({navigation}){
                     <Text style={{ alignSelf:'center', paddingHorizontal:5, fontSize: 20,color:'#C4C4C4' }}>Redeem yourselves!!</Text>
             </View>
             <ScrollView style={styles.scrollView}>
-                <Vouchercard karma={karma} navigation = {navigation} reqkarma='500' type="Normal"></Vouchercard>
-                <Vouchercard karma={karma} navigation = {navigation} reqkarma='100' type="Premium"></Vouchercard>
-                <Vouchercard karma={karma} navigation = {navigation} reqkarma='50' type="Normal"></Vouchercard>
-                <Vouchercard karma={karma} navigation = {navigation} reqkarma='400' type="Premium"></Vouchercard>
-                <Vouchercard karma={karma} navigation = {navigation} reqkarma='300' type="Normal"></Vouchercard>
+                <Vouchercard id={id} karma={karma} navigation = {navigation} reqkarma='500' type="Normal"></Vouchercard>
+                <Vouchercard id={id} karma={karma} navigation = {navigation} reqkarma='100' type="Premium"></Vouchercard>
+                <Vouchercard id={id} karma={karma} navigation = {navigation} reqkarma='50' type="Normal"></Vouchercard>
+                <Vouchercard id={id} karma={karma} navigation = {navigation} reqkarma='400' type="Premium"></Vouchercard>
+                <Vouchercard id={id} karma={karma} navigation = {navigation} reqkarma='300' type="Normal"></Vouchercard>
             </ScrollView>
         </SafeAreaView>
     )
