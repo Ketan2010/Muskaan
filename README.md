@@ -25,6 +25,7 @@ A lending hand.
 | Karma Points UI | Ketan | 24-7 | <li>[x] Done</li> |
 | Testing and Bug Fix | Darshan Ketan | 14-8 | <li>[x] Done</li> |
 | Notification page | Ketan | 1-9 | <li>[x] Done</li> |
+| Feedback page | Darshan | 6-9 | <li>[ ] Done</li> |
 | Push Notifications | xxx | yyy | <li>[ ] Done</li> |
 | Settings page functionality | xxx | yyy | <li>[ ] Done</li> |
 | FAQ Page | xxx | yyy | <li>[ ] Done</li> |
