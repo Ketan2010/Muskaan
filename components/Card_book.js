@@ -28,14 +28,6 @@ const Card = (props) => {
     const [starCount,setstarCount] = useState(2);
 
 
-
-
-    // const refresh=()=>{
-    //     useEffect(() => {
-    //         getbookinfo();
-    //    }, []);
-    // }
-
     useEffect(() => {
         getbookinfo();
    }, []);

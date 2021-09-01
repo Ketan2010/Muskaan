@@ -1,140 +1,73 @@
 import React, {useState, useEffect}from 'react'
-import { StyleSheet, Text, Modal,Pressable, View, TouchableOpacity} from 'react-native'
+import { StyleSheet, Text, Alert, Modal,Pressable, View, TouchableOpacity} from 'react-native'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import Icons from 'react-native-vector-icons/Ionicons';
 import firebase from '@firebase/app';
 require('firebase/auth');
 require('firebase/database');
-// color condition
-// modal for requested
-const Notifycard = (props) => {
-    const [modalVisiblef, setModalVisiblef] = useState(false);
-    const [modalVisiblet, setModalVisiblet] = useState(false);
 
-    const showmodalf = () =>{
-        setModalVisiblef(true)
+
+const Notifycard = (props) => {
+    const [claimed, setclaimed] = useState(false);
+    const [date, setdate] = useState(false);
+    const [time, settime] = useState(false);
+    const [fooditem, setfooditem] = useState(false);
+    const [karma, setkarma] = useState(false);
+    const [plates, setplates] = useState(false);
+
+    useEffect(() => {
+        getbookinfo();
+   }, []);
+
+   const getbookinfo = () =>{
+    firebase.database()
+    .ref("users/"+props.userid+'/karmanotify/'+props.itemid)
+    .on('value',snapshot => {
+        if (snapshot.exists()) {
+            setclaimed(snapshot.val().claimed)
+            setdate(snapshot.val().date)
+            settime(snapshot.val().time)
+            setfooditem(snapshot.val().fooditem)
+            setkarma(snapshot.val().karma)
+            setplates(snapshot.val().plates)
+        } else {
+        console.log('Went wrong');
+        }
+    })
+
     }
-    const showmodalt = () =>{
-        setModalVisiblet(true)
+
+    const claim = (k) =>{
+        var updated_karma = k + karma;
+        firebase.database()
+        .ref("users/"+props.userid)
+        .update({karma:updated_karma})
+
+        firebase.database()
+        .ref("users/"+props.userid+'/karmanotify/'+props.itemid)
+        .update({claimed:'YES'})
+        .then(() =>Alert.alert(
+            "Congratulations!",
+            "You earned " +karma+ " karma points! Now your total karma points are "+updated_karma,
+            [
+              { text: "Thats Nice!" }
+            ]
+          ));
     }
 
     return (
-        <View>
-            {/* request from modal */}
-            <Modal
-                animationType="fade"
-                transparent={true}
-                visible={modalVisiblef}
-                onRequestClose={() => {
-                    setModalVisiblef(!modalVisiblef);
-                }}
-            >
-                <View style={styles.modalcenteredView}>
-                    <View style={styles.modalView}>
-                        <Pressable
-                            style={[styles.modalbutton, styles.modalbuttonClose, {alignItems:'center'}]}
-                            onPress={() => setModalVisiblef(!modalVisiblef)}
-                        >
-                            <Icons name='close-circle-outline' color={'white'} size={hp('4%')} /> 
-                        </Pressable>
-                        <View style={styles.modaldetails}>
-                            <Text style={styles.modalText}><Text style={{fontWeight: "bold"}}>Request From</Text> : {props.user}</Text>
-                            <Text style={styles.modalText}><Text style={{fontWeight: "bold"}}>Request For</Text> : {props.quantity} plate, {props.item}</Text>
-                            <Text style={styles.modalText}><Text style={{fontWeight: "bold"}}>Pickup Timing</Text> : {props.pickuptimefrom} to {props.pickuptimeto}</Text>
-                            <Text style={styles.modalText}><Text style={{fontWeight: "bold"}}>Shelf Life</Text> : {props.shelflife}</Text>
-                            <Text style={styles.modalText}><Text style={{fontWeight: "bold"}}>Address</Text> : {props.address}</Text>
-                            <View style={styles.buttonsmodal}>
-                                <View style={[styles.accept, {marginLeft:wp('-1')}]}>
-                                    <TouchableOpacity>
-                                        <Text style={styles.buttonTextaccept}>ACCEPT</Text>
-                                    </TouchableOpacity>
-                                </View>
-                                <View style={[styles.refuse, {marginLeft:wp('3')}]}>
-                                    <TouchableOpacity>
-                                        <Text style={styles.buttonTextrefuse}>REFUSE</Text>
-                                    </TouchableOpacity>
-                                </View>
-                                <View style={[styles.call, {marginLeft:wp('3')}]}>
-                                    <TouchableOpacity>
-                                        <Text style={styles.buttonTextcall}>Make a call</Text>
-                                    </TouchableOpacity>
-                                </View>
-                            </View>
-                        </View>
-                    </View>
+        <View style={styles.card}>
+            <Text style={styles.datetime}>{date}, {time}</Text>
+            <Text style={styles.username}>Congratulations! You have won <Text style={{fontWeight: "bold"}}>{karma} karma points</Text> as a reward for {plates} plates, {fooditem} donation.</Text>
+            {claimed=='NO'?
+                <View style={[styles.refuse, {marginTop:hp('1'), width:wp('35'),  marginLeft:wp('1')}]}>
+                    <TouchableOpacity onPress={()=>{claim(props.karma)}}>
+                        <Text style={styles.buttonTextrefuse}>Claim Now</Text>
+                    </TouchableOpacity>
                 </View>
-            </Modal>
-            {/* request to modal */}
-            <Modal
-                animationType="fade"
-                transparent={true}
-                visible={modalVisiblet}
-                onRequestClose={() => {
-                    setModalVisiblet(!modalVisiblet);
-                }}
-            >
-                <View style={styles.modalcenteredView}>
-                    <View style={styles.modalView}>
-                        <Pressable
-                            style={[styles.modalbutton, styles.modalbuttonClose, {alignItems:'center'}]}
-                            onPress={() => setModalVisiblet(!modalVisiblet)}
-                        >
-                            <Icons name='close-circle-outline' color={'white'} size={hp('4%')} /> 
-                        </Pressable>
-                        <View style={styles.modaldetails}>
-                            <Text style={styles.modalText}><Text style={{fontWeight: "bold"}}>Requested To</Text> : {props.user}</Text>
-                            <Text style={styles.modalText}><Text style={{fontWeight: "bold"}}>Requested For</Text> : {props.quantity} plate, {props.item}</Text>
-                            <Text style={styles.modalText}><Text style={{fontWeight: "bold"}}>Pickup Timing</Text> : {props.pickuptimefrom} to {props.pickuptimeto}</Text>
-                            <Text style={styles.modalText}><Text style={{fontWeight: "bold"}}>Shelf Life</Text> : {props.shelflife}</Text>
-                            <Text style={styles.modalText}><Text style={{fontWeight: "bold"}}>Address</Text> : {props.address}</Text>
-                            <View style={styles.buttonsmodal}>
-                                {props.status=='PENDING'?
-                                    <View style={[styles.statusbutton, {borderColor: '#53a0ed', marginLeft:wp('-1')}]}>
-                                        <Text style={[styles.statusbuttonText, {color: '#53a0ed'}]}>Status: PENDING</Text>
-                                    </View>
-                                :
-                                    props.status=='ACCEPTED'?
-                                        <View style={[styles.statusbutton, {borderColor: '#43AB33', marginLeft:wp('-1')}]}>
-                                            <Text style={[styles.statusbuttonText, {color: '#43AB33'}]}>Status: ACCEPTED</Text>
-                                        </View>
-                                    :
-                                        <View style={[styles.statusbutton, {borderColor: '#F44646', marginLeft:wp('-1')}]}>
-                                            <Text style={[styles.statusbuttonText, {color: '#F44646'}]}>Status: REFUSED</Text>
-                                        </View>
-                                }
-                                {props.status!='REFUSED'?
-                                <View style={[styles.call, {marginLeft:wp('3')}]}>
-                                    <TouchableOpacity>
-                                        <Text style={styles.buttonTextcall}>Make a call</Text>
-                                    </TouchableOpacity>
-                                </View>
-                                :
-                                null}
-                                
-                            </View>
-                            {props.status=='PENDING'?
-                            <View style={[styles.refuse, {marginTop:hp('3'), width:wp('35')}]}>
-                                <TouchableOpacity>
-                                    <Text style={styles.buttonTextrefuse}>Cancel Request</Text>
-                                </TouchableOpacity>
-                            </View>:null
-                            }
-                            
-                        </View>
-                    </View>
-                </View>
-            </Modal>
-        {props.notificationtype=='from'?
-            <TouchableOpacity onPress={showmodalf} style={styles.card}>
-                <Text style={styles.datetime}>{props.date}, {props.time}</Text>
-                <Text style={styles.username}>{props.user} is requesting you for {props.quantity} plate, {props.item}</Text>
-            </TouchableOpacity>
-        :
-            <TouchableOpacity onPress={showmodalt} style={styles.card}>
-                <Text style={styles.datetime}>{props.date}, {props.time}</Text>
-                <Text style={styles.username}>Your request for {props.quantity} plate, {props.item} has been sent to {props.user}</Text>
-            </TouchableOpacity>
-        }
+                :
+                null
+            }
         </View>
         
     )
@@ -145,7 +78,6 @@ export default Notifycard
 const styles = StyleSheet.create({
     card: {
         backgroundColor: '#ffffff',
-        height: hp('12%'),
         width: wp('85%'),
         padding: hp('2%'),
         marginVertical: hp('1%'),
