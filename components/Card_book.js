@@ -173,6 +173,11 @@ const Card = (props) => {
                                             <Text style={[styles.statusbuttonText, {color: '#43AB33'}]}>Status: ACCEPTED</Text>
                                         </View>
                                     :
+                                    status=='CANCELLED'?
+                                    <View style={[styles.statusbutton, {borderColor: '#F44646'}]}>
+                                        <Text style={[styles.statusbuttonText, {color: '#F44646'}]}>Status: CANCELLED</Text>
+                                    </View> 
+                                       :
                                         <View style={[styles.statusbutton, {borderColor: '#F44646', marginLeft:wp('-1')}]}>
                                             <Text style={[styles.statusbuttonText, {color: '#F44646'}]}>Status: REFUSED</Text>
                                         </View>
@@ -213,6 +218,11 @@ const Card = (props) => {
                                     <Text style={[styles.statusbuttonText, {color: '#43AB33'}]}>Status: ACCEPTED</Text>
                                 </View>
                             :
+                            status=='CANCELLED'?
+                            <View style={[styles.statusbutton, {borderColor: '#F44646'}]}>
+                                <Text style={[styles.statusbuttonText, {color: '#F44646'}]}>Status: CANCELLED</Text>
+                            </View> 
+                               : 
                                 <View style={[styles.statusbutton, {borderColor: '#F44646'}]}>
                                     <Text style={[styles.statusbuttonText, {color: '#F44646'}]}>Status: REFUSED</Text>
                                 </View>
