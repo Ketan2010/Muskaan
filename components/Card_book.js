@@ -4,6 +4,7 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-nativ
 import Icons from 'react-native-vector-icons/Ionicons';
 import call from 'react-native-phone-call';
 import firebase from '@firebase/app';
+import StarRating from 'react-native-star-rating';
 import { FirebaseRecaptchaBanner } from 'expo-firebase-recaptcha';
 require('firebase/auth');
 require('firebase/database');
@@ -11,9 +12,11 @@ require('firebase/database');
 
 const Card = (props) => {
     const [modalVisiblet, setModalVisiblet] = useState(false);
+    const [modaldelivery, setModaldelivery] = useState(false);
     const [fooditem, setfooditem] = useState(false);
     const [plate, setplate] = useState(false);
     const [donar, setdonar] = useState(false);
+    const [donarid, setdonarid] = useState(false);
     const [status, setstatus] = useState(false);
     const [time, settime] = useState(false);
     const [date, setdate] = useState(false);
@@ -22,6 +25,10 @@ const Card = (props) => {
     const [shelf, setshelf] = useState(false);
     const [address, setaddress] = useState(false);
     const [phone,setphone] = useState('');
+    const [starCount,setstarCount] = useState(2);
+
+
+
 
     // const refresh=()=>{
     //     useEffect(() => {
@@ -65,6 +72,7 @@ const Card = (props) => {
                 setstatus(snapshot.val().bookingstatus)
                 gettime(snapshot.val().bookingdate)
                 getdate(snapshot.val().bookingdate)
+                setdonarid(snapshot.val().donarid)
 
                 firebase.database()
                 .ref("users/"+snapshot.val().donarid)
@@ -133,28 +141,54 @@ const Card = (props) => {
         
     }
 
+
+    const onStarRatingPress = (rating) => {
+        setstarCount(rating);
+      }
+ 
+    function getCurrentDate(){
+    const monthNames = ["Jan", "Feb", "March", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"];
+    var date = new Date().getDate();
+    var month =  monthNames[new Date().getMonth()]
+    return date + ' ' + month;
+    }
+
+    function formatAMPM(date) {
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
+        var ampm = hours >= 12 ? 'pm' : 'am';
+        hours = hours % 12;
+        hours = hours ? hours : 12; // the hour '0' should be '12'
+        minutes = minutes < 10 ? '0'+minutes : minutes;
+        var strTime = hours + ':' + minutes + ' ' + ampm;
+        return strTime;
+      }
+    
+      
     const confirmdelivery = (id) =>{
         var del=''
         del=firebase.database().ref("booking/"+id)
-        // .update({
-        //     bookingstatus:"DELIVERED"
-        // });
+
         if (del!='')
         {
-            Alert.alert(
-                "Confirm Delivery!",
-                "Have you received the food?",
-                [
-                  { text: "No" },
-                  { text: "Yes" , onPress: () => {
-                    del.update({
-                          bookingstatus:"DELIVERED"
-                      });
-                  }}
-                ]
-              )
+            del.update({
+                bookingstatus:"DELIVERED"
+            });
+            setModaldelivery(false)
         }
-        
+        var calculated_karma = plate*starCount*10;
+        // var updated_karma = karma + calculated_karma;
+        firebase.database()
+        .ref("users/"+donarid+'/karmanotify')
+        .push({
+            karma:calculated_karma,
+            plates:plate,
+            fooditem: fooditem,
+            bookid: props.bid,
+            date: getCurrentDate(),
+            time: formatAMPM(new Date()),
+            claimed:'NO'
+        })
     }
     
     const showmodalt = () =>{
@@ -225,7 +259,7 @@ const Card = (props) => {
                             }
                             {status=='ACCEPTED'?
                             <View style={[styles.refuse, {marginTop:hp('3'), width:wp('35'),  marginLeft:wp('1')}]}>
-                                <TouchableOpacity onPress={()=>{confirmdelivery(props.bid)}}>
+                                <TouchableOpacity onPress={()=>{setModaldelivery(true)}}>
                                     <Text style={styles.buttonTextrefuse}>I got the food</Text>
                                 </TouchableOpacity>
                             </View>:null
@@ -235,6 +269,51 @@ const Card = (props) => {
                     </View>
                 </View>
             </Modal>
+
+
+            <Modal
+                animationType="fade"
+                transparent={true}
+                visible={modaldelivery}
+                onRequestClose={() => {
+                    setModaldelivery(!modaldelivery);
+                }}
+            >
+                <View style={styles.modalcenteredView}>
+                    <View style={styles.modalView}>
+                        <Pressable
+                            style={[styles.modalbutton, styles.modalbuttonClose, {alignItems:'center'}]}
+                            onPress={() => setModaldelivery(!modaldelivery)}
+                        >
+                            <Icons name='close-circle-outline' color={'white'} size={hp('4%')} /> 
+                        </Pressable>
+                        <View style={styles.modaldetails}>
+                            <Text style={styles.modalText}><Text style={{fontWeight: "bold"}}>Confirm Delivery!</Text></Text>
+                            <Text style={styles.modalText}>Have you received the food?</Text>
+                            <Text style={styles.modalText}>If yes, Please rate the food in terms of quality:</Text>
+                            <StarRating
+                                disabled={false}
+                                maxStars={5}
+                                disabled={false}
+                                emptyStar={'heart-outline'}
+                                fullStar={'heart'}
+                                halfStar={'heart-half-sharp'}
+                                iconSet={'Ionicons'}
+                                fullStarColor={'red'}
+                                rating={starCount}
+                                selectedStar={(rating) => onStarRatingPress(rating)}
+                            />
+                            <View style={[styles.refuse, {marginTop:hp('3'), width:wp('35')}]}>
+                                <TouchableOpacity onPress={()=>{confirmdelivery(props.bid)}}>
+                                    <Text style={styles.buttonTextrefuse}>Done</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </View>
+                </View>
+            </Modal>
+
+
          <TouchableOpacity onPress={showmodalt} style={styles.card}>
                 <Text style={styles.datetime}>{date}, {time}</Text>
                 <Text style={styles.username}>Your request for {plate} plate, {fooditem} has been sent to {donar}</Text>
@@ -267,7 +346,7 @@ const Card = (props) => {
                         }
                          {status=='ACCEPTED'?
                             <View style={[styles.refuse, {width:wp('35'),  marginLeft:wp('1')}]}>
-                                <TouchableOpacity onPress={()=>{confirmdelivery(props.bid)}}>
+                                <TouchableOpacity onPress={()=>{setModaldelivery(true)}}>
                                     <Text style={styles.buttonTextrefuse}>I got the food</Text>
                                 </TouchableOpacity>
                             </View>:null
