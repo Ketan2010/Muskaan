@@ -197,7 +197,7 @@ const Card = (props) => {
 
     return (
         <View>
-            {/* request to modal */}
+           
             <Modal
                 animationType="fade"
                 transparent={true}
@@ -230,15 +230,27 @@ const Card = (props) => {
                                         <View style={[styles.statusbutton, {borderColor: '#43AB33', marginLeft:wp('-1')}]}>
                                             <Text style={[styles.statusbuttonText, {color: '#43AB33'}]}>Status: DELIVERED</Text>
                                         </View>
-                                    :   
+                                    :
+                                    status=='CANCELLED'?
+                                    <View style={[styles.statusbutton, {borderColor: '#F44646', marginLeft:wp('-1')}]}>
+                                        <Text style={[styles.statusbuttonText, {color: '#F44646'}]}>Status: CANCELLED</Text>
+                                    </View> 
+                                    //    :
+                                    //     <View style={[styles.statusbutton, {borderColor: '#F44646', marginLeft:wp('-1')}]}>
+                                    //         <Text style={[styles.statusbuttonText, {color: '#F44646'}]}>Status: REFUSED</Text>
+                                    //         <Text style={[styles.statusbuttonText, {color: '#43AB33'}]}>Status: DELIVERED</Text>
+                                    //     </View>
+                                    
+                                             : 
                                         status == 'ACCEPTED'?
                                             <View style={[styles.statusbutton, {borderColor: '#43AB33', marginLeft:wp('-1')}]}>
                                                 <Text style={[styles.statusbuttonText, {color: '#43AB33'}]}>Status: ACCEPTED</Text>
                                             </View>
-                                            :
-                                            <View style={[styles.statusbutton, {borderColor: '#F44646', marginLeft:wp('-1')}]}>
+                                            : 
+                                             <View style={[styles.statusbutton, {borderColor: '#F44646', marginLeft:wp('-1')}]}>
                                                 <Text style={[styles.statusbuttonText, {color: '#F44646'}]}>Status: REFUSED</Text>
                                             </View>
+                                                
                                 }
                                 {status!='REFUSED' && status != 'DELIVERED'?
                                 <View style={[styles.call, {marginLeft:wp('3')}]}>
@@ -323,10 +335,22 @@ const Card = (props) => {
                                 <Text style={[styles.statusbuttonText, {color: '#53a0ed'}]}>Status: PENDING</Text>
                             </View>
                         :
-                            status=='DELIVERED'?
-                                <View style={[styles.statusbutton, {borderColor: '#43AB33', marginLeft:wp('-1')}]}>
-                                    <Text style={[styles.statusbuttonText, {color: '#43AB33'}]}>Status: DELIVERED</Text>
+                            status=='ACCEPTED'?
+                                <View style={[styles.statusbutton, {borderColor: '#43AB33'}]}>
+                                    <Text style={[styles.statusbuttonText, {color: '#43AB33'}]}>Status: ACCEPTED</Text>
                                 </View>
+                            :
+                            status=='CANCELLED'?
+                            <View style={[styles.statusbutton, {borderColor: '#F44646', marginLeft:wp('-1')}]}>
+                                <Text style={[styles.statusbuttonText, {color: '#F44646'}]}>Status: CANCELLED</Text>
+                            </View> 
+                               : 
+                                // <View style={[styles.statusbutton, {borderColor: '#F44646'}]}>
+                                //     <Text style={[styles.statusbuttonText, {color: '#F44646'}]}>Status: REFUSED</Text>
+                             status=='DELIVERED'?
+                                 <View style={[styles.statusbutton, {borderColor: '#43AB33', marginLeft:wp('-1')}]}>
+                                     <Text style={[styles.statusbuttonText, {color: '#43AB33'}]}>Status: DELIVERED</Text>
+                                 </View>
                                 :   
                                 status == 'ACCEPTED'?
                                     <View style={[styles.statusbutton, {borderColor: '#43AB33', marginLeft:wp('-1')}]}>

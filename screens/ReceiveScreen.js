@@ -172,7 +172,7 @@ const ReceiveScreen = ({navigation}) => {
           "Success!",
           "Your order is successfuly",
           [
-            { text: "OK", onPress: () => navigation.navigate('HistoryScreen') }
+            { text: "OK", onPress: () => navigation.navigate('History',{ screen: 'HistoryScreen' }) }
           ]
         ));
         console.log(pushed_data.key)

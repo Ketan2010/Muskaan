@@ -203,13 +203,13 @@ export default function History({navigation}) {
                  <Text style={{ alignSelf:'center', paddingHorizontal:5, fontSize: 24,color:'#C4C4C4' }}>Your activities</Text>
            </View>
            <View style={{flexDirection:'row'}}>
-             <View style={{flex:1,marginLeft:wp('15')}}>
-               <TouchableOpacity style={styles.buttonstyle}>
-                  <Text style={{fontSize:hp('2'),textAlign:'center',top:hp('1')}}>Donations</Text>
+             <View style={{flex:1,flexWrap:'wrap-reverse'}}>
+             <TouchableOpacity style={{...styles.buttonstyle,width:hp(20)}} onPress={()=>navigation.navigate('HistoryScreen')}>
+                  <Text style={{fontSize:hp('2'),textAlign:'center',top:hp('1'),color:'white'}}>Donations</Text>
                </TouchableOpacity>
              </View>
              <View style={{flex:1,marginLeft:wp('-8')}}>
-               <TouchableOpacity style={styles.buttonstyle} onPress={()=>navigation.navigate('HistoryReceive')}>
+             <TouchableOpacity style={{...styles.buttonstyle,backgroundColor:'transparent',borderColor:'red',borderWidth:1,width:hp(20)}} onPress={()=>navigation.navigate('HistoryReceive')}>
                   <Text style={{fontSize:hp('2'),textAlign:'center',top:hp('1')}}>Receive</Text>
                </TouchableOpacity>
              </View>
