@@ -4,11 +4,15 @@ import {
   Text,
   StyleSheet,
   StatusBar,
+  Alert,
   Button,
   TouchableOpacity,
 } from 'react-native';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import WheelOfFortune from 'react-native-wheel-of-fortune';
+import firebase from '@firebase/app';
+require('firebase/auth');
+require('firebase/database');
 
 const participants = [
   '50 points',
@@ -20,15 +24,43 @@ const participants = [
   'Try Again'
 ];
 class Spinthewheel extends Component {
-  constructor(props) {
+    constructor(props) {
     super(props);
 
     this.state = {
       winnerValue: null,
       winnerIndex: null,
       started: false,
+      id : null,
+      karma:null
     };
     // this.child = null;
+  }
+
+  componentDidMount() {
+          this.getData()
+  }
+
+  getData = () => {
+        var user = firebase.auth().currentUser;
+        firebase.database()
+        .ref("users/")
+        .orderByChild("uid")
+        .equalTo(user.uid)
+        .on('value', snapshot => {
+            if (snapshot.exists()) {
+              snapshot.forEach((child) => {
+                this.setState({
+                  id: child.key,
+                });
+                this.setState({
+                  karma:child.val().karma,
+                });
+              });
+            } else {
+              console.log('Went wrong');
+            }
+        }) 
   }
 
   buttonPress = () => {
@@ -37,6 +69,23 @@ class Spinthewheel extends Component {
     });
     this.child._onPress();
   };
+
+  claim = () =>{
+    if(this.state.winnerValue=='50 points')
+    {
+      var updated_karma = this.state.karma + 50;
+      firebase.database()
+      .ref("users/"+this.state.id)
+      .update({karma:updated_karma})
+      .then(() =>Alert.alert(
+        "Congratulations!",
+        "You earned 50 karma points!",
+        [
+          { text: "Thats Nice!", onPress: () => this.props.navigation.navigate('Home', { screen: 'Karma' }) }
+        ]
+      ));
+    }
+  }
 
   render() {
     const wheelOptions = {
@@ -85,11 +134,11 @@ class Spinthewheel extends Component {
               </TouchableOpacity>
             :
                     this.state.winnerValue == "Bad luck"?
-                      <TouchableOpacity style={styles.tryAgainButton}>
+                      <TouchableOpacity onPress={()=>this.props.navigation.navigate('Home', { screen: 'Karma' })} style={styles.tryAgainButton}>
                         <Text style={styles.tryAgainText}>Go back</Text>
                       </TouchableOpacity>
                     :
-                      <TouchableOpacity style={styles.tryAgainButton}>
+                      <TouchableOpacity  onPress={() => this.claim()} style={styles.tryAgainButton}>
                         <Text style={styles.tryAgainText}>Claim Now</Text>
                       </TouchableOpacity>}
           </View>

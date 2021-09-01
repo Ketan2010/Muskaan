@@ -205,7 +205,7 @@ export default function History({navigation}) {
            <View style={{flexDirection:'row'}}>
              <View style={{flex:1,flexWrap:'wrap-reverse'}}>
              <TouchableOpacity style={{...styles.buttonstyle,width:hp(20)}} onPress={()=>navigation.navigate('HistoryScreen')}>
-                  <Text style={{fontSize:hp('2'),textAlign:'center',top:hp('1')}}>Donations</Text>
+                  <Text style={{fontSize:hp('2'),textAlign:'center',top:hp('1'),color:'white'}}>Donations</Text>
                </TouchableOpacity>
              </View>
              <View style={{flex:1,marginLeft:wp('-8')}}>

@@ -78,7 +78,7 @@ export default function HistoryReceive({navigation}){
              </View>
              <View style={{flex:1,marginLeft:wp('-8')}}>
                <TouchableOpacity style={{...styles.buttonstyle,width:hp(20)}} onPress={()=>navigation.navigate('HistoryReceive')}>
-                  <Text style={{fontSize:hp('2'),textAlign:'center',top:hp('1')}}>Receive</Text>
+                  <Text style={{fontSize:hp('2'),textAlign:'center',top:hp('1'),color:'white'}}>Receive</Text>
                </TouchableOpacity>
              </View>
            </View>
