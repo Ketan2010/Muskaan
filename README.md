@@ -27,8 +27,8 @@ A lending hand.
 | Notification page | Ketan | 1-9 | <li>[x] Done</li> |
 | Feedback page | Darshan | 6-9 | <li>[ ] Done</li> |
 | Push Notifications | xxx | yyy | <li>[ ] Done</li> |
-| Settings page functionality | xxx | yyy | <li>[ ] Done</li> |
-| FAQ Page | xxx | yyy | <li>[ ] Done</li> |
+| Settings page functionality | Ketan | 20 9 | <li>[ ] Done</li> |
+| FAQ Page | Darshan | 20 9 | <li>[ ] Done</li> |
 
 
 
