@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { View, Text, Button, StyleSheet, FlatList } from 'react-native';
 import {
   Container,
@@ -12,6 +12,11 @@ import {
   MessageText,
   TextSection,
 } from '../styles/FeedbackStyle';
+import firebase from '@firebase/app';
+import { Children } from 'react';
+require('firebase/auth');
+require('firebase/database');
+require('firebase/storage');
 
 const Messages = [
   {
@@ -56,24 +61,65 @@ const Messages = [
   },
 ];
 
+
+
+
+
+
 const MessagesScreen = ({navigation}) => {
+
+  // const [Messages,setMessages] = useState([]);
+  const user = firebase.auth().currentUser;
+  const [ids,setids] = useState([]);
+  const [name,setname]=useState([]);
+  const [data,setdata] = useState([]);
+  const [userkey,setuserkey] = useState([]);
+
+useEffect(() => {
+  firebase.database()
+.ref('users/')
+.once( 'value' , snapshot =>{
+  var names= [];
+  var idss = [];
+  var imagess =[];
+  var datapush=[];
+  if (snapshot.exists())
+  {
+    snapshot.forEach( (child) =>{
+    if (child.val().uid!=user.uid)
+    {
+      datapush.push({'id':child.key,'name':child.val().name,'email':child.val().email})
+      names.push(child.val().name);
+      idss.push(child.key);
+    }
+    else{
+      setuserkey(child.key);
+    }
+  })
+  }
+  setids(idss);
+  setname(names);
+  setdata(datapush)
+})
+}, [])
+
     return (
       <Container>
         <FlatList 
-          data={Messages}
+          data={data}
           keyExtractor={item=>item.id}
           renderItem={({item}) => (
-            <Card onPress={() => navigation.navigate('ChatScreen', {userName: item.userName})}>
+            <Card onPress={() => navigation.navigate('ChatScreen', {userName: item.name, id:item.id, userid:userkey})}>
               <UserInfo>
                 <UserImgWrapper>
-                  <UserImg  source={item.userImg} />
+                  <UserImg  source={require('../assets/images/dummyphoto.png')} />
                 </UserImgWrapper>
                 <TextSection>
                   <UserInfoText>
-                    <UserName>{item.userName}</UserName>
-                    <PostTime>{item.messageTime}</PostTime>
+                    <UserName>{item.name}</UserName>
+                    {/* <PostTime>{item.messageTime}</PostTime> */}
                   </UserInfoText>
-                  <MessageText>{item.messageText}</MessageText>
+                  <MessageText>{item.email}</MessageText>
                 </TextSection>
               </UserInfo>
             </Card>
