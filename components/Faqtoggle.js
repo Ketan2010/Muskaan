@@ -51,7 +51,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 5,
-        marginTop: hp('1')
+        height:hp('5'),
+        marginTop: hp('2')
     },
     answer:{
         backgroundColor: '#f0f0f0',
