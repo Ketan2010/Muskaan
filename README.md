@@ -4,6 +4,8 @@ A lending hand.
 ## Todo's
 | **Task** | **Assigned to** | **Due** | **Status** |
 | :--- | :--- | :--- | :---: |
+| Prototype | Zeel | 15-6 | <li>[x] Done</li> |
+| Synopsys Documentation | Zeel | 15-6 | <li>[x] Done</li> |
 | Authentication - Landing page | Darshan | 17-6 | <li>[x] Done</li> |
 | Authentication - signup page | Darshan | 17-6 | <li>[x] Done</li> |
 | Authentication - login page | Darshan | 17-6 | <li>[x] Done</li> |
@@ -27,8 +29,9 @@ A lending hand.
 | Notification page | Ketan | 1-9 | <li>[x] Done</li> |
 | Feedback page | Darshan | 6-9 | <li>[ ] Done</li> |
 | Push Notifications | xxx | yyy | <li>[ ] Done</li> |
-| Settings page functionality | Ketan | 20 9 | <li>[ ] Done</li> |
-| FAQ Page | Darshan | 20 9 | <li>[ ] Done</li> |
+| Settings page functionality | Ketan | 20-9 | <li>[ ] Done</li> |
+| FAQ Page | Darshan | 20-9 | <li>[ ] Done</li> |
+| Review Paper Draft | Zeel | 18-9 | <li>[x] Done</li> |
 
 
 
