@@ -17,9 +17,12 @@ export default function Forgot_pass({navigation}){
     passwordReset = () => {
         if(username.includes('@')){ 
             // reset password using mail
-            if(firebase.auth().sendPasswordResetEmail(username)){
+            firebase.auth().sendPasswordResetEmail(username)
+            .then(function (user) {
                 setConfirmation(true)
-            }
+            }).catch(function (e) {
+                alert(e)
+            })
 
         }else{
             // reset password for mobile phone
@@ -60,9 +63,10 @@ export default function Forgot_pass({navigation}){
                                 {confirmation?
                                     <View>
                                         <Text style={{...styles.success}}>Password reset link is sent on your email</Text>
-                                        <TouchableOpacity onPress={()=>navigation.navigate('Login_Signup')}>
+                                        <Text style={{...styles.success}}>Reset your password and login again</Text>
+                                        {/* <TouchableOpacity onPress={()=>navigation.navigate('Login_Signup')}>
                                             <Text style={{...styles.text}}>Login Here</Text>
-                                        </TouchableOpacity>
+                                        </TouchableOpacity> */}
                                     </View>
                                 
                                 :null
