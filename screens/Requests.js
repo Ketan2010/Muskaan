@@ -39,8 +39,7 @@ const Requests = (props) => {
             // fetch data
             firebase.database()
             .ref("donations/"+props.route.params.iteid)
-            .once('value')
-            .then(snapshot => {
+            .on('value', snapshot => {
                 if (snapshot.exists()) {
                     snapshot.val().address? setaddress(snapshot.val().address):setaddress('')
                     snapshot.val().detail? setDetail(snapshot.val().detail):setDetail('')
@@ -61,7 +60,7 @@ const Requests = (props) => {
 
                     firebase.database()
                     .ref("booking/")
-                    .once('value',snapshot =>{
+                    .on('value',snapshot =>{
                     if(snapshot.exists()){
                         var datareceive=[];
                         snapshot.forEach((child) =>{

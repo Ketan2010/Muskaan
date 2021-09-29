@@ -69,8 +69,19 @@ export default function Home({navigation}){
                 </View>
             </Modal>
             <Text> Hello {user.email}</Text>
-            <Button title='Receive' onPress={()=>{navigation.navigate('ReceiveScreen')}}></Button>
-            <Button title='Donation' onPress={()=>{navigation.navigate('Donation')}}></Button>
+            <View style={[styles.button, {marginBottom:hp('2%')}]}>
+                <TouchableOpacity onPress={()=>{navigation.navigate('ReceiveScreen')}}>
+                    <Text style={styles.buttonText}>Receive</Text>
+                </TouchableOpacity>
+            </View>
+
+            <View style={[styles.button]}>
+                <TouchableOpacity onPress={()=>{navigation.navigate('Donation')}}>
+                    <Text style={styles.buttonText}>Donate</Text>
+                </TouchableOpacity>
+            </View>
+            {/* <Button style={styles.receive_button} title='Receive' onPress={()=>{navigation.navigate('ReceiveScreen')}}></Button> */}
+            {/* <Button title='Donation' onPress={()=>{navigation.navigate('Donation')}}></Button> */}
         </View>
     )
 }
@@ -132,6 +143,11 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         position:'relative'
     },
+    receive_button: {
+        marginBottom: hp('5%'),
+
+
+    }
       
   
   });

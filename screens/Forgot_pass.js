@@ -112,7 +112,7 @@ const styles=StyleSheet.create({
         fontStyle: 'normal',
         fontWeight: 'normal',
         fontSize:hp('2%'),
-        lineHeight:hp('0.7%'),
+        // lineHeight:hp('0.7%'),
     },
     text:{
         fontFamily: 'Voces-Regular',

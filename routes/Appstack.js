@@ -19,6 +19,7 @@ import Upgradeprofile from '../screens/Upgradeprofile'
 import ChatScreen from '../screens/ChatScreen'
 import Requests from '../screens/Requests'
 import FAQanswer from '../screens/FAQanswer'
+import ForgotPass from '../screens/Forgot_pass'
 import ReceiveScreen from "../screens/ReceiveScreen";
 import Donation from '../screens/Donation'
 import Tabs from "../components/bottom_tab";
@@ -230,6 +231,18 @@ const HomeStackScreen = ({navigation}) => (
     const SettingsStackScreen = ({navigation}) => (
       <SettingsStack.Navigator >
               <SettingsStack.Screen name="SettingsScreen" component={SettingsScreen} options={{
+              headerTitle:false,
+              headerStyle: {
+                height:400, // Specify the height of your custom header
+              },
+              headerTransparent: true,
+              headerBackground: props => <HomeHeader style={{position:'absolute'}}{...props}/>,
+              headerLeft: () => (
+                  <Icon name="menu" size={hp('5%')} style={{position:'absolute',top:hp('5%'),left:wp('2%'),color:'white'}} onPress={() => navigation.openDrawer()}></Icon>
+              ),
+              
+              }} />
+              <SettingsStack.Screen name="ForgotPassScreen" component={ForgotPass} options={{
               headerTitle:false,
               headerStyle: {
                 height:400, // Specify the height of your custom header
