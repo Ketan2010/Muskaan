@@ -4,6 +4,8 @@ A lending hand.
 ## Todo's
 | **Task** | **Assigned to** | **Due** | **Status** |
 | :--- | :--- | :--- | :---: |
+| Prototype | Zeel | 15-6 | <li>[x] Done</li> |
+| Synopsys Documentation | Zeel | 15-6 | <li>[x] Done</li> |
 | Authentication - Landing page | Darshan | 17-6 | <li>[x] Done</li> |
 | Authentication - signup page | Darshan | 17-6 | <li>[x] Done</li> |
 | Authentication - login page | Darshan | 17-6 | <li>[x] Done</li> |
@@ -15,6 +17,7 @@ A lending hand.
 | User Profile + Update Profile | Ketan | 21-6 | <li>[x] Done</li> |
 | Upgrade User | Ketan | 23-6 | <li>[x] Done</li> |
 | Notification and History UI | Ketan | 25-6 | <li>[x] Done</li> |
+| FAQ Q-A Documentation | Zeel | 25-6 | <li>[x] Done</li> |
 | FAQ UI | Ketan | 25-6 | <li>[x] Done</li> |
 | Tab Navigator | Darshan | (On Hold) | <li>[ ] Done</li> |
 | Donation Module UI | Darshan | 28-6 | <li>[x] Done</li> |
@@ -22,13 +25,17 @@ A lending hand.
 | Receive Module UI | Ketan | 30-6 | <li>[x] Done</li> |
 | Receive Module Firebase | Darshan | 2-7 | <li>[x] Done</li> |
 | History (Donation) Firebase | Ketan | 5-7 | <li>[x] Done</li> |
+| Review-1 PPT | Zeel | 13-7 | <li>[x] Done</li> |
 | Karma Points UI | Ketan | 24-7 | <li>[x] Done</li> |
 | Testing and Bug Fix | Darshan Ketan | 14-8 | <li>[x] Done</li> |
 | Notification page | Ketan | 1-9 | <li>[x] Done</li> |
-| Feedback page | Darshan | 6-9 | <li>[ ] Done</li> |
+| Feedback page | Darshan | 6-9 | <li>[x] Done</li> |
 | Push Notifications | xxx | yyy | <li>[ ] Done</li> |
-| Settings page functionality | Ketan | 20 9 | <li>[ ] Done</li> |
-| FAQ Page | Darshan | 20 9 | <li>[ ] Done</li> |
+| Settings page functionality | Ketan | 20-9 | <li>[ ] Done</li> |
+| FAQ Page | Darshan | 20-9 | <li>[x] Done</li> |
+| Review Paper Draft | Zeel | 18-9 | <li>[x] Done</li> |
+| Muskaan Mingle | xxx | yyy | <li>[ ] Done</li> |
+| Make chat button | xxx | yyy | <li>[ ] Done</li> |
 
 
 
