@@ -31,11 +31,12 @@ A lending hand.
 | Notification page | Ketan | 1-9 | <li>[x] Done</li> |
 | Feedback page | Darshan | 6-9 | <li>[x] Done</li> |
 | Push Notifications | xxx | yyy | <li>[ ] Done</li> |
-| Settings page functionality | Ketan | 20-9 | <li>[ ] Done</li> |
+| Settings page functionality(Partially) | Ketan | 20-9 | <li>[x] Done</li> |
 | FAQ Page | Darshan | 20-9 | <li>[x] Done</li> |
 | Review Paper Draft | Zeel | 18-9 | <li>[x] Done</li> |
 | Muskaan Mingle | xxx | yyy | <li>[ ] Done</li> |
 | Make chat button | xxx | yyy | <li>[ ] Done</li> |
+| App icon | xxx | yyy | <li>[ ] Done</li> |
 
 
 
