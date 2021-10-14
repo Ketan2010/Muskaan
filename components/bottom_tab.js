@@ -12,6 +12,7 @@ import Likes from '../screens/Likes';
 import FeedbackScreen from '../screens/Feedbacks';
 import AddButton from './add_button';
 import { LinearGradient } from 'expo-linear-gradient';
+import DonateReceiveDine from '../screens/DonateReceiveDine';
 const Tab = createBottomTabNavigator(); 
 
 const CustomTabBarButton = ({children,onPress}) =>{
@@ -96,7 +97,34 @@ const Tabs =() =>{
                 )
             }} 
              />
-          
+
+            <Tab.Screen name="DonateReceiveDine" component={DonateReceiveDine}  
+                options={{
+                    tabBarIcon:({focused}) =>(
+                        <View style={{alignItems:'center',justifyContent:'center',top:2}}>
+                        { focused ? 
+                                <LinearGradient
+                                //   colors={['#00FFFF', '#17C8FF', '#329BFF', '#4C64FF', '#6536FF', '#8000FF']}
+                                colors={['#ff6666','#ffa500']}
+                                start={{x: 0.0, y: 1.0}} end={{x: 1.0, y: 1.0}}
+                                style={{height: 55, alignItems: 'center', justifyContent: 'center', width: 55,borderRadius:40}}
+                                >
+                                    <Image style={{backgroundColor:'white'}} source={require('../assets/images/donationicon.png')} style={{height:40,width:40}} resizeMode='contain' />
+                                </LinearGradient>
+                                :
+                                <LinearGradient
+                                //   colors={['#00FFFF', '#17C8FF', '#329BFF', '#4C64FF', '#6536FF', '#8000FF']}
+                                colors={["#ffe066","#ff9933"]}
+                                start={{x: 0.0, y: 1.0}} end={{x: 1.0, y: 1.0}}
+                                style={{height: 55, alignItems: 'center', justifyContent: 'center', width: 55,borderRadius:40}}
+                                >
+                                    <Image style={{backgroundColor:'white'}} source={require('../assets/images/donationicon.png')} style={{height:40,width:40}} resizeMode='contain' />
+                                </LinearGradient>
+                        }
+                        </View>
+                    )
+                }} 
+            />
 
             
             <Tab.Screen name="Post" component={Post}  

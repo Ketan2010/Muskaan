@@ -25,7 +25,8 @@
         "backgroundColor": "#FFFFFF"
       },
       "package": "com.muskaan.muskaan",
-      "googleServicesFile": "./google-services.json"
+      "googleServicesFile": "./google-services.json",
+      "permissions": ["ACCESS_BACKGROUND_LOCATION"]
     },
     "web": {
       "favicon": "./assets/favicon.png"
