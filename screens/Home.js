@@ -131,7 +131,7 @@ export default function Home({navigation}){
                     <Text style={styles.buttonText}>Donate</Text>
                 </TouchableOpacity>
             </View> */}
-            <View style={{height:hp('85')}}>
+            <View style={{height:hp('75')}}>
                 <ScrollView showsVerticalScrollIndicator={false}>
                     {/* <FlatList
                     showsVerticalScrollIndicator={false}

@@ -121,16 +121,14 @@ export default function ChatScreen (props) {
   const [message,setmessage] = useState('');
   const [allmessage,setallmessage] = useState([]);
   const currentId = props.route.params.userid;
-  const SendMessage = async()=>{
+  const SendMessage =()=>{
     if (message){
       sendMessage(props.route.params.userid,props.route.params.id,message)
-      setmessage('')
       .then( ()=> {
         setmessage('')
       }).catch((err) => {
         alert(err)
-      })
-
+      });
       receiveMessage(props.route.params.userid,props.route.params.id,message)
       .then( ()=> {
         setmessage('')

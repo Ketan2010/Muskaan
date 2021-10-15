@@ -6,13 +6,13 @@ export const Container = styled.View`
   align-items: center;
   background-color: #fff;
   padding: 5px;
-  height:20%;
+ 
 `;
 
 export const Card = styled.View`
     background-color: #f8f8f8;
     width: 100%;
-    margin-bottom: 20px;
+    margin-bottom: 2px;
     border-radius: 30px;
     box-shadow: 5px 10px #888888;
 
@@ -21,7 +21,7 @@ export const Card = styled.View`
 export const UserInfo = styled.View`
     flex-direction: row;
     justify-content: flex-start;
-    padding: 15px;
+    padding: 8px;
 `;
 
 export const UserImg = styled.Image`
@@ -55,7 +55,7 @@ export const PostTime = styled.Text`
     font-family: 'Lato-Regular';
     color: #666;
     margin-left: 15px;
-    padding-bottom: 8px;
+    padding-bottom: 5px;
 `;
 
 export const PostText = styled.Text`

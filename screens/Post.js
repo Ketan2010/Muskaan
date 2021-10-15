@@ -200,7 +200,7 @@ const Post = ({navigation}) => {
     setposttime(d);
     let datetime=date + ',' + month + ' ' + year+''+time
     settimewhilefetching(datetime);
-    console.log("gate"+new Date());
+    // console.warn("gate"+new Date());
     
     setLoadingf(true);
     var pushed_data = firebase.database().ref('posts/').child(user.uid).push({
@@ -221,6 +221,7 @@ const Post = ({navigation}) => {
       [
         { text:"OK", onPress: () => {
                                       console.group(timewhilefetching);
+                                      setcaption('');
                                       firebase.storage()
                                       .ref('PostImgs/'+user.uid+'/'+pushed_data.key+'/postimg')
                                       .getDownloadURL()
