@@ -39,10 +39,12 @@ A lending hand.
 | [Admin Complete Layout](https://github.com/darshangawade/Admin-Muskaan) | Darshan | 30-10 | <li>[x] Done</li> |
 | Muskaan Mingle-search | xxx | 20-12 | <li>[ ] Done</li> |
 | Make chat button | xxx | 20-12 | <li>[ ] Done</li> |
-| App icon | xxx | 20-12 | <li>[ ] Done</li> |
 | Karma Board | xxx | 20-12 | <li>[ ] Done</li> |
 | Like functionality | xxx | 20-12 | <li>[ ] Done</li> |
+| Location bug | xxx | 20-12 | <li>[ ] Done</li> |
+| App icon | xxx | 20-12 | <li>[ ] Done</li> |
 | Admin parts | xxx | 31-12 | <li>[ ] Done</li> |
+
 
 
 
