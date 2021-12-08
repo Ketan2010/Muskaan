@@ -37,6 +37,8 @@ A lending hand.
 | Muskaan Mingle | xxx | yyy | <li>[ ] Done</li> |
 | Make chat button | xxx | yyy | <li>[ ] Done</li> |
 | App icon | xxx | yyy | <li>[ ] Done</li> |
+| [Admin Prototype](https://www.figma.com/file/4bm6UrN1Szw38pRUTOEXqn/Muskaan_prototype?node-id=0%3A1) | Zeel | 22-9 | <li>[x] Done</li> |
+| [Admin Complete Layout](https://github.com/darshangawade/Admin-Muskaan) | Darshan | 30-10 | <li>[x] Done</li> |
 
 
 
