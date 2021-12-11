@@ -476,7 +476,7 @@ const styles = StyleSheet.create({
         paddingTop: 10,
         paddingBottom:10,
         alignSelf:'center',
-        width:wp('35'),
+        width:wp('38'),
         height:hp('4'),
         borderWidth: 2,
         // borderColor: '#43AB33',

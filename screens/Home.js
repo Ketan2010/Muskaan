@@ -10,7 +10,7 @@ require('firebase/auth');
 require('firebase/database');
 
 const user = firebase.auth().currentUser;
-
+console.disableYellowBox = true; 
 export default function Home({navigation}){
 
     const user = firebase.auth().currentUser;
@@ -20,7 +20,10 @@ export default function Home({navigation}){
     const [postowner, setpostowner] = useState([]);
     const [postowneruid, setpostowneruid] = useState([]);
 
-    firebase.database()
+   
+
+    useEffect(() => {
+        firebase.database()
         .ref("users/")
         .orderByChild("uid")
         .equalTo(user.uid)
@@ -55,7 +58,8 @@ export default function Home({navigation}){
             }
     });
 
-    useEffect(() => {
+
+
         firebase.database()
         .ref('posts/')
         .on('value', snapshot => {
