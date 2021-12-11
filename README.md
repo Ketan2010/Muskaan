@@ -34,9 +34,17 @@ A lending hand.
 | Settings page functionality(Partially) | Ketan | 20-9 | <li>[x] Done</li> |
 | FAQ Page | Darshan | 20-9 | <li>[x] Done</li> |
 | Review Paper Draft | Zeel | 18-9 | <li>[x] Done</li> |
-| Muskaan Mingle | xxx | yyy | <li>[ ] Done</li> |
-| Make chat button | xxx | yyy | <li>[ ] Done</li> |
-| App icon | xxx | yyy | <li>[ ] Done</li> |
+| Muskaan Mingle | Darshan | 20-9 | <li>[x] Done</li> |
+| [Admin Prototype](https://www.figma.com/file/4bm6UrN1Szw38pRUTOEXqn/Muskaan_prototype?node-id=0%3A1) | Zeel | 22-9 | <li>[x] Done</li> |
+| [Admin Complete Layout](https://github.com/darshangawade/Admin-Muskaan) | Darshan | 30-10 | <li>[x] Done</li> |
+| Muskaan Mingle-search | Ketan | 20-12 | <li>[ ] Done</li> |
+| Make chat button | Ketan | 20-12 | <li>[ ] Done</li> |
+| Karma Board | Darshan | 20-12 | <li>[ ] Done</li> |
+| Like functionality | Darshan | 20-12 | <li>[ ] Done</li> |
+| Location bug | Darshan | 20-12 | <li>[ ] Done</li> |
+| App icon | xxx | 20-12 | <li>[ ] Done</li> |
+| Admin parts | xxx | 31-12 | <li>[ ] Done</li> |
+
 
 
 
