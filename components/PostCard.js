@@ -12,7 +12,7 @@ require('firebase/database');
 const PostCard = (props) =>{
 
     
-    // console.log(props.postownerid)
+    // console.log(props);
     const [postownername, setpostownername] = useState('');
     const [alreadyliked, setalreadyliked] = useState(false);
 
@@ -34,7 +34,8 @@ const PostCard = (props) =>{
                     .on('value', snapshots =>{
                         if(snapshots.exists()){
                             snapshots.forEach((child1)=>{
-                                if (child1.val()==props.postkey){
+                                if (child1.val().postlikedid==props.postkey){
+                                    // console.log('inside'+props.postkey)
                                     setalreadyliked(true);
                                 }
                             })
@@ -53,23 +54,16 @@ const PostCard = (props) =>{
 
         // console.log(user.key)
         var flag=alreadyliked
-        if ( flag === false){
-                // console.log(alreadyliked);
-                console.log('chack flaf valre in inser'+flag)
+        if ( flag == false){
                 firebase.database()
                 .ref('users/')
                 .on('value', snapshot => {
-                
-                // console.log(user.uid)
                     if (snapshot.exists()) {
                     snapshot.forEach((child) => {
                         if ( child.val().uid==props.uids && flag==false)
                         {    
-                            // console.log(props.uids)
                             setalreadyliked(true);
-                            
                             flag=true;
-                            console.log('insert jjjjjjjjjjjjjjjjj'+flag)
                             firebase.database()
                             .ref('users/'+child.key+'/likedposts/')
                             .push({
@@ -80,8 +74,7 @@ const PostCard = (props) =>{
                     } else {
                     console.log('Went wrong');
                     }})
-        }else{
-            console.log('chack flaf valre in delete'+flag)
+        }else if (flag == true){
             firebase.database()
             .ref('users/')
             .on('value', snapshot => {
@@ -89,10 +82,9 @@ const PostCard = (props) =>{
                 snapshot.forEach((child) => {
                     if ( child.val().uid==props.uids)
                     {    
-                        flag=true;
                         firebase.database()
                         .ref('users/'+child.key+'/likedposts/')
-                        .once( 'value', snapshots => {
+                        .on( 'value', snapshots => {
                             if(snapshots.exists()){
                                 snapshots.forEach((child1) => {
                                     if (child1.val().postlikedid==props.postkey && flag==true){
@@ -100,10 +92,9 @@ const PostCard = (props) =>{
                                         // console.log(child1.key)
                                         
                                         flag=false;
-                                        console.log('delete'+flag);
                                         // console.log('users/' + child.key+'/likedpost/'+child1.key)
                                         // firebase.database().ref('users/'+child.key+'/likedpost/').remove();
-                                        firebase.database().ref('users/' + child.key+'/likedpost/'+child1.key).child('postlikedid').remove();
+                                        firebase.database().ref('users/' + child.key+'/likedposts/'+child1.key).remove();
                                         // refe.remove();
                                     }
                                 })
@@ -116,6 +107,20 @@ const PostCard = (props) =>{
                 console.log('Went wrong');
                 }})
         }
+
+
+        var likes_count;
+        firebase.database().ref('posts/'+props.postownerid+'/'+props.postkey)
+        .on( 'value', snapshot => {
+            if (snapshot.exists){
+                likes_count = snapshot.val().likes
+            }
+        })
+        if ( flag == false)
+        firebase.database().ref('posts/'+props.postownerid+'/'+props.postkey).update({likes:likes_count - 1})
+        else
+        firebase.database().ref('posts/'+props.postownerid+'/'+props.postkey).update({likes:likes_count + 1})
+        
 
     }
 
@@ -131,7 +136,7 @@ const PostCard = (props) =>{
             <UserImg style={{backgroundColor:'white'}} source={require('../assets/images/dummyphoto.png')} />
             </LinearGradient>
             <UserInfoText>
-                <UserName>{postownername}</UserName>
+                <UserName>{postownername}{props.val.postowner}</UserName>
                 <PostLocation>{props.val.citystate}</PostLocation>
             </UserInfoText>
         </UserInfo>
@@ -143,8 +148,22 @@ const PostCard = (props) =>{
                     {   alreadyliked==true ? <Ionicons name="heart" color="red" size={25} /> 
                         : <Ionicons name="heart-outline" color="black" size={25} />
                     }
-                    
-                    <InteractionText>{props.val.likes} Likes</InteractionText>
+                    <InteractionText>
+                    {
+                        alreadyliked == true ?
+                            props.val.likes == 1 ?
+                                'You and 0 other'
+                            :
+                                props.val.likes == 2 ?
+                                    ` You and 1 other`
+                                :
+                                    ` You and ${props.val.likes - 1 } others`
+                        :
+                            `${props.val.likes} Likes`
+
+                    }
+                    </InteractionText>
+                    {/* <InteractionText>{ alreadyliked == true ? props.val.likes == 1 ? ` You and ${props.val.likes - 1 } other` :  ` You and ${props.val.likes - 1} others` : `${props.val.likes } likes` } Likes</InteractionText> */}
             </InteractionWrapper>
         </TouchableOpacity>
         <PostTime>{moment(props.val.time).fromNow()}</PostTime>

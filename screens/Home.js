@@ -9,6 +9,7 @@ import { FlatList, ScrollView } from 'react-native-gesture-handler';
 require('firebase/auth');
 require('firebase/database');
 
+console.disableYellowBox = true
 const user = firebase.auth().currentUser;
 
 export default function Home({navigation}){
@@ -20,7 +21,11 @@ export default function Home({navigation}){
     const [postowner, setpostowner] = useState([]);
     const [postowneruid, setpostowneruid] = useState([]);
 
-    firebase.database()
+    
+
+    useEffect(() => {
+
+        firebase.database()
         .ref("users/")
         .orderByChild("uid")
         .equalTo(user.uid)
@@ -54,8 +59,7 @@ export default function Home({navigation}){
                 setfirstlogin(true);
             }
     });
-
-    useEffect(() => {
+    
         firebase.database()
         .ref('posts/')
         .on('value', snapshot => {
@@ -63,11 +67,11 @@ export default function Home({navigation}){
         let datakey=[];
         let owner=[];
         let ownerid=[];
-        // let user = firebase.auth().currentUser;
-        // let id=user.uid;
+        let user = firebase.auth().currentUser;
+        let id=user.uid;
             if (snapshot.exists()) {
             snapshot.forEach((child) => {
-                if ( child.key!=user.uid)
+                if ( child.key!=id)
                 {
                     console.log(child.key)
                     firebase.database()

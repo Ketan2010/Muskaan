@@ -2,6 +2,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { StyleSheet, Text, Image, TouchableOpacity,View } from 'react-native';
 import React from 'react';
 import Icons from 'react-native-vector-icons/Ionicons';
+import Iconss from 'react-native-vector-icons/MaterialIcons';
 import { Icon } from 'react-native-gradient-icon';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import Home from '../screens/Home';
@@ -156,20 +157,22 @@ const Tabs =() =>{
                 tabBarIcon:({focused}) =>(
                     <View style={{alignItems:'center',justifyContent:'center',top:5}}>
                         { focused ? 
-                        <Icon  
+                        <Iconss
                         size={wp('9%')}
-                        colors={[
-                            {color:"gold",offset:"0",opacity:"5"},
-                            {color:"red",offset:"1",opacity:"1"},
-                        ]}
-                        name="heart" type="ionicons" /> 
-                        : <Icon  
+                        color='#ff9933'
+                        // colors={[
+                        //     {color:"gold",offset:"0",opacity:"5"},
+                        //     {color:"red",offset:"1",opacity:"1"},
+                        // ]}
+                        name="leaderboard" type="materialicons" /> 
+                        : <Iconss
                         size={wp('6%')}
+                        color='#ff6633'
                         colors={[
                             {color:"#ffe066",offset:"0",opacity:"5"},
                             {color:"#ff9933",offset:"1",opacity:"1"},
                         ]}
-                        name="heart" type="ionicons" /> } 
+                        name="leaderboard"  /> } 
                         { focused ? <Text style={{color:'#cc7a00',fontSize:hp('1.5%')}}>Likes</Text> : <Text style={{color:'#e69500',fontSize:hp('1.3%')}}>Likes</Text> }
                     </View>
                 )

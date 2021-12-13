@@ -52,6 +52,7 @@
     "react-native-input-spinner": "^1.7.10",
     "react-native-keyboard-avoiding-scroll-view": "^1.0.1",
     "react-native-keyboard-aware-scroll-view": "^0.9.4",
+    "react-native-leaderboard": "^1.0.6",
     "react-native-loading-spinner-overlay": "^2.0.0",
     "react-native-maps": "^0.27.1",
     "react-native-modal": "^12.0.2",

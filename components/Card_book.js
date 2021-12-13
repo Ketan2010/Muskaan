@@ -224,7 +224,7 @@ const Card = (props) => {
                                         </View>
                                     :
                                     status=='CANCELLED'?
-                                    <View style={[styles.statusbutton, {borderColor: '#F44646', marginLeft:wp('-1')}]}>
+                                    <View style={[styles.statusbutton, {borderColor: '#F44646',width:wp('38'),marginLeft:wp('-1')}]}>
                                         <Text style={[styles.statusbuttonText, {color: '#F44646'}]}>Status: CANCELLED</Text>
                                     </View> 
                                     //    :

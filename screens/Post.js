@@ -76,7 +76,7 @@ require('firebase/database');
 const Post = ({navigation}) => {
 
   const user = firebase.auth().currentUser;
-  console.log(user)
+  // console.log(user)
 
   const { colors } = useTheme();
   const [modalVisible, setModalVisible] = useState(false);
@@ -106,6 +106,31 @@ const Post = ({navigation}) => {
 
   useEffect(() => {
     (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        setErrorMsg('Permission to access location was denied');
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      setlati(location.coords.latitude);
+      setlongi(location.coords.longitude);
+      console.log(location)
+      console.log(lati)
+    })();
+
+    fetch('https://us1.locationiq.com/v1/reverse.php?key=pk.d27567067f647aefc7289b09c8fae25f&lat='+(lati)+'&lon='+(longi)+'&format=json')
+    .then((response) => response.json())
+        .then((responseJson) => {
+            // console.log(responseJson)
+            setaddress(responseJson.display_name)
+            setcitystate(responseJson.address.city+', '+responseJson.address.state+', '+responseJson.address.country)
+            console.log('checkkkkkkkkkk '+address);
+            
+    })
+
+    console.log('darshan');
+    (async () => {
       if (Platform.OS !== 'web') {
         // replace requestMediaLibraryPermissionsAsync by getCameraPermissionsAsync
         const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -113,7 +138,7 @@ const Post = ({navigation}) => {
           alert('Sorry, we need camera roll permissions to make this work!');
         }
       }
-      getLocation();
+      
 
     })();
 
@@ -144,10 +169,11 @@ const Post = ({navigation}) => {
                                         .then(loc => loc)
                                         .catch(_ => null)
       let location = await getCurrentPosition();
-      while(location === null){
-        location = await getCurrentPosition();
-      }
-      console.log("llll"+location)
+      // while(location === null){
+      //   location = await getCurrentPosition();
+      //   console.log(location)
+      // }
+      console.log("llll "+location)
       setlati(location.coords.latitude);
       setlongi(location.coords.longitude);
     }else{
@@ -211,7 +237,7 @@ const Post = ({navigation}) => {
       longitude:longi,
       address:address,
       citystate:citystate,
-      likes:'0',
+      likes:0,
       imguri:''
     })
     uploadImage(pickedImagePath, pushed_data.key)
@@ -220,7 +246,7 @@ const Post = ({navigation}) => {
       "Your post has been posted successfully",
       [
         { text:"OK", onPress: () => {
-                                      console.group(timewhilefetching);
+                                      // console.group(timewhilefetching);
                                       setcaption('');
                                       firebase.storage()
                                       .ref('PostImgs/'+user.uid+'/'+pushed_data.key+'/postimg')
@@ -252,13 +278,13 @@ const Post = ({navigation}) => {
       base64: true,
     });
     if(result.cancelled){
-      console.log('cancelled')
+      // console.log('cancelled')
     }
     if (!result.cancelled) {
       setPickedImagePath(result.uri);
       getLocation();
       setModalVisible(true);
-      console.log(result.uri);
+      // console.log(result.uri);
     }
   }
 
@@ -274,13 +300,13 @@ const Post = ({navigation}) => {
     const result = await ImagePicker.launchCameraAsync();
 
     // Explore the result
-    console.log(result);
+    // console.log(result);
 
     if (!result.cancelled) {
       setPickedImagePath(result.uri);
       getLocation();
       setModalVisible(true);
-      console.log(result.uri);
+      // console.log(result.uri);
     }
   }
 
@@ -308,8 +334,8 @@ const Post = ({navigation}) => {
       data.push({id:inc,img:null})
       numberOfElementsLastRow = numberOfElementsLastRow + 1;
       inc=inc+1;
-      console.log(inc)
-      console.log(data)
+      // console.log(inc)
+      // console.log(data)
     }
     return data;
   }
@@ -334,7 +360,7 @@ const Post = ({navigation}) => {
               data={formatData(data,numColumns)}
               numColumns={numColumns}
               renderItem={({item }) =>{
-                console.log(item)
+                // console.log(item)
                 if (item.img===null){
                   return(
                     <View style={styles.itemInvisible} >
