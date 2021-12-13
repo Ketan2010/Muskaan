@@ -85,7 +85,7 @@ export default function HistoryReceive({navigation}){
         <ScrollView style={styles.scrollView}>
             { userdonations.length!=0 ?
                      userdonations.map((val,key) => {
-                        return (<Card bid={val}></Card>) 
+                        return (<Card navigation = {navigation} bid={val}></Card>) 
                    } )
                    :
                    <View style={{alignItems:'center', marginTop:hp('20')}}>

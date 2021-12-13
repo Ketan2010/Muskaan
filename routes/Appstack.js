@@ -16,6 +16,7 @@ import FAQScreen from '../screens/FAQ';
 import HomeHeader from "../components/home_header";
 import Editprofile from '../screens/Editprofile'
 import Upgradeprofile from '../screens/Upgradeprofile'
+import SearchResult from '../screens/SearchResult'
 import ChatScreen from '../screens/ChatScreen'
 import Requests from '../screens/Requests'
 import FAQanswer from '../screens/FAQanswer'
@@ -78,6 +79,22 @@ const HomeStackScreen = ({navigation}) => (
   <HomeStack.Navigator initialRouteName='Tabs'>
           
           <HomeStack.Screen name="Tabs" component={Tabs} options={{
+          headerTitle:false,
+          headerStyle: {
+            height:400, // Specify the height of your custom header
+          },
+          headerTransparent: true,
+          headerBackground: props => <HomeHeader style={{position:'absolute'}}{...props}/>,
+          headerLeft: () => (
+              <Icon name="menu" size={hp('5%')} style={{position:'absolute',top:hp('5%'),left:wp('2%'),color:'white'}} onPress={() => navigation.openDrawer()}></Icon>
+          ),
+           headerRight: () => (
+              <Icon name="" size={hp('7%')} style={{position:'absolute',top:hp('5%'),right:wp('5%'),color:'white'}} onPress={() => navigation.navigate('Home', { screen: 'Karma' })}>
+                  <Image style={{position:'absolute',top:hp('5%'), width:wp('10%'),height:hp('5%'), right:wp('5%')}}  source={require('../assets/images/karma.png')} />   
+              </Icon>                    
+            ),
+          }} />
+          <HomeStack.Screen name="SearchResult" component={SearchResult} options={{
           headerTitle:false,
           headerStyle: {
             height:400, // Specify the height of your custom header
@@ -295,6 +312,18 @@ const HomeStackScreen = ({navigation}) => (
                 ),
                 
                 }} />
+                <HistoryStack.Screen
+                  name="ChatScreen"
+                  component={ChatScreen}
+                  options={({route}) => ({
+                    title: route.params.userName,
+                    headerBackTitleVisible: false,
+                    headerStyle: {
+                      height:100, 
+                      // Specify the height of your custom header
+                    },
+                  })}
+                />
                 
         </HistoryStack.Navigator>
         );

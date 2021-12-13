@@ -11,7 +11,7 @@ require('firebase/database');
 
 console.disableYellowBox = true
 const user = firebase.auth().currentUser;
-
+console.disableYellowBox = true; 
 export default function Home({navigation}){
 
     const user = firebase.auth().currentUser;
