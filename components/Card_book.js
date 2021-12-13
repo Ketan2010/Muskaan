@@ -11,6 +11,8 @@ require('firebase/database');
 
 
 const Card = (props) => {
+    const user = firebase.auth().currentUser;
+    const [userkey,setuserkey] = useState([]);
     const [modalVisiblet, setModalVisiblet] = useState(false);
     const [modaldelivery, setModaldelivery] = useState(false);
     const [fooditem, setfooditem] = useState(false);
@@ -55,6 +57,20 @@ const Card = (props) => {
    }
 
    const getbookinfo = () =>{
+    firebase.database()
+    .ref('users/')
+    .once( 'value' , snapshot =>{
+      if (snapshot.exists())
+      {
+        snapshot.forEach( (child) =>{
+        if (child.val().uid==user.uid)
+        {
+            setuserkey(child.key);
+        }
+      })
+      }
+    })
+
         firebase.database()
         .ref("booking/"+props.bid)
         .on('value',snapshot => {
@@ -244,12 +260,21 @@ const Card = (props) => {
                                             </View>
                                                 
                                 }
-                                {status!='REFUSED' && status != 'DELIVERED'?
-                                <View style={[styles.call, {marginLeft:wp('3')}]}>
+                                {status!='REFUSED' && status != 'DELIVERED' && status != 'CANCELLED'?
+                                <View>
+                                    <View style={[styles.call, {marginLeft:wp('3')}]}>
                                     <TouchableOpacity onPress={()=>{triggerCall(phone)}}>
                                         <Text style={styles.buttonTextcall} >Make a call</Text>
                                     </TouchableOpacity>
                                 </View>
+                                    <View style={[styles.call, {marginLeft:wp('3')}]}>
+                                    <TouchableOpacity onPress={()=>{props.navigation.navigate('ChatScreen', {userName: donar, id:donarid, userid:userkey})}}>
+                                        <Text style={styles.buttonTextcall} >Chat with Donor</Text>
+                                    </TouchableOpacity>
+                                </View>
+                                </View>
+                                
+                                
                                 :
                                 null}
                                 
@@ -415,12 +440,12 @@ const styles = StyleSheet.create({
         borderRadius: hp('2'),
         paddingTop: 10,
         paddingBottom:10,
-        alignSelf:'center',
+        // alignSelf:'center',
         width:wp('20'),
         height:hp('4'),
         borderWidth: 2,
         borderColor: '#F44646',
-        marginLeft: wp('5')
+        marginLeft: wp('0')
     },
     buttonTextrefuse: {
         color: '#F44646',
@@ -455,8 +480,10 @@ const styles = StyleSheet.create({
         borderRadius: hp('2'),
         paddingTop: 10,
         paddingBottom:10,
+        marginBottom: 20,
+        marginTop: -13,
         alignSelf:'center',
-        width:wp('30'),
+        width:wp('35'),
         height:hp('4'),
         borderWidth: 2,
         borderColor: '#53a0ed',
