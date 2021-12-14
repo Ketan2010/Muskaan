@@ -153,26 +153,26 @@ export default class Likes extends Component {
     renderHeader() {
         return (
             <View colors={[, '#ff9999', '#ff3333']}
-                style={{ backgroundColor: '#ffbf00', padding: 15, paddingTop: 15,marginLeft:'2.5%',width:'95%',
+                style={{ backgroundColor: '#ffbf00', padding: hp('1'), paddingTop: hp('1'),marginLeft:'2.5%',width:'95%',
                 borderWidth: 1,
                 borderColor: '#ddd',
                 shadowColor: '#333333',
                 shadowOffset: { width: 0, height: 2 },
                 shadowOpacity: 0.9,
                 shadowRadius: 80,
-                elevation: 10,marginBottom:10, alignItems: 'center',marginTop:'38%',borderTopLeftRadius:80,borderBottomRightRadius:80,height:'20%' }}>
+                elevation: 10,alignItems: 'center',marginTop:'38%',borderTopLeftRadius:80,borderBottomRightRadius:80 }}>
                 {/* <Text style={{ fontSize: 20, color: 'white', }}>Leaderboard</Text> */}
                 <View style={{
                     flexDirection: 'row', justifyContent: 'center', alignItems: 'center',
                     marginBottom: 10, marginTop: 10
                 }}>
-                    <Text style={{ color: 'white', fontSize: 25, flex: 1.2, textAlign: 'right', marginRight: 30 }}>
+                    <Text style={{ color: 'white', fontSize: hp('2.5'), flex: 1.2, textAlign: 'right', marginRight: 30 }}>
                         {ordinal_suffix_of(this.state.userRank)} position
                     </Text>
                     <Image style={{ flex: .66, height: 70, width: 70, borderRadius: 60 / 2 }}
                         source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSr27ZFBaclzKcxg2FgJh6xi3Z5-9vP_U1DPcB149bYXxlPKqv-' }} />
                     
-                    <Text style={{ color: 'white', fontSize: 25, flex: 1, marginLeft: 40 }}>
+                    <Text style={{ color: 'white', fontSize: hp('2.5'), flex: 1, marginLeft: 40 }}>
                         {this.state.user.score}pts
                     </Text>
                 </View>
@@ -182,7 +182,7 @@ export default class Likes extends Component {
                     selectedIndex={this.state.filter}
                     buttons={['Leaderboard', 'Top 3 Karma Holder']}
                     style={{color:'red'}}
-                    containerStyle={{ height: 30,width:'70%', }}
+                    containerStyle={{ height: 30 }}
                     selectedButtonStyle={{backgroundColor:'#ff8080'}} />
                     
                 {/* <View style={{flexDirection:'row'}}>
@@ -241,13 +241,14 @@ export default class Likes extends Component {
                     <Leaderboard {...props} />
                 :
                 <View>
-                    <View style={{height:hp('60'),marginLeft:hp('0.5'),marginRight:hp('0.5'),marginTop:hp('2')}}>
-                        <Image source={require('../assets/images/leaderboard-background.jpg')}  style={{opacity:0.2}} />
-                        <Image source={require('../assets/images/congratulations.png')} resizeMode='contain' style={{opacity:20, width:hp(50),marginTop:hp('-53')}}/>
-                        <Text style={{marginTop:hp('-12'),color:'#808000',fontSize:40,textAlign:'center',fontWeight:'bold',textAlign:'center',marginLeft:'5%'}}>TOP 3 </Text>
-                        <Text style={{marginTop:hp('-1'),color:'#808000',fontStyle:'italic',fontSize:20,textAlign:'center',fontWeight:'bold',marginLeft:hp('2')}}>Karma Points Holder of the Week</Text>
+                    <View style={{position:'relative',marginLeft:hp('0.5'),marginRight:hp('0.5')}}>
+                        {/* <Image source={require('../assets/images/leaderboard-background.jpeg')} resizeMode='contain' style={{width:'95%',marginLeft:'2.5%',position:'absolute'}} /> */}
+                        <Image source={require('../assets/images/leaderboard-background.jpg')}  style={{opacity:0.2,position:'absolute'}} />
+                        <Image source={require('../assets/images/congratulations.png')} resizeMode='contain' style={{opacity:20, width:hp(50),position:'relative',marginTop:'-5%'}}/>
+                        <Text style={{color:'#808000',fontSize:hp('4'),textAlign:'center',fontWeight:'bold',textAlign:'center',marginLeft:'5%',position:'relative',marginTop:hp('-7')}}>TOP 3 </Text>
+                        <Text style={{marginTop:hp('-1'),color:'#808000',fontStyle:'italic',fontSize:hp('2.5'),textAlign:'center',fontWeight:'bold',marginLeft:hp('2')}}>Karma Points Holder of the Week</Text>
                         
-                        <View style={{flexDirection:'row',marginTop:hp('-1')}}>
+                        <View style={{opacity:0.8,flexDirection:'row',marginTop:hp('1')}}>
                             <View style={{flex:1}}>
                                 <Text style={{marginTop:hp('5'),textAlign:'center',color:'#800000'}}><Text style={{fontSize:40}}>2</Text><Text>nd</Text></Text>
                                 <Text style={{textAlign:'center',fontSize:22,fontStyle:'italic',fontWeight:'100',color:'red'}}>{this.state.globalData[1].name}</Text>
@@ -307,3 +308,42 @@ const styles = StyleSheet.create({
     }
     
 })
+
+
+
+
+{/* <View>
+                    <View style={{height:hp('60'),marginLeft:hp('0.5'),marginRight:hp('0.5'),marginTop:hp('2')}}>
+                        <Image source={require('../assets/images/leaderboard-background.jpg')}  style={{opacity:0.2}} />
+                        <Image source={require('../assets/images/congratulations.png')} resizeMode='contain' style={{opacity:20, width:hp(50),marginTop:hp('-53')}}/>
+                        <Text style={{marginTop:hp('-12'),color:'#808000',fontSize:40,textAlign:'center',fontWeight:'bold',textAlign:'center',marginLeft:'5%'}}>TOP 3 </Text>
+                        <Text style={{marginTop:hp('-1'),color:'#808000',fontStyle:'italic',fontSize:20,textAlign:'center',fontWeight:'bold',marginLeft:hp('2')}}>Karma Points Holder of the Week</Text>
+                        
+                        <View style={{flexDirection:'row',marginTop:hp('-1')}}>
+                            <View style={{flex:1}}>
+                                <Text style={{marginTop:hp('5'),textAlign:'center',color:'#800000'}}><Text style={{fontSize:40}}>2</Text><Text>nd</Text></Text>
+                                <Text style={{textAlign:'center',fontSize:22,fontStyle:'italic',fontWeight:'100',color:'red'}}>{this.state.globalData[1].name}</Text>
+                                <Text style={{textAlign:'center',fontSize:15,fontWeight:'bold',color:'purple'}}>{this.state.globalData[1].score} pts</Text>
+                                <View style={{marginLeft:hp('0.5'),height:hp('15'),width:hp('15'),backgroundColor:'#ff4d4d',borderTopLeftRadius:20}}>
+                                    <Image source={require('../assets/images/silver-medal.png')} style={{marginTop:hp('3'),marginLeft:hp('2'),width:wp('20'),height:hp('10')}} />
+                                </View>
+                            </View>
+                            <View style={{flex:1}}>
+                                <Text style={{textAlign:'center',color:'#800000'}}><Text style={{fontSize:40}}>1</Text><Text>st</Text></Text>
+                                <Text style={{textAlign:'center',fontSize:22,fontStyle:'italic',fontWeight:'100',color:'red'}}>{this.state.globalData[0].name}</Text>
+                                <Text style={{textAlign:'center',fontSize:15,fontWeight:'bold',color:'purple'}}>{this.state.globalData[0].score} pts</Text>
+                                <View style={{marginLeft:hp('0.2'),height:hp('20'),width:hp('15'),backgroundColor:'orange',borderTopLeftRadius:20,borderTopRightRadius:20}}>
+                                    <Image source={require('../assets/images/gold-medal.png')} style={{marginTop:hp('5'),marginLeft:hp('3'),width:wp('20'),height:hp('10')}} />
+                                </View>
+                            </View>
+                            <View style={{flex:1}}>
+                                <Text style={{marginTop:hp('10'),textAlign:'center',color:'#800000'}}><Text style={{fontSize:40}}>3</Text><Text>rd</Text></Text>
+                                <Text style={{textAlign:'center',fontSize:22,fontStyle:'italic',fontWeight:'100',color:'red'}}>{this.state.globalData[2].name}</Text>
+                                <Text style={{textAlign:'center',fontSize:15,fontWeight:'bold',color:'purple'}}>{this.state.globalData[2].score} pts</Text>
+                                <View style={{height:hp('10'),width:hp('15'),backgroundColor:'green',borderTopRightRadius:20}}>
+                                    <Image source={require('../assets/images/bronze-medal.png')} style={{marginLeft:hp('3'),width:wp('20'),height:hp('10')}} />
+                                </View>
+                            </View>
+                        </View>
+                    </View>
+                </View> */}

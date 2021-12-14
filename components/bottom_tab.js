@@ -39,12 +39,20 @@ const Tabs =() =>{
             showLabel: false, 
             style:{
                 position:'absolute',
-                bottom:hp('0.5%'),
-                left:10,
-                right:10,
+                paddingBottom:8,
+                paddingLeft:5,
+                paddingRight:5,
+                paddingTop:8,
+                bottom:hp('0%'),
+                left:1,
+                right:1,
                 elevation:9,
-                backgroundColor:'white',
-                borderRadius:15,
+                backgroundColor:'#f2f2f2',
+                // borderRadius:15,
+                borderColor:'#737373',
+                borderWidth:hp('0.2'),
+                borderTopLeftRadius:20,
+                borderTopRightRadius:20,
                 height:hp('8%'),
                 ...styles.shadow
             } }}>
@@ -173,7 +181,7 @@ const Tabs =() =>{
                             {color:"#ff9933",offset:"1",opacity:"1"},
                         ]}
                         name="leaderboard"  /> } 
-                        { focused ? <Text style={{color:'#cc7a00',fontSize:hp('1.5%')}}>Likes</Text> : <Text style={{color:'#e69500',fontSize:hp('1.3%')}}>Likes</Text> }
+                        { focused ? <Text style={{color:'#cc7a00',fontSize:hp('1.5%')}}>Leaderboard</Text> : <Text style={{color:'#e69500',fontSize:hp('1.3%')}}>Leaderboard</Text> }
                     </View>
                 )
             }} 
@@ -193,7 +201,7 @@ const styles=StyleSheet.create({
         },
         shadowOpacity:0.25,
         shadowRadius:3.5,
-        elevation:5
+        elevation:9
     }
 })
 

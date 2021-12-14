@@ -9,7 +9,7 @@ import { FlatList, ScrollView } from 'react-native-gesture-handler';
 require('firebase/auth');
 require('firebase/database');
 
-console.disableYellowBox = true
+// console.disableYellowBox = true
 const user = firebase.auth().currentUser;
 console.disableYellowBox = true; 
 export default function Home({navigation}){
@@ -20,8 +20,6 @@ export default function Home({navigation}){
     const [postkey, setpostkey] = useState([]);
     const [postowner, setpostowner] = useState([]);
     const [postowneruid, setpostowneruid] = useState([]);
-
-    
 
     useEffect(() => {
 
