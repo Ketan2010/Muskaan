@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import { View, Text, Button,Modal,Pressable,BreakException, Image, StyleSheet, TouchableOpacity} from 'react-native'
+import { View, Text, Button,Modal,Pressable,BreakException, Image, StyleSheet, Alert, TouchableOpacity} from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import { Container,Card, UserInfo, UserImg, UserInfoText, UserName, PostTime, PostText, PostImg, InteractionWrapper, Interaction, InteractionText, Divider, PostLocation} from '../styles/FeedStyles'
@@ -11,15 +11,34 @@ require('firebase/database');
 
 const PostCard = (props) =>{
 
-    
+    const user = firebase.auth().currentUser;
+
     // console.log(props);
     const [postownername, setpostownername] = useState('');
+    const [reportername, setreportername] = useState('');
+    const [reportercontact, setreportercontact] = useState('');
+    const [postownercontact, setpostownercontact] = useState('');
     const [alreadyliked, setalreadyliked] = useState(false);
 
     // console.warn(props.postownerid)
     useEffect(() => {
         let name='';
-        
+
+        firebase.database()
+        .ref("users/")
+        .orderByChild("uid")
+        .equalTo(user.uid)
+        .on('value', snapshot => {
+            if (snapshot.exists()) {
+            snapshot.forEach((child) => {
+                child.val().name? setreportername(child.val().name):setreportername('')
+                child.val().phone? setreportercontact(child.val().phone):setreportercontact('')
+            });
+            } else {
+                console.log('Went wrong');
+            }
+        })
+
         firebase.database()
         .ref('users/')
         .orderByChild("uid")
@@ -28,6 +47,7 @@ const PostCard = (props) =>{
             if(snap.exists()){
                 snap.forEach((child) => {
                     name=child.val().name
+                    setpostownercontact(child.val().phone)
                     // console.warn(name)
                     firebase.database()
                     .ref('users/'+child.key+'/likedposts')
@@ -124,6 +144,24 @@ const PostCard = (props) =>{
 
     }
 
+    const reportpost = () =>{
+        Alert.alert(
+            "Do you really want to report this post?",
+            "After reporting this post, This post will be checked againts Muskaan terms & conditions and neccessary actions will be taken. In this process your identity will not be reveal. Thanks!",
+            [
+              { text: "Report", onPress: () => {firebase.database().ref('report/post').push({
+                postowner: postownername,
+                reportername: reportername,
+                postownerid: props.postownerid,
+                postkey: props.postkey,
+                reportercontact: reportercontact,
+                postownercontact: postownercontact
+            })} },
+              { text: "Cancle"}
+            ]
+        );
+    }
+
     return(
         <View style={styles.card} >
         <UserInfo>
@@ -138,34 +176,44 @@ const PostCard = (props) =>{
             <UserInfoText>
                 <UserName>{postownername}{props.val.postowner}</UserName>
                 <PostLocation>{props.val.citystate}</PostLocation>
+                <TouchableOpacity onPress={reportpost}>
+                    <View style={{marginLeft:wp('65')}}>
+                        <Ionicons name="alert-circle-outline" color="black" size={25} />
+                    </View>
+                </TouchableOpacity>
             </UserInfoText>
+            
         </UserInfo>
         <Image source={{uri:props.val.imguri}}  style={{height:hp('27'),borderWidth:wp('0.2'),borderColor:'#bfbfbf'}} resizeMode='contain' />
         {/* <Divider/> */}
         <PostText>{props.val.posttext}</PostText>
-        <TouchableOpacity onPress={()=>likedpost(props.postkey)}>
-            <InteractionWrapper>
+        <InteractionWrapper>
+                <TouchableOpacity onPress={()=>likedpost(props.postkey)}>
+
                     {   alreadyliked==true ? <Ionicons name="heart" color="red" size={25} /> 
                         : <Ionicons name="heart-outline" color="black" size={25} />
                     }
-                    <InteractionText>
-                    {
-                        alreadyliked == true ?
-                            props.val.likes == 1 ?
-                                'You and 0 other'
-                            :
-                                props.val.likes == 2 ?
-                                    ` You and 1 other`
-                                :
-                                    ` You and ${props.val.likes - 1 } others`
-                        :
-                            `${props.val.likes} Likes`
+                </TouchableOpacity>
 
-                    }
-                    </InteractionText>
-                    {/* <InteractionText>{ alreadyliked == true ? props.val.likes == 1 ? ` You and ${props.val.likes - 1 } other` :  ` You and ${props.val.likes - 1} others` : `${props.val.likes } likes` } Likes</InteractionText> */}
-            </InteractionWrapper>
-        </TouchableOpacity>
+                
+                <InteractionText>
+                {
+                    alreadyliked == true ?
+                        props.val.likes == 1 ?
+                            'You and 0 other'
+                        :
+                            props.val.likes == 2 ?
+                                ` You and 1 other`
+                            :
+                                ` You and ${props.val.likes - 1 } others`
+                    :
+                        `${props.val.likes} Likes`
+
+                }
+                </InteractionText>
+               
+                {/* <InteractionText>{ alreadyliked == true ? props.val.likes == 1 ? ` You and ${props.val.likes - 1 } other` :  ` You and ${props.val.likes - 1} others` : `${props.val.likes } likes` } Likes</InteractionText> */}
+        </InteractionWrapper>
         <PostTime>{moment(props.val.time).fromNow()}</PostTime>
         {/* console.warn(moment("2021-10-04T07:28:36.415Z").fromNow()); */}
         </View>

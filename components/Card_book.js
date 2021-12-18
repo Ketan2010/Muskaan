@@ -6,6 +6,7 @@ import call from 'react-native-phone-call';
 import firebase from '@firebase/app';
 import StarRating from 'react-native-star-rating';
 import { FirebaseRecaptchaBanner } from 'expo-firebase-recaptcha';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 require('firebase/auth');
 require('firebase/database');
 
@@ -27,6 +28,8 @@ const Card = (props) => {
     const [shelf, setshelf] = useState(false);
     const [address, setaddress] = useState(false);
     const [phone,setphone] = useState('');
+    const [username,setusername] = useState('');
+    const [usercontact,setusercontact] = useState('');
     const [starCount,setstarCount] = useState(2);
 
 
@@ -66,6 +69,8 @@ const Card = (props) => {
         if (child.val().uid==user.uid)
         {
             setuserkey(child.key);
+            setusername(child.val().name)
+            setusercontact(child.val().phone)
         }
       })
       }
@@ -203,6 +208,24 @@ const Card = (props) => {
         setModalVisiblet(true)
     }
 
+    const reportpost = () =>{
+        Alert.alert(
+            "Do you really want to report this Donor?",
+            "After reporting this Donor, Donor and donations will be checked againts Muskaan terms & conditions and neccessary actions will be taken. In this process your identity will not be reveal. Thanks!",
+            [
+              { text: "Report", onPress: () => {firebase.database().ref('report/user').push({
+                donor: donar,
+                reportername: username,
+                donorid: donarid,
+                bookingid: props.bid,
+                reportercontact: usercontact,
+                donorcontact: phone
+            })} },
+              { text: "Cancle"}
+            ]
+        );
+    }
+
     return (
         <View>
            
@@ -337,6 +360,12 @@ const Card = (props) => {
                                     <Text style={styles.buttonTextrefuse}>Done</Text>
                                 </TouchableOpacity>
                             </View>
+                            <View style={{marginLeft:wp('50'), marginTop:wp('-8')}}>
+                                <TouchableOpacity onPress={reportpost}>
+                                    <Ionicons name="alert-circle-outline" color="black" size={25} />
+                                </TouchableOpacity>
+                            </View>
+
                         </View>
                     </View>
                 </View>
@@ -530,7 +559,7 @@ const styles = StyleSheet.create({
         backgroundColor: "white",
         borderRadius: 20,
         padding: 35,
-        height:hp('35'),
+        // height:hp('35'),
         alignItems: "center",
         shadowColor: "#000",
         shadowOffset: {
