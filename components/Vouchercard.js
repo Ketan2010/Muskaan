@@ -10,16 +10,20 @@ require('firebase/database');
 
 const Vouchercard = (props) => {
     const user = firebase.auth().currentUser;
+    
     const clickaction = () =>{
         //update available karma points here
+        console.log('ll'+props.imageuri)
+        console.log(props.coupon)
         if(props.reqkarma<=props.karma){
             var updated_karma = props.karma-props.reqkarma;
-            console.log('updated karma:', updated_karma);
+            // console.log('updated karma:', updated_karma);
             firebase.database()
             .ref("users/"+props.id)
             .update({karma:updated_karma});
            
-            props.navigation.navigate('Home', { screen: 'Spinthewheel' })
+            // props.navigation.navigate('Home', { screen: 'Spinthewheel' })
+            props.navigation.navigate('Spinthewheel',{'id':props.coupon_id,'reward':props.reward})
         }
         else{
             Alert.alert("Ohh no!", "You do not have suffiecient karma points to spin the wheel, Try more donations!");
@@ -30,7 +34,7 @@ const Vouchercard = (props) => {
             <View style={styles.card}>
                 <View style={{flexDirection:'row'}}>
                     <View>
-                                {
+                                {/* {
                                     props.type=='Normal'?
                                         <Image 
                                         style={{height:hp('13'), width:wp('40'), borderRadius: 4}}
@@ -41,8 +45,11 @@ const Vouchercard = (props) => {
                                         style={{height:hp('13'), width:wp('40'), borderRadius: 4}}
                                         source={require('../assets/images/voucher2.png')}
                                         /> 
-                                }
-                                                   
+                                } */}
+                                <Image 
+                                        style={{resizeMode:'contain', height:hp('13'), width:wp('40'), borderRadius: 4}}
+                                        source={{uri:props.imageuri}}
+                                        />                     
                     </View>
                     <View style={{marginLeft:wp('4'),width:wp('50')}}>
                         <Text style={styles.text}><Text style={{fontWeight: "bold", fontSize:20}}>   Spin Using</Text></Text>

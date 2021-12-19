@@ -103,6 +103,17 @@ const Upgradeprofile = ({navigation}) => {
         setimgstatus(true)
         setLoading(false)
       })
+      .then(()=>{
+        firebase.storage()
+                          .ref(user.uid+'/Upgradeproof/'+'Upgradeproof')
+                          .getDownloadURL()
+                          .then((url) => {
+                                  firebase.database()
+                                  .ref("users/"+id+"/upgrade/")
+                                  .update({
+                                    imguri: url,
+                                  })
+      })})
      
     }
     setLoading(true);
@@ -123,6 +134,18 @@ const Upgradeprofile = ({navigation}) => {
                 "uploaded successfuly",
                 [
                   { text: "OK", onPress: () => setLoading(false) }
+                  // { text: "OK", onPress: () => {
+                  //         firebase.storage()
+                  //         .ref(user.uid+'/Upgradeproof/'+result.uri)
+                  //         .getDownloadURL()
+                  //         .then((url) => {
+                  //                 firebase.database()
+                  //                 .ref("users/"+id+"/upgrade/")
+                  //                 .update({
+                  //                   imguri: url,
+                  //                 })
+                  //         }).catch(e=>{console.log(e)})
+                  // } }
                 ]
               ))
               .catch(error => Alert.alert(

@@ -29,7 +29,7 @@ import { TouchableOpacity } from "react-native";
 import Spinthewheel from "../screens/Spinthewheel";
 import HistoryReceive from "../screens/history_receive";
 import Card from "../components/Card_book";
-
+import Rewards from "../screens/Rewards";
 const Stack = createStackNavigator()
 const HomeStack = createStackNavigator();
 const ProfileStack = createStackNavigator();
@@ -163,6 +163,25 @@ const HomeStackScreen = ({navigation}) => (
           }} />
 
           <HomeStack.Screen name="Spinthewheel" component={Spinthewheel} options={{
+            // headerShown: false
+          headerTitle:false,
+          headerStyle: {
+            height:400, // Specify the height of your custom header
+          },
+          headerTransparent: true,
+          headerBackground: props => <HomeHeader style={{position:'absolute'}}{...props}/>,
+          headerLeft: () => (
+              <Icon name="menu" size={hp('5%')} style={{position:'absolute',top:hp('5%'),left:wp('2%'),color:'white'}} onPress={() => navigation.openDrawer()}></Icon>
+          ),
+          headerRight: () => (
+            <Icon name="" size={hp('7%')} style={{position:'absolute',top:hp('5%'),right:wp('5%'),color:'white'}} onPress={() => navigation.navigate('Home', { screen: 'Karma' })}>
+                <Image style={{position:'absolute',top:hp('5%'), width:wp('10%'),height:hp('5%'), right:wp('5%')}}  source={require('../assets/images/karma.png')} />   
+            </Icon>                    
+          ),
+          
+          }} />
+
+<HomeStack.Screen name="Rewards" component={Rewards} options={{
             // headerShown: false
           headerTitle:false,
           headerStyle: {

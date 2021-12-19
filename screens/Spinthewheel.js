@@ -14,26 +14,31 @@ import firebase from '@firebase/app';
 require('firebase/auth');
 require('firebase/database');
 
-const participants = [
-  '50 points',
-  'Voucher',
-  'Bad luck',
-  'Try Again',
-  'Voucher',
-  'Bad luck',
-  'Try Again'
-];
+
 class Spinthewheel extends Component {
     constructor(props) {
     super(props);
+    console.log('lfl'+props.route.params.id)
 
     this.state = {
-      winnerValue: null,
+      winnerValue: this.props.route.params.reward,
       winnerIndex: null,
       started: false,
       id : null,
-      karma:null
+      karma:null,
+      karma_required:null,
+      coupon_id:null,
+      coupon_code:null,
+      generation_date:null,
+      expiry_date:null,
+      coupon_type:null,
+      reward:'00',
+      company_name:null,
+      participants:[],
+      
     };
+
+    
     // this.child = null;
   }
 
@@ -60,8 +65,59 @@ class Spinthewheel extends Component {
             } else {
               console.log('Went wrong');
             }
-        }) 
+        })
+
+        firebase.database()
+        .ref("coupons/"+this.props.route.params.id)
+        .on('value', snapshot => {
+          if (snapshot.exists()) {
+              console.log('darshan '+this.state.id);
+              this.setState({
+                coupon_id: snapshot.key,
+              });
+              this.setState({
+                karma_required:snapshot.val().karma_required,
+              });
+              this.setState({
+                coupon_code:snapshot.val().coupon_code,
+              });
+              this.setState({
+                coupon_type:snapshot.val().coupon_type,
+              });
+              this.setState({
+                generation_date:snapshot.val().generation_date,
+              });
+              this.setState({
+                expiry_date:snapshot.val().expiry_date,
+              });
+              this.setState({
+                reward:snapshot.val().reward,
+              });
+              console.log(this.state.karma_required)
+              
+              this.setState({
+                  participants : [
+                  '50 points',
+                  this.props.route.params.reward,
+                  'Bad luck',
+                  'Try Again',
+                  'Voucher',
+                  'Bad luck',
+                  'Try Again'
+                  ]
+              })
+              
+          } else {
+            console.log('Went wrong');
+          }
+      })
   }
+
+
+  
+
+
+
 
   buttonPress = () => {
     this.setState({
@@ -85,9 +141,66 @@ class Spinthewheel extends Component {
         ]
       ));
     }
+    if(this.state.winnerValue=='100 points')
+    {
+      var updated_karma = this.state.karma + 100;
+      firebase.database()
+      .ref("users/"+this.state.id)
+      .update({karma:updated_karma})
+      .then(() =>Alert.alert(
+        "Congratulations!",
+        "You earned 100 karma points!",
+        [
+          { text: "Thats Nice!", onPress: () => this.props.navigation.navigate('Home', { screen: 'Karma' }) }
+        ]
+      ));
+    }
+    if(this.state.winnerValue==this.props.route.params.reward)
+    {
+      var counter = 0;
+      firebase.database()
+      .ref("users/"+this.state.id+"/rewards")
+      .push({
+        coupon_id:this.props.route.params.id,
+      })
+      firebase.database()
+      .ref("coupons/"+this.props.route.params.id)
+      .on('value', snap => {
+        counter = snap.val().winner_count
+      })
+
+      const count = 0;
+      firebase.database()
+      .ref("coupons/"+this.props.route.params.id+"/winner_id")
+      .push({
+        user_id:this.state.id,
+      })
+
+      firebase.database()
+      .ref("coupons/"+this.props.route.params.id)
+      .update({
+        winner_count:counter+1
+      })
+      .then(() =>Alert.alert(
+        "Congratulations!",
+        `You have earned ${this.props.route.params.reward} voucher from ${this.state.company_name}!`,
+        [
+          { text: "Thats Nice!", onPress: () => this.props.navigation.navigate('Home', { screen: 'Karma' }) }
+        ]
+      ));
+    }
   }
 
   render() {
+    const participants = [
+      '50 points',
+      'Try Again',
+      `Better luck next time`,
+      this.props.route.params.reward,
+      '100 points',
+      'Try Again'
+    ];
+
     const wheelOptions = {
       rewards: participants,
       knobSize: 30,
@@ -133,7 +246,7 @@ class Spinthewheel extends Component {
                 <Text style={styles.tryAgainText}>TRY AGAIN</Text>
               </TouchableOpacity>
             :
-                    this.state.winnerValue == "Bad luck"?
+                    this.state.winnerValue == "Better luck next time" ?
                       <TouchableOpacity onPress={()=>this.props.navigation.navigate('Home', { screen: 'Karma' })} style={styles.tryAgainButton}>
                         <Text style={styles.tryAgainText}>Go back</Text>
                       </TouchableOpacity>
