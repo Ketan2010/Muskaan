@@ -36,6 +36,7 @@
     "randomcolor": "^0.6.2",
     "react": "16.13.1",
     "react-dom": "16.13.1",
+    "react-hooks-use-modal": "^2.1.0",
     "react-moment": "^1.1.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-41.0.0.tar.gz",
     "react-native-action-button": "^2.8.5",

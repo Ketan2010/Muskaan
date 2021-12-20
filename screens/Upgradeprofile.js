@@ -53,8 +53,15 @@ const Upgradeprofile = ({navigation}) => {
           orgname: Orgname,
           address: Address,
           state: State,
+          status:'pending',
           city: City,
           postalcode: Postalcode,
+        })
+
+        firebase.database().ref('UpgradeRequests/')
+        .push({
+          id:id,
+          status:'pending',
         })
         .then(() =>Alert.alert(
                   "Success!",
