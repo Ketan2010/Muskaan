@@ -68,26 +68,27 @@ export default function Home({navigation}){
         let user = firebase.auth().currentUser;
         let id=user.uid;
             if (snapshot.exists()) {
-            snapshot.forEach((child) => {
-                if ( child.key!=id)
-                {
-                    console.log(child.key)
-                    firebase.database()
-                    .ref('posts/'+child.key)
-                    .on('value', snapshot1 => { 
-                        if (snapshot1.exists()){
-                            var k = child.key;
-                            snapshot1.forEach((child)=>{
-                                datakey.push(child.key)
-                                datareceive.push(child.val())
-                                ownerid.push(k)
-                            })
-                        }
-                    })
-                 }
-            }); 
+                snapshot.forEach((child) => {
+                    if ( child.key!=id)
+                    {
+                        console.log(child.key)
+                        firebase.database()
+                        .ref('posts/'+child.key)
+                        .on('value', snapshot1 => { 
+                            if (snapshot1.exists()){
+                                var k = child.key;
+                                snapshot1.forEach((child)=>{
+                                    if(child.val().status == 'active'){
+                                        datakey.push(child.key)
+                                        datareceive.push(child.val())
+                                        ownerid.push(k)
+                                    }
+                                })
+                            }
+                        })
+                    }
+                }); 
             } else {
-           
                 console.log('Went wrong');
             }
             console.log(datakey)

@@ -238,7 +238,8 @@ const Post = ({navigation}) => {
       address:address,
       citystate:citystate,
       likes:0,
-      imguri:''
+      imguri:'',
+      status:'active'
     })
     uploadImage(pickedImagePath, pushed_data.key)
     .then(() =>Alert.alert(

@@ -96,9 +96,11 @@ const Search = (props) => {
                 .on('value', snapshot2 => {
                     if (snapshot2.exists()) {
                       snapshot2.forEach((child) => {
-                        let dic = child.val()
-                        dic['name'] = namex
-                        datareceive.push(dic);
+                        if(child.val().status == 'active'){
+                          let dic = child.val()
+                          dic['name'] = namex
+                          datareceive.push(dic);
+                        }
                         // console.log(child.val().time)
                       }); 
                     } else {
