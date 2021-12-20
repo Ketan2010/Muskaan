@@ -155,7 +155,8 @@ const PostCard = (props) =>{
                 postownerid: props.postownerid,
                 postkey: props.postkey,
                 reportercontact: reportercontact,
-                postownercontact: postownercontact
+                postownercontact: postownercontact,
+                status:'active'
             })} },
               { text: "Cancle"}
             ]

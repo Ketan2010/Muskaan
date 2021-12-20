@@ -40,7 +40,9 @@ const SearchResult = (props) => {
       let datareceive =[];
         if (snapshot.exists()) {
           snapshot.forEach((child) => {
-            datareceive.push(child.val());
+            if(child.val().status == 'active'){
+              datareceive.push(child.val());
+            }
             // console.log(child.key)
           }); 
         } else {

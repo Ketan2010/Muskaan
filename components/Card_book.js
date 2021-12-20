@@ -219,7 +219,8 @@ const Card = (props) => {
                 donorid: donarid,
                 bookingid: props.bid,
                 reportercontact: usercontact,
-                donorcontact: phone
+                donorcontact: phone,
+                status:'active'
             })} },
               { text: "Cancle"}
             ]
