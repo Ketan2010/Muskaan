@@ -20,6 +20,7 @@ export default function Home({navigation}){
     const [postkey, setpostkey] = useState([]);
     const [postowner, setpostowner] = useState([]);
     const [postowneruid, setpostowneruid] = useState([]);
+    const [temp, settemp] = useState(false);
 
     useEffect(() => {
 
@@ -96,7 +97,9 @@ export default function Home({navigation}){
             setpostkey(datakey.reverse());
             setpostowner(owner.reverse());
             setpostowneruid(ownerid.reverse());
+            settemp(true);
         })
+        
     }, [])
 
     return (
@@ -142,14 +145,15 @@ export default function Home({navigation}){
                         renderItem={({item})=><PostCard item={item}/>}
                         keyExtractor={(item)=>item.id}
                     /> */}
-                    {Posts.length==0?null:
+                    { temp == true ?
+                    Posts.length==0  ? null:
                     <View>
                             {Posts.map((val,key)=> {
                                 return(<PostCard val={val} uids={user.uid} postkey={postkey[key]} postowner={postowner[key]} postownerid={postowneruid[key]}/>)
                             
                             })}
                     </View>
-                    }
+                    : null}
                 </ScrollView>
             </View>
             
