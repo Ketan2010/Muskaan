@@ -19,7 +19,7 @@ A lending hand.
 | Notification and History UI | Ketan | 25-6 | <li>[x] Done</li> |
 | FAQ Q-A Documentation | Zeel | 25-6 | <li>[x] Done</li> |
 | FAQ UI | Ketan | 25-6 | <li>[x] Done</li> |
-| Tab Navigator | Darshan | (On Hold) | <li>[ ] Done</li> |
+| Tab Navigator | Darshan | 26-6 | <li>[x] Done</li> |
 | Donation Module UI | Darshan | 28-6 | <li>[x] Done</li> |
 | Donation Module Firebase| Ketan | 28-6 | <li>[x] Done</li> |
 | Receive Module UI | Ketan | 30-6 | <li>[x] Done</li> |
@@ -30,7 +30,6 @@ A lending hand.
 | Testing and Bug Fix | Darshan Ketan | 14-8 | <li>[x] Done</li> |
 | Notification page | Ketan | 1-9 | <li>[x] Done</li> |
 | Feedback page | Darshan | 6-9 | <li>[x] Done</li> |
-| Push Notifications | xxx | yyy | <li>[ ] Done</li> |
 | Settings page functionality(Partially) | Ketan | 20-9 | <li>[x] Done</li> |
 | FAQ Page | Darshan | 20-9 | <li>[x] Done</li> |
 | Review Paper Draft | Zeel | 18-9 | <li>[x] Done</li> |
@@ -39,11 +38,10 @@ A lending hand.
 | [Admin Complete Layout](https://github.com/darshangawade/Admin-Muskaan) | Darshan | 30-10 | <li>[x] Done</li> |
 | Muskaan Mingle-search | Ketan | 13-12 | <li>[x] Done</li> |
 | Make chat button | Ketan | 13-12 | <li>[x] Done</li> |
-| Karma Board | Darshan | 20-12 | <li>[ ] Done</li> |
-| Like functionality | Darshan | 20-12 | <li>[ ] Done</li> |
-| Location bug | Darshan | 20-12 | <li>[ ] Done</li> |
-| App icon | xxx | 20-12 | <li>[ ] Done</li> |
-| Admin parts | xxx | 31-12 | <li>[ ] Done</li> |
+| Karma Board | Darshan | 20-12 | <li>[x] Done</li> |
+| Like functionality | Darshan | 20-12 | <li>[x] Done</li> |
+| Location bug | Darshan | 20-12 | <li>[x] Done</li> |
+| App icon | Darshan | 20-12 | <li>[x] Done</li> |
 
 
 
@@ -65,45 +63,3 @@ A lending hand.
 | 12. Validate donation time | Darshan | <li>[x] Fixed</li> |
 | 13. Dynamic hight of card | Darshan | <li>[x] Fixed</li> |
 | 14. Dont show 0 plates donation | Darshan | <li>[x] Fixed</li> |
-
-
-
-
-## Contribution Guide
-(Step 1 and 2 will need only once)
-1. initialise git repository in your project directory if not already 
-
-```
- git init 
-```
-2. Add remote repository as origin (In short link remote repository with local one)
-
-```
- git remote add origin 'git@github.com:Ketan2010/Muskaan.git'
-```
-(Following steps will required everytime for commiting) <br>
-3. Pull everything from remote repository to local one to maintain integrity.(code in remote repository will automatically merger with code of local repository)
-```
- git pull origin main
-```
-{u start project using expo start and if u got error stating that expo sdk not found then run: npm install expo} <br>
-4. Rename your master brance with main (this will required only once)
-```
- git branch -m master main
-```
-5. Add local repository files into staging area
-```
- git add .
-```
-6. commit your changes
-```
- git commit -m "your commit message"
-```
-7. push all changes to remote repository
-```
- git push origin main
-```
-
-
-
-
