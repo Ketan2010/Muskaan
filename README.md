@@ -1,6 +1,36 @@
 # Muskaan
 A lending hand.
 
+## Application Demo
+[Demo Video](https://youtu.be/7ZJ91yHX0tI)
+
+## Setup Guide
+1. Clone repository:
+```
+ git clone https://github.com/Ketan2010/Muskaan
+```
+2. Install npm: 
+```
+install npm
+```
+3. Install expo:
+```
+npm install -g expo-cli
+```
+4. Install required packages:
+```
+npm install
+```
+5. Run application:
+```
+npm start
+```
+
+## Team Muskaan:
+1. [Zeel Mehta](https://github.com/zeelmehta19)
+2. [Darshan Gawade](https://github.com/darshangawade)
+3. [Ketan Patil](https://github.com/Ketan2010)
+
 ## Todo's
 | **Task** | **Assigned to** | **Due** | **Status** |
 | :--- | :--- | :--- | :---: |
